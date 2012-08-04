@@ -2,6 +2,7 @@ package org.solenopsis.lasius.app;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.LogManager;
 import org.solenopsis.lasius.credentials.Credentials;
 import org.solenopsis.lasius.credentials.impl.PropertiesCredentials;
 import org.solenopsis.lasius.properties.impl.FilePropertiesMgr;
@@ -103,7 +104,8 @@ public class Main {
     }
         
     public static void main(final String[] args) throws Exception {
-        //final String env = "prod.properties";
+        LogManager.getLogManager().readConfiguration(Main.class.getResourceAsStream("/logging.properties"));
+        
         final String env = "test-dev.properties";
         
         Credentials credentials = new PropertiesCredentials(new FilePropertiesMgr(System.getProperty("user.home") + "/.solenopsis/credentials/" + env));
