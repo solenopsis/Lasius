@@ -1,7 +1,7 @@
 package org.solenopsis.lasius.credentials.impl;
 
-import org.solenopsis.lasius.properties.PropertiesMgr;
 import java.util.Properties;
+import org.flossware.util.properties.PropertiesMgr;
 
 /**
  *
@@ -10,61 +10,38 @@ import java.util.Properties;
  * @author sfloess
  *
  */
-public class PropertiesCredentials extends AbstractCredentials {
+public class PropertiesCredentials extends DefaultCredentials {
     public enum PropertyNameEnum {
         URL("url"),
         USER_NAME("username"),
         PASSWORD("password"),
         TOKEN("token"),
         API_VERSION("apiVersion");
-        
+
         private final String name;
-        
+
         private PropertyNameEnum(final String name) {
             this.name = name;
         }
-        
+
         public String getName() {
             return name;
         }
     };
-    
-    private final PropertiesMgr propertiesMgr;
-    
-    protected PropertiesMgr getPropertiesMgr() {
-        return propertiesMgr;
-    }
-    
-    protected Properties getProperties() {
-        return getPropertiesMgr().getProperties();
-    }
-    
+
+    /**
+     * Constructs credentials from propertiesMgr.
+     *
+     * @param propertiesMgr contains properties from which our credentials
+     *        will be retrieved.
+     */
     public PropertiesCredentials(PropertiesMgr propertiesMgr) {
-        this.propertiesMgr = propertiesMgr;
+        super (
+            propertiesMgr.getProperties().getProperty(PropertyNameEnum.URL.getName()),
+            propertiesMgr.getProperties().getProperty(PropertyNameEnum.USER_NAME.getName()),
+            propertiesMgr.getProperties().getProperty(PropertyNameEnum.PASSWORD.getName()),
+            propertiesMgr.getProperties().getProperty(PropertyNameEnum.TOKEN.getName()),
+            propertiesMgr.getProperties().getProperty(PropertyNameEnum.API_VERSION.getName())
+        );
     }
-    
-    @Override
-    public String getUrl() {
-        return getProperties().getProperty(PropertyNameEnum.URL.getName());
-    }
-    
-    @Override
-    public String getUserName() {
-        return getProperties().getProperty(PropertyNameEnum.USER_NAME.getName());
-    }
-    
-    @Override
-    public String getPassword() {
-        return getProperties().getProperty(PropertyNameEnum.PASSWORD.getName());
-    }
-    
-    @Override
-    public String getToken() {
-        return getProperties().getProperty(PropertyNameEnum.TOKEN.getName());
-    }
-    
-    @Override
-    public String getApiVersion() {
-        return getProperties().getProperty(PropertyNameEnum.API_VERSION.getName());
-    }    
 }

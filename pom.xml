@@ -36,14 +36,6 @@
 					<target>1.6</target>
 				</configuration>
 			</plugin>
-
-			<plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-ejb-plugin</artifactId>
-                <configuration>
-                	<ejbVersion>3.0</ejbVersion>
-                </configuration>
-           	</plugin>
 			
 			<!-- Generate code against SFDC polling service -->
 			<plugin>
@@ -56,7 +48,7 @@
 							<goal>wsimport</goal>
 						</goals>
 						<configuration>
-							<packageName>org.solenopsis.lasius.sforce.soap.enterprise</packageName>
+							<packageName>org.solenopsis.lasius.sforce.wsimport.enterprise</packageName>
 							<wsdlDirectory>${basedir}/src/main/resources/wsdl</wsdlDirectory>
 							<wsdlFiles>
 								<wsdlFile>enterprise.wsdl</wsdlFile>
@@ -77,7 +69,7 @@
 							<goal>wsimport</goal>
 						</goals>
 						<configuration>
-							<packageName>org.solenopsis.lasius.sforce.soap.partner</packageName>
+							<packageName>org.solenopsis.lasius.sforce.wsimport.partner</packageName>
 							<wsdlDirectory>${basedir}/src/main/resources/wsdl</wsdlDirectory>
 							<wsdlFiles>
 								<wsdlFile>partner.wsdl</wsdlFile>
@@ -98,7 +90,7 @@
 							<goal>wsimport</goal>
 						</goals>
 						<configuration>
-							<packageName>org.solenopsis.lasius.sforce.soap.metadata</packageName>
+							<packageName>org.solenopsis.lasius.sforce.wsimport.metadata</packageName>
 							<wsdlDirectory>${basedir}/src/main/resources/wsdl</wsdlDirectory>
 							<wsdlFiles>
 								<wsdlFile>metadata.wsdl</wsdlFile>
@@ -119,6 +111,12 @@
 
 	<dependencies>
 		<!--  External Dependencies -->  		
+		<dependency>
+			<groupId>org.flossware</groupId>
+			<artifactId>utils</artifactId>
+			<version>1.0.0-SNAPSHOT</version>
+			<type>jar</type>
+		</dependency>
 		<dependency>
 			<groupId>log4j</groupId>
 			<artifactId>log4j</artifactId>
