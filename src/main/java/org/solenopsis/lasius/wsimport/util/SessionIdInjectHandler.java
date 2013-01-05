@@ -9,7 +9,7 @@ import javax.xml.ws.Service;
 import javax.xml.ws.handler.MessageContext;
 import javax.xml.ws.handler.soap.SOAPHandler;
 import javax.xml.ws.handler.soap.SOAPMessageContext;
-import org.solenopsis.lasius.wsimport.metadata.impl.MetadataWebSvc;
+import org.solenopsis.lasius.wsimport.websvc.impl.MetadataWebSvc;
 
 /**
  *

@@ -1,14 +1,11 @@
 package org.solenopsis.lasius.wsimport.session.security.impl;
 
-import java.net.URL;
 import java.util.logging.Level;
-import javax.xml.namespace.QName;
 import org.flossware.util.ParameterUtil;
 import org.solenopsis.lasius.credentials.Credentials;
-import org.solenopsis.lasius.sforce.wsimport.partner.SforceService;
 import org.solenopsis.lasius.sforce.wsimport.partner.Soap;
-import org.solenopsis.lasius.wsimport.WebServiceTypeEnum;
 import org.solenopsis.lasius.wsimport.session.Session;
+import org.solenopsis.lasius.wsimport.websvc.impl.PartnerWebSvc;
 
 /**
  *
@@ -17,25 +14,19 @@ import org.solenopsis.lasius.wsimport.session.Session;
  * @author sfloess
  *
  */
-public final class PartnerSecurityWebSvc extends AbstractSecurityWebSvc<SforceService, Soap>  {
-    private static final String WSD_RESOURCE = "/wsdl/partner.wsdl";
-    private static final URL WSDL_URL = PartnerSecurityWebSvc.class.getResource(WSD_RESOURCE);
-    private static final QName SERVICE_NAME = new SforceService().getServiceName();
-    private static final SforceService WEB_SERVICE = new SforceService(WSDL_URL, SERVICE_NAME);
-
+public final class PartnerSecurityWebSvc extends AbstractSecurityWebSvc<Soap>  {
     /**
-     * {@inheritDoc}
+     * Default constructor.
      */
-    @Override
-    protected Soap createPort() {
-        return getWebService().getSoap();
+    public PartnerSecurityWebSvc(final PartnerWebSvc webSvc) {
+        super(webSvc);
     }
 
     /**
      * Default constructor.
      */
     public PartnerSecurityWebSvc() {
-        super(WEB_SERVICE, WebServiceTypeEnum.PARTNER_SERVICE);
+        this(new PartnerWebSvc());
     }
 
     /**

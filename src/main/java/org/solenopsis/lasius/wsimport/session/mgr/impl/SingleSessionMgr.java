@@ -99,7 +99,7 @@ public class SingleSessionMgr extends AbstractSessionMgr {
     @Override
     public synchronized Session resetSession(final Session oldSession) throws Exception {
         // If the Id's are not the same, its already been reset...
-        if (!session.getId().equals(oldSession.getId())) {
+        if (session != null && !session.getId().equals(oldSession.getId())) {
             return session;
         }
 

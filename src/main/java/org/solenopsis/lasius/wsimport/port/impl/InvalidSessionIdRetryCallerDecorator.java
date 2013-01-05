@@ -1,10 +1,10 @@
 package org.solenopsis.lasius.wsimport.port.impl;
 
-import java.lang.reflect.InvocationTargetException;
 import org.flossware.util.ParameterUtil;
 import org.flossware.util.reflect.Call;
 import org.flossware.util.reflect.Caller;
 import org.flossware.util.reflect.impl.AbstractRetryCallerDecorator;
+import org.solenopsis.lasius.wsimport.util.SalesforceWebServiceUtil;
 
 /**
  *
@@ -15,9 +15,9 @@ import org.flossware.util.reflect.impl.AbstractRetryCallerDecorator;
  */
 public class InvalidSessionIdRetryCallerDecorator<V> extends AbstractRetryCallerDecorator<V> {
     /**
-     * Denotes an invalid session id.
+     * Total number of retries is 1 for invalid session id.
      */
-    public static final String INVALID_SESSION_ID = "INVALID_SESSION_ID";
+    public static final int MAX_RETRIES = 1;
 
     /**
      * Our context.
@@ -36,20 +36,7 @@ public class InvalidSessionIdRetryCallerDecorator<V> extends AbstractRetryCaller
      */
     @Override
     protected int getMaxRetries() {
-        return getContext().getMaxRetries();
-    }
-
-    /**
-     * Return true if we have an invalid session id or false if not.
-     *
-     * @param failure is the failure to examine for an invalid session id.
-     */
-    protected boolean isInvalidSessionId(final Exception failure) {
-        if (failure instanceof InvocationTargetException) {
-            return ((InvocationTargetException) failure).getTargetException().getMessage().contains(INVALID_SESSION_ID);
-        }
-
-        return failure.getMessage().contains(INVALID_SESSION_ID);
+        return MAX_RETRIES;
     }
 
     /**
@@ -57,7 +44,7 @@ public class InvalidSessionIdRetryCallerDecorator<V> extends AbstractRetryCaller
      */
     @Override
     protected boolean isToRetryCall(final Call<V> call, final Exception failure) throws Exception {
-        if (!isInvalidSessionId(failure)) {
+        if (!SalesforceWebServiceUtil.isInvalidSessionId(failure)) {
             return false;
         }
 

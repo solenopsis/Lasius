@@ -1,18 +1,16 @@
 
 package org.solenopsis.lasius.wsimport.port.impl;
 
-import javax.xml.ws.Service;
 import org.flossware.util.ParameterUtil;
 import org.flossware.util.reflect.Caller;
-import org.flossware.util.wsimport.port.reflect.AbstractPortFactoryCallerDecorator;
 
 
 /**
  *
- * This caller decorates by creating a new port for each call.
+ * Abstract
  *
  */
-public class PortFactoryCallerDecorator<V> extends AbstractPortFactoryCallerDecorator<V> {
+public class SessionCallerDecorator<V> extends AbstractSessionCallerDecorator<V> {
     /**
      * Our Salesforce context.
      */
@@ -28,17 +26,8 @@ public class PortFactoryCallerDecorator<V> extends AbstractPortFactoryCallerDeco
     /**
      * {@inheritDoc}
      */
-    @Override
-    protected Service getService() {
-        return getContext().getService();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    protected <P> Class<P> getPortType() {
-        return getContext().getPortType();
+    protected void createSession() throws Exception {
+        getContext().createSession();
     }
 
     /**
@@ -48,7 +37,7 @@ public class PortFactoryCallerDecorator<V> extends AbstractPortFactoryCallerDeco
      *
      * @throws IllegalArgumentException if decoratee is null.
      */
-    public PortFactoryCallerDecorator(final Context context, final Caller<V> decoratee) {
+    public SessionCallerDecorator(final Context context, final Caller<V> decoratee) {
         super(decoratee);
 
         ParameterUtil.ensureParameter(context, "Context cannot be null!");

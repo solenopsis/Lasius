@@ -1,7 +1,7 @@
 package org.solenopsis.lasius.wsimport.session.security;
 
-import org.solenopsis.lasius.wsimport.session.Session;
 import org.solenopsis.lasius.credentials.Credentials;
+import org.solenopsis.lasius.wsimport.session.Session;
 
 /**
  *

@@ -3,14 +3,18 @@ package org.solenopsis.lasius.app;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.LogManager;
+import javax.xml.namespace.QName;
 import org.flossware.util.properties.impl.FilePropertiesMgr;
 import org.solenopsis.lasius.credentials.Credentials;
 import org.solenopsis.lasius.credentials.impl.PropertiesCredentials;
 import org.solenopsis.lasius.sforce.wsimport.metadata.*;
+import org.solenopsis.lasius.wsimport.WebServiceTypeEnum;
+import org.solenopsis.lasius.wsimport.session.mgr.impl.SingleSessionMgr;
 import org.solenopsis.lasius.wsimport.session.security.SecurityWebSvc;
 import org.solenopsis.lasius.wsimport.session.security.impl.EnterpriseSecurityWebSvc;
 import org.solenopsis.lasius.wsimport.session.security.impl.PartnerSecurityWebSvc;
-import org.solenopsis.lasius.wsimport.metadata.impl.MetadataWebSvc;
+import org.solenopsis.lasius.wsimport.websvc.impl.DefaultWebSvc;
+import org.solenopsis.lasius.wsimport.websvc.impl.MetadataWebSvc;
 
 /**
  *
@@ -20,15 +24,10 @@ import org.solenopsis.lasius.wsimport.metadata.impl.MetadataWebSvc;
  *
  */
 public class MetadataApp {
-    public static void emitMetadata(final String msg, final Credentials credentials, final SecurityWebSvc securityWebSvc, final double apiVersion) throws Exception {
-        System.out.println();
-
+    public static void emitMetadata(final String msg, final MetadataPortType metadataPort, final String apiVersion) throws Exception {
         System.out.println(msg);
 
-        final MetadataWebSvc webSvc = new MetadataWebSvc();
-        final MetadataPortType metadataPort = webSvc.getMetadataPortType(credentials, securityWebSvc);
-
-        final DescribeMetadataResult describeMetadata = metadataPort.describeMetadata(apiVersion);
+        final DescribeMetadataResult describeMetadata = metadataPort.describeMetadata(Double.parseDouble(apiVersion));
 
         final List<DescribeMetadataObject> metadataObjects = describeMetadata.getMetadataObjects();
 
@@ -93,8 +92,26 @@ public class MetadataApp {
             System.out.println("\n\n");
 
 //            System.out.println(PackageXml.computePackage(describeMetadata));
-
         }
+    }
+
+    public static void emitMetadata(final String msg, final Credentials credentials, final SecurityWebSvc securityWebSvc, final String apiVersion) throws Exception {
+        System.out.println();
+
+        System.out.println(msg);
+
+        final MetadataWebSvc webSvc = new MetadataWebSvc(apiVersion);
+
+        emitMetadata("PIPELINE", webSvc.createPort(new SingleSessionMgr(credentials, securityWebSvc)), apiVersion);
+        emitMetadata("SIMPLE", webSvc.createPort(securityWebSvc.login(credentials)), apiVersion);
+
+        final DefaultWebSvc<MetadataPortType> defaultWebSvc1 = new DefaultWebSvc<MetadataPortType> ("/wsdl/metadata.wsdl", WebServiceTypeEnum.METADATA_SERVICE, new MetadataService(), MetadataPortType.class, "24.0");
+        emitMetadata("PIPELINE - Default web service - service", defaultWebSvc1.createPort(new SingleSessionMgr(credentials, securityWebSvc)), apiVersion);
+        emitMetadata("SIMPLE - Default web service - service", defaultWebSvc1.createPort(securityWebSvc.login(credentials)), apiVersion);
+
+        final DefaultWebSvc<MetadataPortType> defaultWebSvc2 = new DefaultWebSvc<MetadataPortType> ("/wsdl/metadata.wsdl", WebServiceTypeEnum.METADATA_SERVICE, new QName("http://soap.sforce.com/2006/04/metadata", "MetadataService"), MetadataPortType.class, "24.0");
+        emitMetadata("PIPELINE - Default web service - QName", defaultWebSvc2.createPort(new SingleSessionMgr(credentials, securityWebSvc)), apiVersion);
+        emitMetadata("SIMPLE - Default web service - QName", defaultWebSvc2.createPort(securityWebSvc.login(credentials)), apiVersion);
     }
 
     public static void main(final String[] args) throws Exception {
@@ -104,11 +121,7 @@ public class MetadataApp {
 
         Credentials credentials = new PropertiesCredentials(new FilePropertiesMgr(System.getProperty("user.home") + "/.solenopsis/credentials/" + env));
 
-        double apiVersion = Double.parseDouble(credentials.getApiVersion());
-
-        emitMetadata("Partner WSDL", credentials, new PartnerSecurityWebSvc(), apiVersion);
-        emitMetadata("Enterprise WSDL", credentials, new EnterpriseSecurityWebSvc(), apiVersion);
-
-
+        emitMetadata("Partner WSDL", credentials, new PartnerSecurityWebSvc(), credentials.getApiVersion());
+        //emitMetadata("Enterprise WSDL", credentials, new EnterpriseSecurityWebSvc(), credentials.getApiVersion());
     }
 }

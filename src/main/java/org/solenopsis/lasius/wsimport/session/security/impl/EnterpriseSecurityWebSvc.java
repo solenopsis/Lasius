@@ -1,14 +1,11 @@
 package org.solenopsis.lasius.wsimport.session.security.impl;
 
-import java.net.URL;
 import java.util.logging.Level;
-import javax.xml.namespace.QName;
 import org.flossware.util.ParameterUtil;
 import org.solenopsis.lasius.credentials.Credentials;
-import org.solenopsis.lasius.sforce.wsimport.enterprise.SforceService;
 import org.solenopsis.lasius.sforce.wsimport.enterprise.Soap;
-import org.solenopsis.lasius.wsimport.WebServiceTypeEnum;
 import org.solenopsis.lasius.wsimport.session.Session;
+import org.solenopsis.lasius.wsimport.websvc.impl.EnterpriseWebSvc;
 
 /**
  *
@@ -17,25 +14,19 @@ import org.solenopsis.lasius.wsimport.session.Session;
  * @author sfloess
  *
  */
-public final class EnterpriseSecurityWebSvc extends AbstractSecurityWebSvc<SforceService, Soap> {
-    private static final String WSD_RESOURCE = "/wsdl/enterprise.wsdl";
-    private static final URL WSDL_URL = EnterpriseSecurityWebSvc.class.getResource(WSD_RESOURCE);
-    private static final QName SERVICE_NAME = new SforceService().getServiceName();
-    private static final SforceService WEB_SERVICE = new SforceService(WSDL_URL, SERVICE_NAME);
-
+public final class EnterpriseSecurityWebSvc extends AbstractSecurityWebSvc<Soap> {
     /**
-     * {@inheritDoc}
+     * Default constructor.
      */
-    @Override
-    protected Soap createPort() {
-        return getWebService().getSoap();
+    public EnterpriseSecurityWebSvc(final EnterpriseWebSvc webSvc) {
+        super(webSvc);
     }
 
     /**
      * Default constructor.
      */
     public EnterpriseSecurityWebSvc() {
-        super(WEB_SERVICE, WebServiceTypeEnum.ENTERPRISE_SERVICE);
+        this(new EnterpriseWebSvc());
     }
 
     /**
@@ -47,6 +38,7 @@ public final class EnterpriseSecurityWebSvc extends AbstractSecurityWebSvc<Sforc
 
         getLogger().log(Level.INFO, "User [{0}] Password [{1}]", new Object[]{credentials.getUserName(), credentials.getSecurityPassword()});
 
+        //return new EnterpriseSession(credentials, getPort(credentials).login(credentials.getUserName(), credentials.getSecurityPassword()));
         return new EnterpriseSession(credentials, getPort(credentials).login(credentials.getUserName(), credentials.getSecurityPassword()));
     }
 

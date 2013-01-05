@@ -2,7 +2,7 @@ package org.solenopsis.lasius.util;
 
 import org.solenopsis.lasius.sforce.wsimport.metadata.DescribeMetadataObject;
 import org.solenopsis.lasius.sforce.wsimport.metadata.DescribeMetadataResult;
-import org.solenopsis.lasius.wsimport.metadata.impl.MetadataWebSvc;
+import org.solenopsis.lasius.wsimport.websvc.impl.MetadataWebSvc;
 
 /**
  *

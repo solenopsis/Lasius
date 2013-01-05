@@ -34,11 +34,6 @@ public class Context {
     private final String name;
 
     /**
-     * The maximum number of retries when calling SFDC.
-     */
-    private final int maxRetries;
-
-    /**
      * Session manager being used.
      */
     private final SessionMgr sessionMgr;
@@ -55,15 +50,13 @@ public class Context {
      * @param service is the web service to use.
      * @param portType the web service port type to use.
      * @param name the name of the web service.
-     * @param maxRetries the number of times to retry calls to SFDC before failing.
      * @param sessionMgr the session manager being used.
      */
-    public <P> Context(final WebServiceTypeEnum webServiceType, final Service service, final Class<P> portType, String name, int maxRetries, final SessionMgr sessionMgr) {
+    public <P> Context(final WebServiceTypeEnum webServiceType, final Service service, final Class<P> portType, String name, final SessionMgr sessionMgr) {
         this.webServiceType = webServiceType;
         this.service        = service;
         this.portType       = portType;
         this.name           = name;
-        this.maxRetries     = maxRetries;
         this.sessionMgr     = sessionMgr;
     }
 
@@ -101,15 +94,6 @@ public class Context {
      */
     public String getName() {
         return name;
-    }
-
-    /**
-     * Return the maximum number of retries to SFDC when calls fail.
-     *
-     * @return the maximum number of retries to SFDC when calls fail.
-     */
-    public int getMaxRetries() {
-        return maxRetries;
     }
 
     /**
