@@ -1,9 +1,18 @@
 package org.solenopsis.lasius.wsimport.port.impl;
 
+import org.solenopsis.lasius.wsimport.port.caller.impl.SalesforceCaller;
+import org.solenopsis.lasius.wsimport.port.caller.impl.SessionCallerDecorator;
+import org.solenopsis.lasius.wsimport.port.caller.impl.PortFactoryCallerDecorator;
+import org.solenopsis.lasius.wsimport.port.caller.impl.ConcurrentCallerDecorator;
+import org.solenopsis.lasius.wsimport.port.caller.impl.InvalidSessionIdRetryCallerDecorator;
+import org.solenopsis.lasius.wsimport.port.SalesforceWebServiceContext;
 import javax.xml.ws.Service;
+import org.flossware.util.ParameterUtil;
 import org.flossware.util.reflect.Caller;
 import org.flossware.util.wsimport.port.PortDecorator;
 import org.solenopsis.lasius.wsimport.WebServiceTypeEnum;
+import org.solenopsis.lasius.wsimport.port.caller.SalesforceCallerFactory;
+import org.solenopsis.lasius.wsimport.port.caller.impl.DefaultSalesforceCallerFactory;
 import org.solenopsis.lasius.wsimport.session.mgr.SessionMgr;
 
 /**
@@ -14,51 +23,75 @@ import org.solenopsis.lasius.wsimport.session.mgr.SessionMgr;
  *
  */
 public class DefaultSalesforcePortDecorator extends AbstractPortDecorator {
+    /**
+     * The default caller factory.
+     */
+    private static final SalesforceCallerFactory DEFAULT_CALLER_FACTORY = new DefaultSalesforceCallerFactory();
 
     /**
-     * Create a caller to manage the Salesforce calls.
-     *
-     * @param context is the state about our salesforce calls.
-     *
-     * @throws Exception if any problems arise generating our return value.
+     * Our caller factory.
      */
-    protected Caller createCaller(final Context context) {
-        final SalesforceCaller salesforceCaller = new SalesforceCaller(context);
-        final ConcurrentCallerDecorator concurrentCaller = new ConcurrentCallerDecorator(context, salesforceCaller);
-        final SessionCallerDecorator sessionCaller = new SessionCallerDecorator(context, concurrentCaller);
-        final InvalidSessionIdRetryCallerDecorator retryCaller = new InvalidSessionIdRetryCallerDecorator(context, sessionCaller);
-        final PortFactoryCallerDecorator portFactoryCaller = new PortFactoryCallerDecorator(context, retryCaller);
+    private final SalesforceCallerFactory callerFactory;
 
-        return portFactoryCaller;
+    /**
+     * Return our default caller factory.
+     *
+     * @return our default caller factory.
+     */
+    protected static SalesforceCallerFactory getDefaultCallerFactory() {
+        return DEFAULT_CALLER_FACTORY;
     }
 
     /**
-     * This constructor sets the session manager and decorator.
+     * This constructor sets the port decorator and caller factory.
      *
-     * @param decorator is the object for whom decoration will be created.
+     * @param decorator can create ports that are decorated with callers.
+     * @param callerFactory creates callers based upon a web service context.
      *
-     * @throws IllegalArgumentException if sessionMgr or decorator are null.
+     * @throws IllegalArgumentException if decorator or caller factory are null.
+     */
+    public DefaultSalesforcePortDecorator(final PortDecorator decorator, final SalesforceCallerFactory callerFactory) {
+        super(decorator);
+
+        ParameterUtil.ensureParameter(callerFactory, "The caller factory cannot be null!");
+
+        this.callerFactory = callerFactory;
+    }
+
+    /**
+     * This constructor sets the port decorator and caller factory.
+     *
+     * @param decorator can create ports that are decorated with callers.
+     *
+     * @throws IllegalArgumentException if decorator is null.
      */
     public DefaultSalesforcePortDecorator(final PortDecorator decorator) {
-        super(decorator);
+        this(decorator, getDefaultCallerFactory());
     }
 
     /**
-     * This constructor sets the session manager.
+     * This constructor sets the caller factory.
      *
-     * @param sessionMgr is the session manager.
+     * @param callerFactory creates callers based upon a web service context.
      *
-     * @throws IllegalArgumentException if sessionMgr is null.
+     * @throws IllegalArgumentException if caller factory are null.
+     */
+    public DefaultSalesforcePortDecorator(final SalesforceCallerFactory callerFactory) {
+        this(getDefaultPortDecorator(), callerFactory);
+    }
+
+    /**
+     * Default constructor will use a default port decorator and caller factory.
      */
     public DefaultSalesforcePortDecorator() {
-        super();
+        this(getDefaultPortDecorator(), getDefaultCallerFactory());
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public <P> P createPort(final SessionMgr sessionMgr, WebServiceTypeEnum webServiceType, final Service service, final Class<P> portType, final String name) throws Exception {
-        return (P) getDecorator().createPort(service, portType, createCaller(new Context(webServiceType, service, portType, name, sessionMgr)));
+    public <P> P createPort(final SalesforceWebServiceContext context) throws Exception {
+        return (P) getDecorator().createPort(context.getService(), context.getPortType(), getDefaultCallerFactory().createCaller(context));
     }
 }

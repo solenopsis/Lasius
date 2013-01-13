@@ -18,6 +18,20 @@ public interface SalesforcePortDecorator {
      *
      * @param <P> the type of port we will decorate.
      *
+     * @param context the context for salesforce web service calls.
+     *
+     * @return a port with decorated functionality like limited concurrent access to SFDC.
+     *
+     * @throws Exception if any problems arise generating our return value.
+     */
+    <P> P createPort(SalesforceWebServiceContext context) throws Exception;
+
+
+    /**
+     * Generate a port for use.
+     *
+     * @param <P> the type of port we will decorate.
+     *
      * @param webServiceType is the type of web service being decorated.
      * @param service is the web service to use.
      * @param portType the class of the port type.
@@ -27,5 +41,5 @@ public interface SalesforcePortDecorator {
      *
      * @throws Exception if any problems arise generating our return value.
      */
-    <P> P createPort(SessionMgr sessionMgr, WebServiceTypeEnum webServiceType, Service service, Class<P> portType, String name) throws Exception;
+    <P> P createPort(WebServiceTypeEnum webServiceType, Service service, Class<P> portType, String name, SessionMgr sessionMgr) throws Exception;
 }

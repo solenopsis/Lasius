@@ -9,8 +9,9 @@ import org.flossware.util.ParameterUtil;
 import org.solenopsis.lasius.credentials.Credentials;
 import org.solenopsis.lasius.wsimport.session.Session;
 import org.solenopsis.lasius.wsimport.session.mgr.SessionMgr;
-import org.solenopsis.lasius.wsimport.session.mgr.SessionMgrFilter;
-import org.solenopsis.lasius.wsimport.session.security.SecurityWebSvc;
+import org.solenopsis.lasius.wsimport.session.mgr.filter.SessionMgrFilter;
+import org.solenopsis.lasius.wsimport.session.mgr.filter.impl.RoundRobinSessionMgrFilter;
+import org.solenopsis.lasius.wsimport.security.SecurityMgr;
 
 /**
  *
@@ -29,7 +30,7 @@ public class MultiSessionMgr extends AbstractSessionMgr {
      * Default security web service - we'll use the default frmo
      * the single session manager.
      */
-    protected static final SecurityWebSvc DEFAULT_SECURITY_WEB_SVC = SingleSessionMgr.DEFAULT_SECURITY_WEB_SVC;
+    protected static final SecurityMgr DEFAULT_SECURITY_WEB_SVC = SingleSessionMgr.DEFAULT_SECURITY_WEB_SVC;
 
     /**
      * The session manager filter.
@@ -144,7 +145,7 @@ public class MultiSessionMgr extends AbstractSessionMgr {
      * @throws IllegalArgumentException if sessionMgrFilter is null, credentials is empty or has null values or
      *         securityWebSvc is null.
      */
-    public MultiSessionMgr(final SessionMgrFilter sessionMgrFilter, final Credentials[] credentials, final SecurityWebSvc securityWebSvc) {
+    public MultiSessionMgr(final SessionMgrFilter sessionMgrFilter, final Credentials[] credentials, final SecurityMgr securityWebSvc) {
         this(sessionMgrFilter);
 
         ParameterUtil.ensureParameter(credentials, "Credentials cannot be empty or null!");
@@ -176,7 +177,7 @@ public class MultiSessionMgr extends AbstractSessionMgr {
      * @throws IllegalArgumentException if credentials is empty or has null values or
      *         securityWebSvc is null.
      */
-    public MultiSessionMgr(final Credentials[] credentials, final SecurityWebSvc securityWebSvc) {
+    public MultiSessionMgr(final Credentials[] credentials, final SecurityMgr securityWebSvc) {
         this(DEFAULT_SESSION_MGR_FILTER, credentials, securityWebSvc);
     }
 

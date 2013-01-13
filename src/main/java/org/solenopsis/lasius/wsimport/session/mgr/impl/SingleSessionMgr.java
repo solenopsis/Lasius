@@ -3,8 +3,8 @@ package org.solenopsis.lasius.wsimport.session.mgr.impl;
 import org.flossware.util.ParameterUtil;
 import org.solenopsis.lasius.credentials.Credentials;
 import org.solenopsis.lasius.wsimport.session.Session;
-import org.solenopsis.lasius.wsimport.session.security.SecurityWebSvc;
-import org.solenopsis.lasius.wsimport.session.security.impl.EnterpriseSecurityWebSvc;
+import org.solenopsis.lasius.wsimport.security.SecurityMgr;
+import org.solenopsis.lasius.wsimport.security.impl.EnterpriseSecurityMgr;
 
 /**
  *
@@ -17,7 +17,7 @@ public class SingleSessionMgr extends AbstractSessionMgr {
     /**
      * Our default security web service.
      */
-    protected static final SecurityWebSvc DEFAULT_SECURITY_WEB_SVC = new EnterpriseSecurityWebSvc();
+    protected static final SecurityMgr DEFAULT_SECURITY_WEB_SVC = new EnterpriseSecurityMgr();
 
     /**
      * Our credentials.
@@ -27,7 +27,7 @@ public class SingleSessionMgr extends AbstractSessionMgr {
     /**
      * Our security web service.
      */
-    private final SecurityWebSvc securityWebSvc;
+    private final SecurityMgr securityWebSvc;
 
     /**
      * Our current session.
@@ -48,7 +48,7 @@ public class SingleSessionMgr extends AbstractSessionMgr {
      *
      * @return the security web service.
      */
-    protected SecurityWebSvc getSecurityWebSvc() {
+    protected SecurityMgr getSecurityWebSvc() {
         return securityWebSvc;
     }
 
@@ -60,7 +60,7 @@ public class SingleSessionMgr extends AbstractSessionMgr {
      *
      * @throws IllegalArgumentException if credentials or securityWebSvc are null.
      */
-    public SingleSessionMgr(final Credentials credentials, final SecurityWebSvc securityWebSvc) {
+    public SingleSessionMgr(final Credentials credentials, final SecurityMgr securityWebSvc) {
         ParameterUtil.ensureParameter(securityWebSvc, "Security web service cannot be null!");
 
         this.credentials    = credentials;
