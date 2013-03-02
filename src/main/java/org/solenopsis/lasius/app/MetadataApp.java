@@ -28,7 +28,9 @@ public class MetadataApp {
     public static void emitMetadata(final String msg, final MetadataPortType metadataPort, final String apiVersion) throws Exception {
         System.out.println(msg);
 
-        final DescribeMetadataResult describeMetadata = metadataPort.describeMetadata(Double.parseDouble(apiVersion));
+        final double version = Double.parseDouble(apiVersion);
+
+        final DescribeMetadataResult describeMetadata = metadataPort.describeMetadata(version);
 
         final List<DescribeMetadataObject> metadataObjects = describeMetadata.getMetadataObjects();
 
@@ -44,55 +46,62 @@ public class MetadataApp {
             System.out.println("XML:       " + dmo.getXmlName());
             System.out.println("In folder: " + dmo.isInFolder());
             System.out.println("Meta file: " + dmo.isMetaFile());
-            System.out.println("Children:");
-            for (final String child : dmo.getChildXmlNames()) {
-                System.out.println("          " + child);
 
-                if (null != child && ! "".equals(child)) {
-                    final ListMetadataQuery query = new ListMetadataQuery();
-                    query.setType(child);
+            if (dmo.isInFolder()) {
+                final ListMetadataQuery query = new ListMetadataQuery();
 
-                    final List<ListMetadataQuery> metaDataQuertyList = new ArrayList<ListMetadataQuery>();
+                query.setType(dmo.getXmlName()+"Folde");
 
-                    metaDataQuertyList.add(query);
+                query.setFolder(dmo.getDirectoryName());
 
-                    try {
-                        final List<FileProperties> filePropertiesList = metadataPort.listMetadata(metaDataQuertyList, 24);
-                        for (final FileProperties fileProperties : filePropertiesList) {
-                            System.out.println ("            Full name:      " + fileProperties.getFullName());
-                            System.out.println ("                 file name: " + fileProperties.getFileName());
-                            System.out.println ("                 type:      " + fileProperties.getType());
+                final List<ListMetadataQuery> metaDataQuertyList = new ArrayList<ListMetadataQuery>();
+
+                metaDataQuertyList.add(query);
+
+                try {
+                    final List<FileProperties> filePropertiesList = metadataPort.listMetadata(metaDataQuertyList, version);
+                    System.out.println("***Children (" + filePropertiesList.size() + "):");
+                    for (final FileProperties fileProperties : filePropertiesList) {
+                        System.out.println ("            Full name:      " + fileProperties.getFullName());
+                        System.out.println ("                 file name: " + fileProperties.getFileName());
+                        System.out.println ("                 type:      " + fileProperties.getType());
+                    };
+                } catch (final Exception e) {
+                    System.out.println ("            Problem:  " + e.getMessage());
+                }
+            } else {
+                System.out.println("Children (" + dmo.getChildXmlNames().size() + "):");
+                for (final String child : dmo.getChildXmlNames()) {
+                    System.out.println("          " + child);
+
+                    if (null != child && ! "".equals(child)) {
+                        final ListMetadataQuery query = new ListMetadataQuery();
+                        query.setType(child);
+
+                        final List<ListMetadataQuery> metaDataQuertyList = new ArrayList<ListMetadataQuery>();
+
+                        metaDataQuertyList.add(query);
+
+                        try {
+                            final List<FileProperties> filePropertiesList = metadataPort.listMetadata(metaDataQuertyList, version);
+                            for (final FileProperties fileProperties : filePropertiesList) {
+                                System.out.println ("            Full name:      " + fileProperties.getFullName());
+                                System.out.println ("                 file name: " + fileProperties.getFileName());
+                                System.out.println ("                 type:      " + fileProperties.getType());
+                            }
                         }
-                    }
 
-                    catch(final Exception e) {
-                        System.out.println ("            Problem:  " + e.getMessage());
+                        catch(final Exception e) {
+                            System.out.println ("            Problem:  " + e.getMessage());
+                        }
                     }
                 }
             }
 
-            final ListMetadataQuery query = new ListMetadataQuery();
-            query.setType(dmo.getXmlName());
-            if (null != dmo.getDirectoryName() || ! "".equals(dmo.getDirectoryName())) {
-                query.setFolder(dmo.getDirectoryName());
-            }
-
-            final List<ListMetadataQuery> metaDataQuertyList = new ArrayList<ListMetadataQuery>();
-
-            metaDataQuertyList.add(query);
-
-            System.out.println();
-
-            final List<FileProperties> filePropertiesList = metadataPort.listMetadata(metaDataQuertyList, 24);
-            for (final FileProperties fileProperties : filePropertiesList) {
-                System.out.println ("Full name:      " + fileProperties.getFullName());
-                System.out.println ("     file name: " + fileProperties.getFileName());
-                System.out.println ("     type:      " + fileProperties.getType());
-            };
 
             System.out.println("\n\n");
 
-            System.out.println(PackageXml.computePackage(describeMetadata));
+            //System.out.println(PackageXml.computePackage(describeMetadata));
         }
     }
 
@@ -101,7 +110,7 @@ public class MetadataApp {
 
         System.out.println(msg);
 
-        emitMetadata("PIPELINE", SalesforceWebServiceUtil.createMetadataPort(new SingleSessionMgr(credentials, securityWebSvc)), credentials.getApiVersion());
+        //emitMetadata("PIPELINE", SalesforceWebServiceUtil.createMetadataPort(new SingleSessionMgr(credentials, securityWebSvc)), credentials.getApiVersion());
 
         emitMetadata("SIMPLE", SalesforceWebServiceUtil.createMetadataPort(securityWebSvc.login(credentials)), credentials.getApiVersion());
     }
@@ -110,10 +119,12 @@ public class MetadataApp {
         LogManager.getLogManager().readConfiguration(MetadataApp.class.getResourceAsStream("/logging.properties"));
 
         final String env = "test-dev.properties";
+//        final String env = "dev.properties";
+
 
         Credentials credentials = new PropertiesCredentials(new FilePropertiesMgr(System.getProperty("user.home") + "/.solenopsis/credentials/" + env));
 
         emitMetadata("Partner WSDL", credentials, new PartnerSecurityMgr());
-        emitMetadata("Enterprise WSDL", credentials, new EnterpriseSecurityMgr());
+        //emitMetadata("Enterprise WSDL", credentials, new EnterpriseSecurityMgr());
     }
 }
