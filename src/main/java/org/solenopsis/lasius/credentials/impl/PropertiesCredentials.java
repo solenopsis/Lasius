@@ -1,6 +1,5 @@
 package org.solenopsis.lasius.credentials.impl;
 
-import java.util.Properties;
 import org.flossware.util.properties.PropertiesMgr;
 
 /**

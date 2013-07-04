@@ -1,0 +1,5 @@
+final SalesforceCaller salesforceCaller = new SalesforceCaller(context);
+final ConcurrentCallerDecorator concurrentCaller = new ConcurrentCallerDecorator(context, salesforceCaller);
+final SessionCallerDecorator sessionCaller = new SessionCallerDecorator(context, concurrentCaller);
+final InvalidSessionIdRetryCallerFilter retryCaller = new InvalidSessionIdRetryCallerFilter(context, sessionCaller);
+final PortFactoryCallerDecorator portFactoryCaller = new PortFactoryCallerDecorator(context, retryCaller);

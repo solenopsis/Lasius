@@ -1,5 +1,6 @@
 package org.solenopsis.lasius.wsimport.security.impl;
 
+import org.solenopsis.lasius.wsimport.session.impl.EnterpriseSession;
 import java.util.logging.Level;
 import org.solenopsis.lasius.credentials.Credentials;
 import org.solenopsis.lasius.wsimport.WebServiceTypeEnum;

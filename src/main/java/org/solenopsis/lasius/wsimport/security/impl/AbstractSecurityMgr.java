@@ -56,8 +56,7 @@ public abstract class AbstractSecurityMgr implements SecurityMgr {
     protected <P> P preparePort(final Session session, final Service service, final P port, final WebServiceTypeEnum webServiceType) {
         ParameterUtil.ensureParameter(session, "Cannot have a null session!");
 
-        SalesforceWebServiceUtil.setUrl(port, session, webServiceType, session.getCredentials().getApiVersion());
-        SalesforceWebServiceUtil.setSessionId(port, service, session);
+        SalesforceWebServiceUtil.preparePort(service, port, session.getCredentials().getApiVersion(), webServiceType, session);
 
         return port;
     }

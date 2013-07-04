@@ -1,26 +1,25 @@
-package org.solenopsis.lasius.wsimport.security.impl;
+package org.solenopsis.lasius.wsimport.session.impl;
 
 import org.flossware.util.NetUtil;
 import org.solenopsis.lasius.credentials.Credentials;
-import org.solenopsis.lasius.sforce.wsimport.partner.LoginResult;
-import org.solenopsis.lasius.wsimport.session.impl.AbstractSession;
+import org.solenopsis.lasius.sforce.wsimport.enterprise.LoginResult;
 
 /**
  *
- * Denotes an SFDC session initiated using the partner.wsdl.  Also acts as an adapter
- * for the partner.wsdl's LoginResult.
+ * Denotes an SFDC session initiated using the enterprise.wsdl.  Also acts as an adapter
+ * for the enterprise.wsdl's LoginResult.
  *
  * @author sfloess
  *
  */
-public class PartnerSession extends AbstractSession<LoginResult> {
+public class EnterpriseSession extends AbstractSession<LoginResult> {
     /**
      * This constructor sets the credentials and login result.
      *
      * @param credentials the session's credentials.
      * @param loginResult the login result from SFDC.
      */
-    public PartnerSession(final Credentials credentials, final LoginResult loginResult) {
+    public EnterpriseSession(final Credentials credentials, final LoginResult loginResult) {
         super(credentials, loginResult, NetUtil.computeUrlAsString(loginResult.getServerUrl()));
     }
 

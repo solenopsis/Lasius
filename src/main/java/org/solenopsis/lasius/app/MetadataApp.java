@@ -1,19 +1,14 @@
 package org.solenopsis.lasius.app;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.logging.LogManager;
-import javax.xml.namespace.QName;
 import org.flossware.util.properties.impl.FilePropertiesMgr;
 import org.solenopsis.lasius.credentials.Credentials;
 import org.solenopsis.lasius.credentials.impl.PropertiesCredentials;
 import org.solenopsis.lasius.sforce.wsimport.metadata.*;
 import org.solenopsis.lasius.wsimport.security.SecurityMgr;
-import org.solenopsis.lasius.wsimport.security.impl.EnterpriseSecurityMgr;
 import org.solenopsis.lasius.wsimport.security.impl.PartnerSecurityMgr;
-import org.solenopsis.lasius.wsimport.session.mgr.impl.SingleSessionMgr;
-import org.solenopsis.lasius.wsimport.util.PackageXml;
 import org.solenopsis.lasius.wsimport.util.SalesforceWebServiceUtil;
 
 
@@ -25,9 +20,7 @@ import org.solenopsis.lasius.wsimport.util.SalesforceWebServiceUtil;
  *
  */
 public class MetadataApp {
-    public static void emitMetadata(final String msg, final MetadataPortType metadataPort, final String apiVersion) throws Exception {
-        System.out.println(msg);
-
+    public static void emitMetadata(final MetadataPortType metadataPort, final String apiVersion) throws Exception {
         final double version = Double.parseDouble(apiVersion);
 
         final DescribeMetadataResult describeMetadata = metadataPort.describeMetadata(version);
@@ -50,7 +43,8 @@ public class MetadataApp {
             if (dmo.isInFolder()) {
                 final ListMetadataQuery query = new ListMetadataQuery();
 
-                query.setType(dmo.getXmlName()+"Folde");
+                // EmailTemplate is broken - need to use EmailFolder...
+                query.setType(("EmailTemplate".equals(dmo.getXmlName()) ? "Email" : dmo.getXmlName())+"Folder");
 
                 query.setFolder(dmo.getDirectoryName());
 
@@ -110,9 +104,7 @@ public class MetadataApp {
 
         System.out.println(msg);
 
-        //emitMetadata("PIPELINE", SalesforceWebServiceUtil.createMetadataPort(new SingleSessionMgr(credentials, securityWebSvc)), credentials.getApiVersion());
-
-        emitMetadata("SIMPLE", SalesforceWebServiceUtil.createMetadataPort(securityWebSvc.login(credentials)), credentials.getApiVersion());
+        emitMetadata(SalesforceWebServiceUtil.createMetadataPort(securityWebSvc.login(credentials)), credentials.getApiVersion());
     }
 
     public static void main(final String[] args) throws Exception {

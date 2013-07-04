@@ -4,6 +4,7 @@ import java.util.logging.Level;
 import org.solenopsis.lasius.credentials.Credentials;
 import org.solenopsis.lasius.wsimport.WebServiceTypeEnum;
 import org.solenopsis.lasius.wsimport.session.Session;
+import org.solenopsis.lasius.wsimport.session.impl.PartnerSession;
 import org.solenopsis.lasius.wsimport.util.SalesforceWebServiceUtil;
 
 /**
