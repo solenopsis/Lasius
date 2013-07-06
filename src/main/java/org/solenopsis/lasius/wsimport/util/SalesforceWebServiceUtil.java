@@ -25,6 +25,7 @@ import org.solenopsis.lasius.sforce.wsimport.metadata.MetadataPortType;
 import org.solenopsis.lasius.sforce.wsimport.metadata.MetadataService;
 import org.solenopsis.lasius.wsimport.WebServiceTypeEnum;
 import org.solenopsis.lasius.wsimport.port.call.impl.CreatePortDecorateCall;
+import org.solenopsis.lasius.wsimport.port.call.impl.CreateSessionDecorateCall;
 import org.solenopsis.lasius.wsimport.port.call.impl.SalesforceCallerDecorator;
 import org.solenopsis.lasius.wsimport.port.call.impl.SalesforceRetryCallFilter;
 import org.solenopsis.lasius.wsimport.port.call.impl.SalesforceUrlDecorateCall;
@@ -325,7 +326,11 @@ public final class SalesforceWebServiceUtil {
 
 
     public static <P> Caller<Session> createCaller(final WebServiceTypeEnum webServiceType, final Service service, final Class<P> portType, final String name, final SessionMgr sessionMgr) throws Exception {
-        return new RetryCallerDecorator<Session>(new SalesforceRetryCallFilter(sessionMgr), MAX_RETRIES, createSalesforceCaller(webServiceType, service, portType, name));
+        return new RetryCallerDecorator<Session> (
+            new SalesforceRetryCallFilter(sessionMgr), MAX_RETRIES,
+            createSalesforceCaller(webServiceType, service, portType, name),
+            new CreateSessionDecorateCall(sessionMgr)
+        );
     }
 
     /**
