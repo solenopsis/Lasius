@@ -131,6 +131,11 @@ public final class SalesforceWebServiceUtil {
     public static final String INVALID_SESSION_ID = "INVALID_SESSION_ID";
 
     /**
+     * Denotes server is unavailable.
+     */
+    public static final String SERVER_UNAVAILABLE = "SERVER_UNAVAILABLE";
+
+    /**
      * Denotes maximum number of retries.
      */
     public static final int MAX_RETRIES = 4;
@@ -269,13 +274,38 @@ public final class SalesforceWebServiceUtil {
         setSessionId(port, service, session);
     }
 
+
+    /**
+     * Return true if message contains invalid session id.
+     *
+     *
+     * @param toCompare is the 
+     * @param message is the message to examine for being an invalid session id.
+     */
+    public static boolean isExceptionMsg(final String toCompare, final String message) {
+        return (null == message ? false : message.contains(toCompare));
+    }
+
+    /**
+     * Return true if we have an invalid session id or false if not.
+     *
+     * @param failure is the failure to examine for an invalid session id.
+     */
+    public static boolean isExceptionMsg(final String toCompare, final Exception failure) {
+        if (failure instanceof InvocationTargetException) {
+            return isExceptionMsg(toCompare, ((InvocationTargetException) failure).getTargetException().getMessage());
+        }
+
+        return isExceptionMsg(toCompare, failure.getMessage());
+    }
+
     /**
      * Return true if message contains invalid session id.
      *
      * @param message is the message to examine for being an invalid session id.
      */
     public static boolean isInvalidSessionId(final String message) {
-        return (null == message ? false : message.contains(INVALID_SESSION_ID));
+        return isExceptionMsg(INVALID_SESSION_ID, message);
     }
 
     /**
@@ -284,11 +314,25 @@ public final class SalesforceWebServiceUtil {
      * @param failure is the failure to examine for an invalid session id.
      */
     public static boolean isInvalidSessionId(final Exception failure) {
-        if (failure instanceof InvocationTargetException) {
-            return isInvalidSessionId(((InvocationTargetException) failure).getTargetException().getMessage());
-        }
+        return isExceptionMsg(INVALID_SESSION_ID, failure);
+    }
 
-        return isInvalidSessionId(failure.getMessage());
+    /**
+     * Return true if message contains server unavailable.
+     *
+     * @param message is the message to examine for being server unavailable.
+     */
+    public static boolean isServerUnavailable(final String message) {
+        return isExceptionMsg(SERVER_UNAVAILABLE, message);
+    }
+
+    /**
+     * Return true if we have server unavailable or false if not.
+     *
+     * @param failure is the failure to examine for server unavailable.
+     */
+    public static boolean isServerUnavailable(final Exception failure) {
+        return isExceptionMsg(SERVER_UNAVAILABLE, failure);
     }
 
     /**

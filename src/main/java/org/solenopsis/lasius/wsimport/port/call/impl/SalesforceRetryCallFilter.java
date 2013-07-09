@@ -29,12 +29,21 @@ public class SalesforceRetryCallFilter implements RetryCallFilter<Session> {
      */
     @Override
     public boolean isToRetryCall(final Call<Session> call, final Exception failure) throws Exception {
+        // We will reset the session when we encounter an invalid session id or an IOException.
+        // For either, we can retry the call.
         if (SalesforceWebServiceUtil.isInvalidSessionId(failure) || SalesforceWebServiceUtil.containsIOException(failure)) {
             getSessionMgr().resetSession(call.getValue());
 
             return true;
         }
 
+        // If the server is unavailable, we will want to
+        // retr the call.
+        if (SalesforceWebServiceUtil.isServerUnavailable(failure)) {
+            return true;
+        }
+
+        // Anything else, no retry.
         return false;
     }
 }
