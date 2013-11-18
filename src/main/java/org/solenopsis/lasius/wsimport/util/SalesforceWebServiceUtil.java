@@ -12,10 +12,6 @@ import javax.xml.ws.Service;
 import javax.xml.ws.handler.Handler;
 import javax.xml.ws.handler.soap.SOAPHandler;
 import org.flossware.util.UrlUtil;
-import org.flossware.util.reflect.Caller;
-import org.flossware.util.reflect.decorate.call.DecorateCall;
-import org.flossware.util.reflect.decorate.call.impl.DecorateCallComposite;
-import org.flossware.util.reflect.decorate.impl.RetryCallerDecorator;
 import org.flossware.util.wsimport.port.factory.PortFactory;
 import org.flossware.util.wsimport.port.factory.impl.DefaultPortFactory;
 import org.flossware.util.wsimport.soap.impl.SingleAttributeSoapHeaderHandler;
@@ -24,12 +20,7 @@ import org.solenopsis.lasius.credentials.Credentials;
 import org.solenopsis.lasius.sforce.wsimport.metadata.MetadataPortType;
 import org.solenopsis.lasius.sforce.wsimport.metadata.MetadataService;
 import org.solenopsis.lasius.wsimport.WebServiceTypeEnum;
-import org.solenopsis.lasius.wsimport.port.call.impl.CreatePortDecorateCall;
-import org.solenopsis.lasius.wsimport.port.call.impl.CreateSessionDecorateCall;
-import org.solenopsis.lasius.wsimport.port.call.impl.SalesforceCallerDecorator;
-import org.solenopsis.lasius.wsimport.port.call.impl.SalesforceRetryCallFilter;
-import org.solenopsis.lasius.wsimport.port.call.impl.SalesforceUrlDecorateCall;
-import org.solenopsis.lasius.wsimport.port.call.impl.SessionIdDecorateCall;
+import org.solenopsis.lasius.wsimport.call.SalesforceRetryCaller;
 import org.solenopsis.lasius.wsimport.security.SecurityMgr;
 import org.solenopsis.lasius.wsimport.security.impl.EnterpriseSecurityMgr;
 import org.solenopsis.lasius.wsimport.session.Session;
@@ -279,7 +270,7 @@ public final class SalesforceWebServiceUtil {
      * Return true if message contains invalid session id.
      *
      *
-     * @param toCompare is the 
+     * @param toCompare is the
      * @param message is the message to examine for being an invalid session id.
      */
     public static boolean isExceptionMsg(final String toCompare, final String message) {
@@ -291,7 +282,7 @@ public final class SalesforceWebServiceUtil {
      *
      * @param failure is the failure to examine for an invalid session id.
      */
-    public static boolean isExceptionMsg(final String toCompare, final Exception failure) {
+    public static boolean isExceptionMsg(final String toCompare, final Throwable failure) {
         if (failure instanceof InvocationTargetException) {
             return isExceptionMsg(toCompare, ((InvocationTargetException) failure).getTargetException().getMessage());
         }
@@ -313,7 +304,7 @@ public final class SalesforceWebServiceUtil {
      *
      * @param failure is the failure to examine for an invalid session id.
      */
-    public static boolean isInvalidSessionId(final Exception failure) {
+    public static boolean isInvalidSessionId(final Throwable failure) {
         return isExceptionMsg(INVALID_SESSION_ID, failure);
     }
 
@@ -354,27 +345,15 @@ public final class SalesforceWebServiceUtil {
         return containsIOException(throwable.getCause());
     }
 
-    public static <P> DecorateCall<Session> createSalesforceDecorateCall(final WebServiceTypeEnum webServiceType, final Service service, final Class<P> portType, final String name) throws Exception {
-        return new DecorateCallComposite (
-                new DecorateCall[] {
-                    new CreatePortDecorateCall(service, portType),
-                    new SalesforceUrlDecorateCall(service, name, webServiceType),
-                    new SessionIdDecorateCall(service)
-                }
-            );
-    }
-
-    public static <P> Caller<Session> createSalesforceCaller(final WebServiceTypeEnum webServiceType, final Service service, final Class<P> portType, final String name) throws Exception {
-        return new SalesforceCallerDecorator(createSalesforceDecorateCall(webServiceType, service, portType, name));
-    }
-
-
-    public static <P> Caller<Session> createCaller(final WebServiceTypeEnum webServiceType, final Service service, final Class<P> portType, final String name, final SessionMgr sessionMgr) throws Exception {
-        return new RetryCallerDecorator<Session> (
-            new SalesforceRetryCallFilter(sessionMgr), MAX_RETRIES,
-            createSalesforceCaller(webServiceType, service, portType, name),
-            new CreateSessionDecorateCall(sessionMgr)
-        );
+    /**
+     * Returns true if the failure represents one where relogin should occur.
+     *
+     * @param failure the exception to examine if relogin is necessary.
+     *
+     * @return true if relogin is necessary.
+     */
+    public static boolean isReloginException(final Throwable failure) {
+        return isInvalidSessionId(failure) || containsIOException(failure);
     }
 
     /**
@@ -391,8 +370,8 @@ public final class SalesforceWebServiceUtil {
      *
      * @throws Exception if any problems arise generating our return value.
      */
-    public static <P> P createPort(final PortFactory<Session> portDecorator, final WebServiceTypeEnum webServiceType, final Service service, final Class<P> portType, final String name, final SessionMgr sessionMgr) throws Exception {
-        return portDecorator.createPort(service, portType, createCaller(webServiceType, service, portType, name, sessionMgr));
+    public static <P> P createPort(final PortFactory portDecorator, final WebServiceTypeEnum webServiceType, final Service service, final Class<P> portType, final String name, final SessionMgr sessionMgr) throws Exception {
+        return (P) portDecorator.createPort(service, portType, new SalesforceRetryCaller(sessionMgr, webServiceType, service, portType, name));
     }
 
     /**

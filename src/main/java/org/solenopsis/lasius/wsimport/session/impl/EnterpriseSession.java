@@ -20,7 +20,7 @@ public class EnterpriseSession extends AbstractSession<LoginResult> {
      * @param loginResult the login result from SFDC.
      */
     public EnterpriseSession(final Credentials credentials, final LoginResult loginResult) {
-        super(credentials, loginResult, NetUtil.computeUrlAsString(loginResult.getServerUrl()));
+        super(credentials, loginResult, NetUtil.computeHostUrlAsString(loginResult.getServerUrl()));
     }
 
     /**
