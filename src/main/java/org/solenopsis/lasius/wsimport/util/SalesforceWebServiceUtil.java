@@ -19,6 +19,8 @@ import org.flossware.util.wsimport.soap.impl.SoapRequestHandler;
 import org.solenopsis.lasius.credentials.Credentials;
 import org.solenopsis.lasius.sforce.wsimport.metadata.MetadataPortType;
 import org.solenopsis.lasius.sforce.wsimport.metadata.MetadataService;
+import org.solenopsis.lasius.sforce.wsimport.tooling.SforceServicePortType;
+import org.solenopsis.lasius.sforce.wsimport.tooling.SforceServiceService;
 import org.solenopsis.lasius.wsimport.WebServiceTypeEnum;
 import org.solenopsis.lasius.wsimport.call.SalesforceRetryCaller;
 import org.solenopsis.lasius.wsimport.security.SecurityMgr;
@@ -55,7 +57,7 @@ public final class SalesforceWebServiceUtil {
     public static final String ENTERPRISE_WSDL_RESOURCE = ROOT_WSDL_RESOURCE + "/enterprise.wsdl";
 
     /**
-     * The metadata wsdl resoource.
+     * The metadata wsdl resource.
      */
     public static final String METADATA_WSDL_RESOURCE = ROOT_WSDL_RESOURCE + "/metadata.wsdl";
 
@@ -63,6 +65,11 @@ public final class SalesforceWebServiceUtil {
      * The partner wsdl resource.
      */
     public static final String PARTNER_WSDL_RESOURCE = ROOT_WSDL_RESOURCE + "/partner.wsdl";
+
+    /**
+     * The tooling wsdl resource.
+     */
+    public static final String TOOLING_WSDL_RESOURCE = ROOT_WSDL_RESOURCE + "/tooling.wsdl";
 
     /**
      * The QName for the enterprise wsdl service.
@@ -78,6 +85,11 @@ public final class SalesforceWebServiceUtil {
      * The QName for the partner wsdl service.
      */
     public static final QName PARTNER_SERVICE_NAME = new QName("urn:partner.soap.sforce.com", "SforceService");
+
+    /**
+     * The QName for the tooling wsdl service.
+     */
+    public static final QName TOOLING_SERVICE_NAME = new QName("urn:tooling.soap.sforce.com", "SforceServiceService");
 
     /**
      * The actual enterprise wsdl service.
@@ -97,6 +109,11 @@ public final class SalesforceWebServiceUtil {
         new org.solenopsis.lasius.sforce.wsimport.partner.SforceService(SalesforceWebServiceUtil.class.getResource(PARTNER_WSDL_RESOURCE), PARTNER_SERVICE_NAME);
 
     /**
+     * The actual tooling wsdl service.
+     */
+    public static final SforceServiceService TOOLING_SERVICE = new SforceServiceService(SalesforceWebServiceUtil.class.getResource(TOOLING_WSDL_RESOURCE), TOOLING_SERVICE_NAME);
+
+    /**
      * The actual enterprise wsdl service's port type.
      */
     public static final Class<org.solenopsis.lasius.sforce.wsimport.enterprise.Soap> ENTERPRISE_PORT_TYPE = org.solenopsis.lasius.sforce.wsimport.enterprise.Soap.class;
@@ -110,6 +127,11 @@ public final class SalesforceWebServiceUtil {
      * The actual partner wsdl service's port type.
      */
     public static final Class<org.solenopsis.lasius.sforce.wsimport.partner.Soap> PARTNER_PORT_TYPE = org.solenopsis.lasius.sforce.wsimport.partner.Soap.class;
+
+    /**
+     * The actual toolings wsdl service's port type.
+     */
+    public static final Class<SforceServicePortType> TOOLING_PORT_TYPE = SforceServicePortType.class;
 
     /**
      * A security manager to use.
@@ -521,5 +543,50 @@ public final class SalesforceWebServiceUtil {
      */
     public static org.solenopsis.lasius.sforce.wsimport.partner.Soap createPartnerPort(final SessionMgr sessionMgr) throws Exception {
         return createPort(WebServiceTypeEnum.PARTNER_SERVICE, PARTNER_SERVICE, PARTNER_PORT_TYPE, sessionMgr.getSession().getCredentials().getApiVersion(), sessionMgr);
+    }
+
+    /**
+     * Create the tooling port ready for use.
+     *
+     * @param session the session to use for the port.
+     *
+     * @return a ready to use port that can reach out to Salesforce.
+     *
+     * @throws Exception if any problems arise creating the port.
+     */
+    public static SforceServicePortType createToolingPort(final Session session) throws Exception {
+        final SforceServicePortType retVal = TOOLING_SERVICE.getSforceService();
+
+        preparePort(TOOLING_SERVICE, retVal, session.getCredentials().getApiVersion(), WebServiceTypeEnum.TOOLING_SERVICE, session);
+
+        return retVal;
+    }
+
+    /**
+     * Create the tooling port ready for use.
+     *
+     * @param credentials the credentials to use for the port.
+     *
+     * @return a ready to use port that can reach out to Salesforce.
+     *
+     * @throws Exception if any problems arise creating the port.
+     */
+    public static SforceServicePortType createToolingPort(final Credentials credentials) throws Exception {
+        final SforceServicePortType retVal = TOOLING_SERVICE.getSforceService();
+
+        return createToolingPort(SECURITY_MANAGER.login(credentials));
+    }
+
+    /**
+     * Create a ready to use tooling port.  It's decorated to handle relogins, etc.
+     *
+     * @param sessionMgr the session manager to use when making calls.
+     *
+     * @return a ready to use port.
+     *
+     * @throws Exception if any problems arise creating the port.
+     */
+    public static SforceServicePortType createToolingPort(final SessionMgr sessionMgr) throws Exception {
+        return createPort(WebServiceTypeEnum.TOOLING_SERVICE, TOOLING_SERVICE, TOOLING_PORT_TYPE, sessionMgr.getSession().getCredentials().getApiVersion(), sessionMgr);
     }
 }
