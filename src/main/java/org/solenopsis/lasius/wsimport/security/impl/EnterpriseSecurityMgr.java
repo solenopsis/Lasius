@@ -3,9 +3,11 @@ package org.solenopsis.lasius.wsimport.security.impl;
 import org.solenopsis.lasius.wsimport.session.impl.EnterpriseSession;
 import java.util.logging.Level;
 import org.solenopsis.lasius.credentials.Credentials;
-import org.solenopsis.lasius.wsimport.WebServiceTypeEnum;
 import org.solenopsis.lasius.wsimport.session.Session;
 import org.solenopsis.lasius.wsimport.util.SalesforceWebServiceUtil;
+
+import org.solenopsis.wsdls.enterprise.SforceService;
+import org.solenopsis.wsdls.enterprise.Soap;
 
 /**
  *
@@ -27,7 +29,11 @@ public final class EnterpriseSecurityMgr extends AbstractSecurityMgr {
      */
     @Override
     public Session login(final Credentials credentials) throws Exception {
-        return new EnterpriseSession(credentials, preparePort(credentials, SalesforceWebServiceUtil.ENTERPRISE_SERVICE.getSoap(), WebServiceTypeEnum.ENTERPRISE_SERVICE).login(credentials.getUserName(), credentials.getSecurityPassword()));
+        getLogger().log(Level.INFO, "Logging in for:  User [{0}] Password [{1}]", new Object[]{credentials.getUserName(), credentials.getSecurityPassword()});
+
+        final Soap port = SalesforceWebServiceUtil.createEnterprisePort(credentials, SforceService.class);
+
+        return new EnterpriseSession(credentials, port.login(credentials.getUserName(), credentials.getSecurityPassword()));
     }
 
     /**
@@ -37,6 +43,8 @@ public final class EnterpriseSecurityMgr extends AbstractSecurityMgr {
     public void logout(final Session session) throws Exception {
         getLogger().log(Level.INFO, "Logging out for:  User [{0}] Password [{1}]", new Object[]{session.getCredentials().getUserName(), session.getCredentials().getSecurityPassword()});
 
-        preparePort(session, SalesforceWebServiceUtil.ENTERPRISE_SERVICE, SalesforceWebServiceUtil.ENTERPRISE_SERVICE.getSoap(), WebServiceTypeEnum.ENTERPRISE_SERVICE).logout();
+        final Soap port = SalesforceWebServiceUtil.createEnterprisePort(session, SforceService.class);
+
+        port.logout();
     }
 }

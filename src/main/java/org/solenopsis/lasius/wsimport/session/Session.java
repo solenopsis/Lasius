@@ -16,10 +16,11 @@ public interface Session {
      */
     public static final int DEFAULT_CONCURRENT_ACCESS = 10;
 
-    /**
-     * Used in concurrent access.
-     */
-    public Semaphore getSemaphore();
+    public void lock() throws Exception;
+
+    public void unlock() throws Exception;
+
+    public int getRemainingLocks() throws Exception;
 
     /**
      * Return a session id.  This is not the SFDC session id.

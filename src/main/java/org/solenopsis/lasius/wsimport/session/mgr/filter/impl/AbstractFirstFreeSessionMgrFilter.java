@@ -31,7 +31,7 @@ public abstract class AbstractFirstFreeSessionMgrFilter extends AbstractSessionM
     @Override
     public SessionMgr getSessionMgr(final Collection<SessionMgr> sessionMgrs) throws Exception {
         for (final SessionMgr sessionMgr : sessionMgrs) {
-            if (sessionMgr.getSession().getSemaphore().availablePermits() > 0) {
+            if (sessionMgr.getSession().getRemainingLocks() > 0) {
                 return sessionMgr;
             }
         }

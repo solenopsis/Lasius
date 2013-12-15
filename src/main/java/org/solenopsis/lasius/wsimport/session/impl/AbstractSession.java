@@ -63,6 +63,13 @@ public abstract class AbstractSession<V> implements Session {
     }
 
     /**
+     * {@inheritDoc}
+     */
+    protected Semaphore getSemaphore() {
+        return semaphore;
+    }
+
+    /**
      * Set the credentials for this session.
      *
      * @param credentials are the credentials for this session.
@@ -83,12 +90,19 @@ public abstract class AbstractSession<V> implements Session {
         this.id          = new Long(System.currentTimeMillis());
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
-    public Semaphore getSemaphore() {
-        return semaphore;
+    public void lock() throws Exception {
+        getSemaphore().acquire();
+    }
+
+    @Override
+    public void unlock() throws Exception {
+        getSemaphore().release();
+    }
+
+    @Override
+    public int getRemainingLocks() throws Exception {
+        return getSemaphore().availablePermits();
     }
 
     /**

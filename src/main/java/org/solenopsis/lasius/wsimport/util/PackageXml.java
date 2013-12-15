@@ -1,7 +1,9 @@
 package org.solenopsis.lasius.wsimport.util;
 
-import org.solenopsis.lasius.sforce.wsimport.metadata.DescribeMetadataObject;
-import org.solenopsis.lasius.sforce.wsimport.metadata.DescribeMetadataResult;
+import org.solenopsis.wsdls.metadata.DescribeMetadataObject;
+import org.solenopsis.wsdls.metadata.DescribeMetadataResult;
+
+import org.solenopsis.wsdls.metadata.MetadataService;
 
 /**
  *
@@ -29,7 +31,7 @@ public class PackageXml {
     }
 
     public static void computePackage(final StringBuilder sb, final DescribeMetadataResult describeMetadataResult) {
-        sb.append("<package xmlns=\"").append(SalesforceWebServiceUtil.METADATA_SERVICE_NAME).append("\">\n");
+        sb.append("<package xmlns=\"").append(SalesforceWebServiceUtil.SERVICE_MGR.getServiceQName(MetadataService.class)).append("\">\n");
 
         for (final DescribeMetadataObject describeMetadataObject : describeMetadataResult.getMetadataObjects()) {
             computeTypesElement(sb, describeMetadataObject);

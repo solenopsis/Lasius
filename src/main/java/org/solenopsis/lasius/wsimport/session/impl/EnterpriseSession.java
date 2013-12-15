@@ -2,7 +2,7 @@ package org.solenopsis.lasius.wsimport.session.impl;
 
 import org.flossware.util.NetUtil;
 import org.solenopsis.lasius.credentials.Credentials;
-import org.solenopsis.lasius.sforce.wsimport.enterprise.LoginResult;
+import org.solenopsis.wsdls.enterprise.LoginResult;
 
 /**
  *

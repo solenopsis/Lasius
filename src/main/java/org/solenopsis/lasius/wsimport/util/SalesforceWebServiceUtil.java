@@ -2,27 +2,26 @@ package org.solenopsis.lasius.wsimport.util;
 
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Proxy;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.xml.namespace.QName;
 import javax.xml.ws.BindingProvider;
 import javax.xml.ws.Service;
 import javax.xml.ws.handler.Handler;
 import javax.xml.ws.handler.soap.SOAPHandler;
 import org.flossware.util.UrlUtil;
-import org.flossware.util.wsimport.port.factory.PortFactory;
-import org.flossware.util.wsimport.port.factory.impl.DefaultPortFactory;
+import org.flossware.util.reflect.call.method.MethodDecorator;
+import org.flossware.util.reflect.call.method.impl.DefaultMethodDecorator;
+import org.flossware.util.wsimport.reflect.ServiceMgr;
+import org.flossware.util.wsimport.reflect.impl.CachingServiceMgr;
+import org.flossware.util.wsimport.reflect.impl.DefaultServiceMgr;
 import org.flossware.util.wsimport.soap.impl.SingleAttributeSoapHeaderHandler;
 import org.flossware.util.wsimport.soap.impl.SoapRequestHandler;
 import org.solenopsis.lasius.credentials.Credentials;
-import org.solenopsis.lasius.sforce.wsimport.metadata.MetadataPortType;
-import org.solenopsis.lasius.sforce.wsimport.metadata.MetadataService;
-import org.solenopsis.lasius.sforce.wsimport.tooling.SforceServicePortType;
-import org.solenopsis.lasius.sforce.wsimport.tooling.SforceServiceService;
 import org.solenopsis.lasius.wsimport.WebServiceTypeEnum;
-import org.solenopsis.lasius.wsimport.call.SalesforceRetryCaller;
 import org.solenopsis.lasius.wsimport.security.SecurityMgr;
 import org.solenopsis.lasius.wsimport.security.impl.EnterpriseSecurityMgr;
 import org.solenopsis.lasius.wsimport.session.Session;
@@ -44,94 +43,9 @@ public final class SalesforceWebServiceUtil {
     /**
      * Manages port decoration.
      */
-    private static final PortFactory DEFAULT_PORT_DECORATOR = new DefaultPortFactory();
+    public static final ServiceMgr SERVICE_MGR = new CachingServiceMgr();
 
-    /**
-     * Root wsdl resource location for enterprise, metadata and partner wsdls.
-     */
-    public static final String ROOT_WSDL_RESOURCE = "/wsdl";
-
-    /**
-     * The enterprise wsdl resource.
-     */
-    public static final String ENTERPRISE_WSDL_RESOURCE = ROOT_WSDL_RESOURCE + "/enterprise.wsdl";
-
-    /**
-     * The metadata wsdl resource.
-     */
-    public static final String METADATA_WSDL_RESOURCE = ROOT_WSDL_RESOURCE + "/metadata.wsdl";
-
-    /**
-     * The partner wsdl resource.
-     */
-    public static final String PARTNER_WSDL_RESOURCE = ROOT_WSDL_RESOURCE + "/partner.wsdl";
-
-    /**
-     * The tooling wsdl resource.
-     */
-    public static final String TOOLING_WSDL_RESOURCE = ROOT_WSDL_RESOURCE + "/tooling.wsdl";
-
-    /**
-     * The QName for the enterprise wsdl service.
-     */
-    public static final QName ENTERPRISE_SERVICE_NAME = new QName("urn:enterprise.soap.sforce.com", "SforceService");
-
-    /**
-     * The QName for the metadata wsdl service.
-     */
-    public static final QName METADATA_SERVICE_NAME = new QName("http://soap.sforce.com/2006/04/metadata", "MetadataService");
-
-    /**
-     * The QName for the partner wsdl service.
-     */
-    public static final QName PARTNER_SERVICE_NAME = new QName("urn:partner.soap.sforce.com", "SforceService");
-
-    /**
-     * The QName for the tooling wsdl service.
-     */
-    public static final QName TOOLING_SERVICE_NAME = new QName("urn:tooling.soap.sforce.com", "SforceServiceService");
-
-    /**
-     * The actual enterprise wsdl service.
-     */
-    public static final org.solenopsis.lasius.sforce.wsimport.enterprise.SforceService ENTERPRISE_SERVICE =
-        new org.solenopsis.lasius.sforce.wsimport.enterprise.SforceService(SalesforceWebServiceUtil.class.getResource(ENTERPRISE_WSDL_RESOURCE), ENTERPRISE_SERVICE_NAME);
-
-    /**
-     * The actual metadata wsdl service.
-     */
-    public static final MetadataService METADATA_SERVICE = new MetadataService(SalesforceWebServiceUtil.class.getResource(METADATA_WSDL_RESOURCE), METADATA_SERVICE_NAME);
-
-    /**
-     * The actual partner wsdl service.
-     */
-    public static final org.solenopsis.lasius.sforce.wsimport.partner.SforceService PARTNER_SERVICE =
-        new org.solenopsis.lasius.sforce.wsimport.partner.SforceService(SalesforceWebServiceUtil.class.getResource(PARTNER_WSDL_RESOURCE), PARTNER_SERVICE_NAME);
-
-    /**
-     * The actual tooling wsdl service.
-     */
-    public static final SforceServiceService TOOLING_SERVICE = new SforceServiceService(SalesforceWebServiceUtil.class.getResource(TOOLING_WSDL_RESOURCE), TOOLING_SERVICE_NAME);
-
-    /**
-     * The actual enterprise wsdl service's port type.
-     */
-    public static final Class<org.solenopsis.lasius.sforce.wsimport.enterprise.Soap> ENTERPRISE_PORT_TYPE = org.solenopsis.lasius.sforce.wsimport.enterprise.Soap.class;
-
-    /**
-     * The actual metadata wsdl service's port type.
-     */
-    public static final Class<MetadataPortType> METADATA_PORT_TYPE = MetadataPortType.class;
-
-    /**
-     * The actual partner wsdl service's port type.
-     */
-    public static final Class<org.solenopsis.lasius.sforce.wsimport.partner.Soap> PARTNER_PORT_TYPE = org.solenopsis.lasius.sforce.wsimport.partner.Soap.class;
-
-    /**
-     * The actual toolings wsdl service's port type.
-     */
-    public static final Class<SforceServicePortType> TOOLING_PORT_TYPE = SforceServicePortType.class;
+    public static final MethodDecorator METHOD_DECORATOR = new DefaultMethodDecorator();
 
     /**
      * A security manager to use.
@@ -161,15 +75,6 @@ public final class SalesforceWebServiceUtil {
     }
 
     /**
-     * Return the default port decorator.
-     *
-     * @return the default port decorator.
-     */
-    protected static PortFactory<Session> getDefaultPortDecorator() {
-        return DEFAULT_PORT_DECORATOR;
-    }
-
-    /**
      * Create the handler chain.
      */
     protected static void setHandlerChain(final Object bindingProvider, final SOAPHandler handler) {
@@ -182,109 +87,6 @@ public final class SalesforceWebServiceUtil {
         if (getLogger().isLoggable(Level.INFO)) {
             //getLogger().log(Level.INFO, "Seting session id to [{0}]", handler.getSessionId());
         }
-    }
-
-    /**
-     * Set the session id.
-     */
-    public static void setSessionId(final Object bindingProvider, final Service service, final String sessionId) {
-        setHandlerChain(bindingProvider, new SoapRequestHandler(new SingleAttributeSoapHeaderHandler(service, "SessionHeader", "sessionId", sessionId)));  //new SessionIdInjectHandler(service, sessionId));
-    }
-
-    /**
-     * Set the session id.
-     */
-    public static void setSessionId(final Object bindingProvider, final Service service, final Session session) {
-        setSessionId(bindingProvider, service, session.getSessionId());
-    }
-
-    /**
-     * Computes the actual Web Service URL from url, webServiceType and webServiceName.
-     *
-     * @param url is the base url.
-     * @param webServiceType is the type of web service (enterprise, partner, metadata or custom).
-     * @param webServiceName is the name of the web service to be called.
-     *
-     * @return a URL representation.
-     */
-    public static String computeUrl(final String url, final WebServiceTypeEnum webServiceType, final String webServiceName) {
-        return url + '/' + webServiceType.getUrlSuffix() + '/' + webServiceName;
-    }
-
-    /**
-     * Computes the actual Web Service URL from credentials, webServiceType and webServiceName.
-     *
-     * @param credentials the credentials being used.
-     * @param webServiceType is the type of web service (enterprise, partner, metadata or custom).
-     * @param webServiceName is the name of the web service to be called.
-     *
-     * @return a URL representation.
-     */
-    public static String computeUrl(final Credentials credentials, final WebServiceTypeEnum webServiceType, final String webServiceName) {
-        return computeUrl(credentials.getUrl(), webServiceType, webServiceName);
-    }
-
-    /**
-     * Computes the actual Web Service URL from session, webServiceType and webServiceName.
-     *
-     * @param session the session being used.
-     * @param webServiceType is the type of web service (enterprise, partner, metadata or custom).
-     * @param webServiceName is the name of the web service to be called.
-     *
-     * @return a URL representation.
-     */
-    public static String computeUrl(final Session session, final WebServiceTypeEnum webServiceType, final String webServiceName) {
-        return computeUrl(session.getServerUrl(), webServiceType, webServiceName);
-    }
-
-    /**
-     * Set the URL on port.
-     *
-     * @param port the port to affect the url.
-     * @param url the host of the web service.
-     * @param webServiceType the type of web service.
-     * @param webServiceName the web service name.
-     */
-    public static void setUrl(final Object port, final String url, final WebServiceTypeEnum webServiceType, final String webServiceName) {
-        UrlUtil.setUrl(port, computeUrl(url, webServiceType, webServiceName));
-    }
-
-    /**
-     * Set the URL on port.
-     *
-     * @param port the port to affect the url.
-     * @param credentials credentials being used..
-     * @param webServiceType the type of web service.
-     * @param webServiceName the web service name.
-     */
-    public static void setUrl(final Object port, final Credentials credentials, final WebServiceTypeEnum webServiceType, final String webServiceName) {
-        UrlUtil.setUrl(port, computeUrl(credentials, webServiceType, webServiceName));
-    }
-
-    /**
-     * Set the URL on port.
-     *
-     * @param port the port to affect the url.
-     * @param session the session being used.
-     * @param webServiceType the type of web service.
-     * @param webServiceName the web service name.
-     */
-    public static void setUrl(final Object port, final Session session, final WebServiceTypeEnum webServiceType, final String webServiceName) {
-        UrlUtil.setUrl(port, computeUrl(session, webServiceType, webServiceName));
-    }
-
-    /**
-     * Prepare a port for use.
-     *
-     * @param service the web service being used.
-     * @param port the port on the web service.
-     * @param webServiceName is the name of the web service being called.
-     * @param webServiceType the type of web service being used.
-     * @param session the session being used.
-     */
-    public static void preparePort(final Service service, final Object port, final String webServiceName, final WebServiceTypeEnum webServiceType, final Session session) {
-        setUrl(port, session, webServiceType, webServiceName);
-        setSessionId(port, service, session);
     }
 
 
@@ -379,40 +181,115 @@ public final class SalesforceWebServiceUtil {
     }
 
     /**
-     * Generate a port for use.
-     *
-     * @param <P> the type of port we will decorate.
-     *
-     * @param webServiceType is the type of web service being decorated.
-     * @param service is the web service to use.
-     * @param portType the class of the port type.
-     * @param name the name of the web service.
-     *
-     * @return a port with decorated functionality like limited concurrent access to SFDC.
-     *
-     * @throws Exception if any problems arise generating our return value.
+     * Set the session id.
      */
-    public static <P> P createPort(final PortFactory portDecorator, final WebServiceTypeEnum webServiceType, final Service service, final Class<P> portType, final String name, final SessionMgr sessionMgr) throws Exception {
-        return (P) portDecorator.createPort(service, portType, new SalesforceRetryCaller(sessionMgr, webServiceType, service, portType, name));
+    public static void setSessionId(final Object bindingProvider, final Class <? extends Service> serviceClass, final String sessionId) {
+        setHandlerChain(bindingProvider, new SoapRequestHandler(new SingleAttributeSoapHeaderHandler(SERVICE_MGR.getServiceQName(serviceClass), "SessionHeader", "sessionId", sessionId)));  //new SessionIdInjectHandler(service, sessionId));
     }
 
     /**
-     * Generate a port for use.
-     *
-     * @param <P> the type of port we will decorate.
-     *
-     * @param webServiceType is the type of web service being decorated.
-     * @param service is the web service to use.
-     * @param portType the class of the port type.
-     * @param name the name of the web service.
-     *
-     * @return a port with decorated functionality like limited concurrent access to SFDC.
-     *
-     * @throws Exception if any problems arise generating our return value.
+     * Set the session id.
      */
-    public static <P> P createPort(final WebServiceTypeEnum webServiceType, final Service service, final Class<P> portType, final String name, final SessionMgr sessionMgr) throws Exception {
-        return createPort(getDefaultPortDecorator(), webServiceType, service, portType, name, sessionMgr);
+    public static void setSessionId(final Object bindingProvider, final Class <? extends Service> serviceClass, final Session session) {
+        setSessionId(bindingProvider, serviceClass, session.getSessionId());
     }
+
+    /**
+     * Computes the actual Web Service URL from url, webServiceType and webServiceName.
+     *
+     * @param url is the base url.
+     * @param webServiceType is the type of web service (enterprise, partner, metadata or custom).
+     * @param webServiceName is the name of the web service to be called.
+     *
+     * @return a URL representation.
+     */
+    public static String computeUrl(final String url, final WebServiceTypeEnum webServiceType, final String webServiceName) {
+        return url + '/' + webServiceType.getUrlSuffix() + '/' + webServiceName;
+    }
+
+    /**
+     * Computes the actual Web Service URL from credentials, webServiceType and webServiceName.
+     *
+     * @param credentials the credentials being used.
+     * @param webServiceType is the type of web service (enterprise, partner, metadata or custom).
+     * @param webServiceName is the name of the web service to be called.
+     *
+     * @return a URL representation.
+     */
+    public static String computeUrl(final Credentials credentials, final WebServiceTypeEnum webServiceType, final String webServiceName) {
+        return computeUrl(credentials.getUrl(), webServiceType, webServiceName);
+    }
+
+    /**
+     * Computes the actual Web Service URL from session, webServiceType and webServiceName.
+     *
+     * @param session the session being used.
+     * @param webServiceType is the type of web service (enterprise, partner, metadata or custom).
+     * @param webServiceName is the name of the web service to be called.
+     *
+     * @return a URL representation.
+     */
+    public static String computeUrl(final Session session, final WebServiceTypeEnum webServiceType, final String webServiceName) {
+        return computeUrl(session.getServerUrl(), webServiceType, webServiceName);
+    }
+
+    /**
+     * Set the URL on port.
+     *
+     * @param port the port to affect the url.
+     * @param url the host of the web service.
+     * @param webServiceType the type of web service.
+     * @param webServiceName the web service name.
+     */
+    public static void setUrl(final Object port, final String url, final WebServiceTypeEnum webServiceType, final String webServiceName) {
+        UrlUtil.setUrl(port, computeUrl(url, webServiceType, webServiceName));
+    }
+
+    /**
+     * Set the URL on port.
+     *
+     * @param port the port to affect the url.
+     * @param credentials credentials being used..
+     * @param webServiceType the type of web service.
+     * @param webServiceName the web service name.
+     */
+    public static void setUrl(final Object port, final Credentials credentials, final WebServiceTypeEnum webServiceType, final String webServiceName) {
+        UrlUtil.setUrl(port, computeUrl(credentials, webServiceType, webServiceName));
+    }
+
+    /**
+     * Set the URL on port.
+     *
+     * @param port the port to affect the url.
+     * @param session the session being used.
+     * @param webServiceType the type of web service.
+     * @param webServiceName the web service name.
+     */
+    public static void setUrl(final Object port, final Session session, final WebServiceTypeEnum webServiceType, final String webServiceName) {
+        UrlUtil.setUrl(port, computeUrl(session, webServiceType, webServiceName));
+    }
+
+    public static <P> P createPort(final Class<? extends Service> serviceClass) throws Exception {
+        return SERVICE_MGR.createPort(serviceClass);
+    }
+
+    public static <P> P createPort(final Credentials credentials, final WebServiceTypeEnum webServiceType, final Class<? extends Service> serviceClass, final String webServiceName) throws Exception {
+        final P retVal = createPort(serviceClass);
+
+        setUrl(retVal, credentials, webServiceType, webServiceName);
+
+        return retVal;
+    }
+
+    public static <P> P createPort(final Session session, final WebServiceTypeEnum webServiceType, final Class<? extends Service> serviceClass, final String webServiceName) throws Exception {
+        final P retVal = createPort(serviceClass);
+
+        setUrl(retVal, session.getServerUrl(), webServiceType, webServiceName);
+        setSessionId(retVal, serviceClass, session);
+
+        return retVal;
+    }
+
 
     /**
      * Create the metadata port ready for use.
@@ -423,12 +300,8 @@ public final class SalesforceWebServiceUtil {
      *
      * @throws Exception if any problems arise creating the metadata port.
      */
-    public static org.solenopsis.lasius.sforce.wsimport.enterprise.Soap createEnterprisePort(final Session session) throws Exception {
-        final org.solenopsis.lasius.sforce.wsimport.enterprise.Soap retVal = ENTERPRISE_SERVICE.getSoap();
-
-        preparePort(ENTERPRISE_SERVICE, retVal, session.getCredentials().getApiVersion(), WebServiceTypeEnum.ENTERPRISE_SERVICE, session);
-
-        return retVal;
+    public static <P> P createEnterprisePort(final Session session, Class<? extends Service> serviceClass) throws Exception {
+        return createPort(session, WebServiceTypeEnum.ENTERPRISE_SERVICE, serviceClass, session.getCredentials().getApiVersion());
     }
 
     /**
@@ -440,8 +313,8 @@ public final class SalesforceWebServiceUtil {
      *
      * @throws Exception if any problems arise creating the port.
      */
-    public static org.solenopsis.lasius.sforce.wsimport.enterprise.Soap createEnterprisePort(final Credentials credentials) throws Exception {
-        return createEnterprisePort(SECURITY_MANAGER.login(credentials));
+    public static <P> P createEnterprisePort(final Credentials credentials, Class<? extends Service> serviceClass) throws Exception {
+        return createPort(credentials, WebServiceTypeEnum.ENTERPRISE_SERVICE, serviceClass, credentials.getApiVersion());
     }
 
     /**
@@ -453,53 +326,8 @@ public final class SalesforceWebServiceUtil {
      *
      * @throws Exception if any problems arise creating the port.
      */
-    public static org.solenopsis.lasius.sforce.wsimport.enterprise.Soap createEnterprisePort(final SessionMgr sessionMgr) throws Exception {
-        return createPort(WebServiceTypeEnum.ENTERPRISE_SERVICE, ENTERPRISE_SERVICE, ENTERPRISE_PORT_TYPE, sessionMgr.getSession().getCredentials().getApiVersion(), sessionMgr);
-    }
-
-    /**
-     * Create the metadata port ready for use.
-     *
-     * @param session the session to use for the port.
-     *
-     * @return a ready to use port that can reach out to Salesforce.
-     *
-     * @throws Exception if any problems arise creating the port.
-     */
-    public static MetadataPortType createMetadataPort(final Session session) throws Exception {
-        final MetadataPortType retVal = METADATA_SERVICE.getMetadata();
-
-        preparePort(METADATA_SERVICE, retVal, session.getCredentials().getApiVersion(), WebServiceTypeEnum.METADATA_SERVICE, session);
-
-        return retVal;
-    }
-
-    /**
-     * Create the metadata port ready for use.
-     *
-     * @param credentials the credentials to use for the port.
-     *
-     * @return a ready to use port that can reach out to Salesforce.
-     *
-     * @throws Exception if any problems arise creating the port.
-     */
-    public static MetadataPortType createMetadataPort(final Credentials credentials) throws Exception {
-        final MetadataPortType retVal = METADATA_SERVICE.getMetadata();
-
-        return createMetadataPort(SECURITY_MANAGER.login(credentials));
-    }
-
-    /**
-     * Create a ready to use metadata port.  It's decorated to handle relogins, etc.
-     *
-     * @param sessionMgr the session manager to use when making calls.
-     *
-     * @return a ready to use port.
-     *
-     * @throws Exception if any problems arise creating the port.
-     */
-    public static MetadataPortType createMetadataPort(final SessionMgr sessionMgr) throws Exception {
-        return createPort(WebServiceTypeEnum.METADATA_SERVICE, METADATA_SERVICE, METADATA_PORT_TYPE, sessionMgr.getSession().getCredentials().getApiVersion(), sessionMgr);
+    public static <P> P createEnterprisePort(final SessionMgr sessionMgr, Class<? extends Service> serviceClass) throws Exception {
+        return createEnterprisePort(sessionMgr.getSession(), serviceClass);
     }
 
     /**
@@ -511,12 +339,8 @@ public final class SalesforceWebServiceUtil {
      *
      * @throws Exception if any problems arise creating the metadata port.
      */
-    public static org.solenopsis.lasius.sforce.wsimport.partner.Soap createPartnerPort(final Session session) throws Exception {
-        final org.solenopsis.lasius.sforce.wsimport.partner.Soap retVal = PARTNER_SERVICE.getSoap();
-
-        preparePort(PARTNER_SERVICE, retVal, session.getCredentials().getApiVersion(), WebServiceTypeEnum.PARTNER_SERVICE, session);
-
-        return retVal;
+    public static <P> P createPartnerPort(final Session session, Class<? extends Service> serviceClass) throws Exception {
+        return createPort(session, WebServiceTypeEnum.PARTNER_SERVICE, serviceClass, session.getCredentials().getApiVersion());
     }
 
     /**
@@ -528,8 +352,8 @@ public final class SalesforceWebServiceUtil {
      *
      * @throws Exception if any problems arise creating the port.
      */
-    public static org.solenopsis.lasius.sforce.wsimport.partner.Soap createPartnerPort(final Credentials credentials) throws Exception {
-        return createPartnerPort(SECURITY_MANAGER.login(credentials));
+    public static <P> P createPartnerPort(final Credentials credentials, Class<? extends Service> serviceClass) throws Exception {
+        return createPort(credentials, WebServiceTypeEnum.PARTNER_SERVICE, serviceClass, credentials.getApiVersion());
     }
 
     /**
@@ -541,40 +365,81 @@ public final class SalesforceWebServiceUtil {
      *
      * @throws Exception if any problems arise creating the port.
      */
-    public static org.solenopsis.lasius.sforce.wsimport.partner.Soap createPartnerPort(final SessionMgr sessionMgr) throws Exception {
-        return createPort(WebServiceTypeEnum.PARTNER_SERVICE, PARTNER_SERVICE, PARTNER_PORT_TYPE, sessionMgr.getSession().getCredentials().getApiVersion(), sessionMgr);
+    public static <P> P createPartnerPort(final SessionMgr sessionMgr, Class<? extends Service> serviceClass) throws Exception {
+        return createPartnerPort(sessionMgr.getSession(), serviceClass);
+    }
+
+    public static <P> P createProxyPort(final SessionMgr sessionMgr, final WebServiceTypeEnum webServiceType, final Class<? extends Service> serviceClass, final URL wsdlUrl, final String name) throws Exception {
+        return (P) (
+            Proxy.newProxyInstance(
+                SalesforceWebServiceUtil.class.getClassLoader(),
+                SERVICE_MGR.createPort(serviceClass, wsdlUrl).getClass().getInterfaces(),
+                new PortInvoker(sessionMgr, webServiceType, serviceClass, name)
+            )
+        );
     }
 
     /**
-     * Create the tooling port ready for use.
+     * Generate a port for use.
      *
-     * @param session the session to use for the port.
+     * @param <P> the type of port we will decorate.
      *
-     * @return a ready to use port that can reach out to Salesforce.
+     * @param webServiceType is the type of web service being decorated.
+     * @param service is the web service to use.
+     * @param portType the class of the port type.
+     * @param name the name of the web service.
      *
-     * @throws Exception if any problems arise creating the port.
+     * @return a port with decorated functionality like limited concurrent access to SFDC.
+     *
+     * @throws Exception if any problems arise generating our return value.
      */
-    public static SforceServicePortType createToolingPort(final Session session) throws Exception {
-        final SforceServicePortType retVal = TOOLING_SERVICE.getSforceService();
-
-        preparePort(TOOLING_SERVICE, retVal, session.getCredentials().getApiVersion(), WebServiceTypeEnum.TOOLING_SERVICE, session);
-
-        return retVal;
+    public static <P> P createProxyPort(final SessionMgr sessionMgr, final WebServiceTypeEnum webServiceType, final Class<? extends Service> serviceClass, final String name) throws Exception {
+        return (P) (
+            Proxy.newProxyInstance(
+                SalesforceWebServiceUtil.class.getClassLoader(),
+                SERVICE_MGR.createPort(serviceClass).getClass().getInterfaces(),
+                new PortInvoker(sessionMgr, webServiceType, serviceClass, name)
+            )
+        );
     }
 
     /**
-     * Create the tooling port ready for use.
+     * Create a ready to use enterprise port.  It's decorated to handle relogins, etc.
      *
-     * @param credentials the credentials to use for the port.
+     * @param sessionMgr the session manager to use when making calls.
      *
-     * @return a ready to use port that can reach out to Salesforce.
+     * @return a ready to use port.
      *
      * @throws Exception if any problems arise creating the port.
      */
-    public static SforceServicePortType createToolingPort(final Credentials credentials) throws Exception {
-        final SforceServicePortType retVal = TOOLING_SERVICE.getSforceService();
+    public static <P> P createEnterpriseProxyPort(final SessionMgr sessionMgr, Class<? extends Service> serviceClass) throws Exception {
+        return createProxyPort(sessionMgr, WebServiceTypeEnum.ENTERPRISE_SERVICE, serviceClass, sessionMgr.getSession().getCredentials().getApiVersion());
+    }
 
-        return createToolingPort(SECURITY_MANAGER.login(credentials));
+    /**
+     * Create a ready to use metadata port.  It's decorated to handle relogins, etc.
+     *
+     * @param sessionMgr the session manager to use when making calls.
+     *
+     * @return a ready to use port.
+     *
+     * @throws Exception if any problems arise creating the port.
+     */
+    public static <P> P createMetadataProxyPort(final SessionMgr sessionMgr, Class<? extends Service> serviceClass) throws Exception {
+        return createProxyPort(sessionMgr, WebServiceTypeEnum.METADATA_SERVICE, serviceClass, sessionMgr.getSession().getCredentials().getApiVersion());
+    }
+
+    /**
+     * Create a ready to use partner port.  It's decorated to handle relogins, etc.
+     *
+     * @param sessionMgr the session manager to use when making calls.
+     *
+     * @return a ready to use port.
+     *
+     * @throws Exception if any problems arise creating the port.
+     */
+    public static <P> P createPartnerProxyPort(final SessionMgr sessionMgr, Class<? extends Service> serviceClass) throws Exception {
+        return createProxyPort(sessionMgr, WebServiceTypeEnum.PARTNER_SERVICE, serviceClass, sessionMgr.getSession().getCredentials().getApiVersion());
     }
 
     /**
@@ -586,7 +451,7 @@ public final class SalesforceWebServiceUtil {
      *
      * @throws Exception if any problems arise creating the port.
      */
-    public static SforceServicePortType createToolingPort(final SessionMgr sessionMgr) throws Exception {
-        return createPort(WebServiceTypeEnum.TOOLING_SERVICE, TOOLING_SERVICE, TOOLING_PORT_TYPE, sessionMgr.getSession().getCredentials().getApiVersion(), sessionMgr);
+    public static <P> P createToolingProxyPort(final SessionMgr sessionMgr, Class<? extends Service> serviceClass) throws Exception {
+        return createProxyPort(sessionMgr, WebServiceTypeEnum.TOOLING_SERVICE, serviceClass, sessionMgr.getSession().getCredentials().getApiVersion());
     }
 }

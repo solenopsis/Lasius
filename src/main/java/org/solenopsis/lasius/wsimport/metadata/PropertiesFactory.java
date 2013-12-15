@@ -2,7 +2,7 @@ package org.solenopsis.lasius.wsimport.metadata;
 
 import java.util.List;
 import java.util.Properties;
-import org.solenopsis.lasius.sforce.wsimport.metadata.FileProperties;
+import org.solenopsis.wsdls.metadata.FileProperties;
 
 /**
  *

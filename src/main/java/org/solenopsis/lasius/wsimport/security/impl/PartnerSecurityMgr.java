@@ -7,6 +7,9 @@ import org.solenopsis.lasius.wsimport.session.Session;
 import org.solenopsis.lasius.wsimport.session.impl.PartnerSession;
 import org.solenopsis.lasius.wsimport.util.SalesforceWebServiceUtil;
 
+import org.solenopsis.wsdls.partner.SforceService;
+import org.solenopsis.wsdls.partner.Soap;
+
 /**
  *
  * Manages the Partner WSDL
@@ -26,7 +29,11 @@ public final class PartnerSecurityMgr extends AbstractSecurityMgr  {
      */
     @Override
     public Session login(final Credentials credentials) throws Exception {
-        return new PartnerSession(credentials, preparePort(credentials, SalesforceWebServiceUtil.PARTNER_SERVICE.getSoap(), WebServiceTypeEnum.PARTNER_SERVICE).login(credentials.getUserName(), credentials.getSecurityPassword()));
+        getLogger().log(Level.INFO, "Logging in for:  User [{0}] Password [{1}]", new Object[]{credentials.getUserName(), credentials.getSecurityPassword()});
+
+        final Soap port = SalesforceWebServiceUtil.createPartnerPort(credentials, SforceService.class);
+
+        return new PartnerSession(credentials, port.login(credentials.getUserName(), credentials.getSecurityPassword()));
     }
 
     /**
@@ -36,6 +43,8 @@ public final class PartnerSecurityMgr extends AbstractSecurityMgr  {
     public void logout(final Session session) throws Exception {
         getLogger().log(Level.INFO, "Logging out for:  User [{0}] Password [{1}]", new Object[]{session.getCredentials().getUserName(), session.getCredentials().getSecurityPassword()});
 
-        preparePort(session, SalesforceWebServiceUtil.PARTNER_SERVICE, SalesforceWebServiceUtil.PARTNER_SERVICE.getSoap(), WebServiceTypeEnum.PARTNER_SERVICE).logout();
+        final Soap port = SalesforceWebServiceUtil.createPartnerPort(session, SforceService.class);
+
+        port.logout();
     }
 }
