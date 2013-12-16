@@ -104,6 +104,18 @@ public class PortInvoker implements InvocationHandler {
         }
     }
 
+    protected void handleException(final Throwable callFailure, final Method method, final Session session) throws Throwable {
+        if (!SalesforceWebServiceUtil.isReloginException(callFailure)) {
+            getLogger().log(Level.FINE, "Trouble calling [{0}] - [{1}]", new Object[]{method.getName(), callFailure.getLocalizedMessage()});
+
+            throw callFailure;
+        }
+
+        getLogger().log(Level.INFO, "Received a relogin exception when calling [{0}]", method.getName());
+
+        getSessionMgr().resetSession(session);
+    }
+
     protected Object doInvoke(Object o, Method method, Object[] args) throws Throwable {
         Session session = null;
 
@@ -114,11 +126,7 @@ public class PortInvoker implements InvocationHandler {
 
             return method.invoke(SalesforceWebServiceUtil.createPort(session, getWebServiceType(), getServiceClass(), getName()), args);
         } catch (final Exception callFailure) {
-            getLogger().log(Level.WARNING, "Trouble calling [" + method.getName() + "]", callFailure);
-
-            if (!SalesforceWebServiceUtil.isReloginException(callFailure)) {
-                throw callFailure;
-            }
+            handleException(callFailure, method, session);
         } finally {
             unlock(session);
         }
@@ -141,7 +149,7 @@ public class PortInvoker implements InvocationHandler {
     public Object invoke(Object obj, Method method, Object[] args) throws Throwable {
         int totalCalls = 0;
 
-        getLogger().log(Level.WARNING, "Calling [" + method.getName() + "]");
+        getLogger().log(Level.WARNING, "Calling [{0}]", method.getName());
 
         while (isCallable(totalCalls++)) {
            return doInvoke(obj, method, args);
