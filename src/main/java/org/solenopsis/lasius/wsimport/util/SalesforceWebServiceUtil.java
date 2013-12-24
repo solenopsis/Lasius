@@ -17,7 +17,6 @@ import org.flossware.util.reflect.call.method.MethodDecorator;
 import org.flossware.util.reflect.call.method.impl.DefaultMethodDecorator;
 import org.flossware.util.wsimport.reflect.ServiceMgr;
 import org.flossware.util.wsimport.reflect.impl.CachingServiceMgr;
-import org.flossware.util.wsimport.reflect.impl.DefaultServiceMgr;
 import org.flossware.util.wsimport.soap.impl.SingleAttributeSoapHeaderHandler;
 import org.flossware.util.wsimport.soap.impl.SoapRequestHandler;
 import org.solenopsis.lasius.credentials.Credentials;
@@ -369,7 +368,7 @@ public final class SalesforceWebServiceUtil {
         return createPartnerPort(sessionMgr.getSession(), serviceClass);
     }
 
-    public static <P> P createProxyPort(final SessionMgr sessionMgr, final WebServiceTypeEnum webServiceType, final Class<? extends Service> serviceClass, final URL wsdlUrl, final String name) throws Exception {
+    public static <P> P createProxyPort(final SessionMgr sessionMgr, final WebServiceTypeEnum webServiceType, final Class<? extends Service> serviceClass, final String name, final URL wsdlUrl) throws Exception {
         return (P) (
             Proxy.newProxyInstance(
                 SalesforceWebServiceUtil.class.getClassLoader(),
@@ -377,6 +376,10 @@ public final class SalesforceWebServiceUtil {
                 new PortInvoker(sessionMgr, webServiceType, serviceClass, name)
             )
         );
+    }
+
+    public static <P> P createProxyPort(final SessionMgr sessionMgr, final WebServiceTypeEnum webServiceType, final Class<? extends Service> serviceClass, final URL wsdlUrl) throws Exception {
+        return createProxyPort(sessionMgr, webServiceType, serviceClass, SERVICE_MGR.getPortName(serviceClass), wsdlUrl);
     }
 
     /**
@@ -403,6 +406,14 @@ public final class SalesforceWebServiceUtil {
         );
     }
 
+    public static <P> P createProxyPort(final SessionMgr sessionMgr, final WebServiceTypeEnum webServiceType, final Class<? extends Service> serviceClass) throws Exception {
+        return createProxyPort(sessionMgr, webServiceType, serviceClass, SERVICE_MGR.getPortName(serviceClass));
+    }
+
+    public static <P> P createEnterpriseProxyPort(final SessionMgr sessionMgr, Class<? extends Service> serviceClass, final URL wsdlUrl) throws Exception {
+        return createProxyPort(sessionMgr, WebServiceTypeEnum.ENTERPRISE_SERVICE, serviceClass, sessionMgr.getSession().getCredentials().getApiVersion(), wsdlUrl);
+    }
+
     /**
      * Create a ready to use enterprise port.  It's decorated to handle relogins, etc.
      *
@@ -414,6 +425,10 @@ public final class SalesforceWebServiceUtil {
      */
     public static <P> P createEnterpriseProxyPort(final SessionMgr sessionMgr, Class<? extends Service> serviceClass) throws Exception {
         return createProxyPort(sessionMgr, WebServiceTypeEnum.ENTERPRISE_SERVICE, serviceClass, sessionMgr.getSession().getCredentials().getApiVersion());
+    }
+
+    public static <P> P createMetadataProxyPort(final SessionMgr sessionMgr, Class<? extends Service> serviceClass, final URL wsdlUrl) throws Exception {
+        return createProxyPort(sessionMgr, WebServiceTypeEnum.METADATA_SERVICE, serviceClass, sessionMgr.getSession().getCredentials().getApiVersion(), wsdlUrl);
     }
 
     /**
@@ -429,6 +444,10 @@ public final class SalesforceWebServiceUtil {
         return createProxyPort(sessionMgr, WebServiceTypeEnum.METADATA_SERVICE, serviceClass, sessionMgr.getSession().getCredentials().getApiVersion());
     }
 
+    public static <P> P createPartnerProxyPort(final SessionMgr sessionMgr, Class<? extends Service> serviceClass, final URL wsdlUrl) throws Exception {
+        return createProxyPort(sessionMgr, WebServiceTypeEnum.PARTNER_SERVICE, serviceClass, sessionMgr.getSession().getCredentials().getApiVersion(), wsdlUrl);
+    }
+
     /**
      * Create a ready to use partner port.  It's decorated to handle relogins, etc.
      *
@@ -442,6 +461,10 @@ public final class SalesforceWebServiceUtil {
         return createProxyPort(sessionMgr, WebServiceTypeEnum.PARTNER_SERVICE, serviceClass, sessionMgr.getSession().getCredentials().getApiVersion());
     }
 
+    public static <P> P createToolingProxyPort(final SessionMgr sessionMgr, Class<? extends Service> serviceClass, final URL wsdlUrl) throws Exception {
+        return createProxyPort(sessionMgr, WebServiceTypeEnum.TOOLING_SERVICE, serviceClass, sessionMgr.getSession().getCredentials().getApiVersion(), wsdlUrl);
+    }
+
     /**
      * Create a ready to use tooling port.  It's decorated to handle relogins, etc.
      *
@@ -453,5 +476,13 @@ public final class SalesforceWebServiceUtil {
      */
     public static <P> P createToolingProxyPort(final SessionMgr sessionMgr, Class<? extends Service> serviceClass) throws Exception {
         return createProxyPort(sessionMgr, WebServiceTypeEnum.TOOLING_SERVICE, serviceClass, sessionMgr.getSession().getCredentials().getApiVersion());
+    }
+
+    public static <P> P createCustomProxyPort(final SessionMgr sessionMgr, Class<? extends Service> serviceClass, final URL wsdlUrl) throws Exception {
+        return createProxyPort(sessionMgr, WebServiceTypeEnum.CUSTOM_SERVICE, serviceClass, SERVICE_MGR.getPortName(serviceClass), wsdlUrl);
+    }
+
+    public static <P> P createCustomProxyPort(final SessionMgr sessionMgr, Class<? extends Service> serviceClass) throws Exception {
+        return createProxyPort(sessionMgr, WebServiceTypeEnum.CUSTOM_SERVICE, serviceClass, SERVICE_MGR.getPortName(serviceClass));
     }
 }
