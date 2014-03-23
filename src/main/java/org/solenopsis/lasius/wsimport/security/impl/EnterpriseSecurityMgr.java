@@ -31,9 +31,7 @@ public final class EnterpriseSecurityMgr extends AbstractSecurityMgr {
     public Session login(final Credentials credentials) throws Exception {
         getLogger().log(Level.INFO, "Logging in for:  User [{0}] Password [{1}]", new Object[]{credentials.getUserName(), credentials.getSecurityPassword()});
 
-        final Soap port = SalesforceWebServiceUtil.createEnterprisePort(credentials, SforceService.class);
-
-        return new EnterpriseSession(credentials, port.login(credentials.getUserName(), credentials.getSecurityPassword()));
+        return new EnterpriseSession(credentials, SalesforceWebServiceUtil.enterpriseLogin(credentials));
     }
 
     /**
@@ -43,8 +41,6 @@ public final class EnterpriseSecurityMgr extends AbstractSecurityMgr {
     public void logout(final Session session) throws Exception {
         getLogger().log(Level.INFO, "Logging out for:  User [{0}] Password [{1}]", new Object[]{session.getCredentials().getUserName(), session.getCredentials().getSecurityPassword()});
 
-        final Soap port = SalesforceWebServiceUtil.createEnterprisePort(session, SforceService.class);
-
-        port.logout();
+        SalesforceWebServiceUtil.enterpriseLogout(session);
     }
 }

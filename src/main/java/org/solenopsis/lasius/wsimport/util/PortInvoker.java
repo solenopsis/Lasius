@@ -1,9 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package org.solenopsis.lasius.wsimport.util;
 
 import java.util.logging.Logger;
@@ -26,6 +20,9 @@ import org.solenopsis.lasius.wsimport.session.mgr.SessionMgr;
  *
  */
 public class PortInvoker implements InvocationHandler {
+    /**
+     * Used for logging.
+     */
     private final Logger logger;
 
     /**
@@ -48,6 +45,11 @@ public class PortInvoker implements InvocationHandler {
      */
     private final String name;
 
+    /**
+     * Return the logger.
+     * 
+     * @return the logger.
+     */
     protected Logger getLogger() {
         return logger;
     }
@@ -88,6 +90,11 @@ public class PortInvoker implements InvocationHandler {
         return name;
     }
 
+    /**
+     * Can we re
+     * @param totalCalls
+     * @return 
+     */
     protected boolean isCallable(int totalCalls) {
         return totalCalls < SalesforceWebServiceUtil.MAX_RETRIES;
     }

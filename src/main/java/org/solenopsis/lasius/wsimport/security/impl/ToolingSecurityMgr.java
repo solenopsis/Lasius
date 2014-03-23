@@ -2,13 +2,10 @@ package org.solenopsis.lasius.wsimport.security.impl;
 
 import java.util.logging.Level;
 import org.solenopsis.lasius.credentials.Credentials;
-import org.solenopsis.lasius.wsimport.WebServiceTypeEnum;
 import org.solenopsis.lasius.wsimport.session.Session;
-import org.solenopsis.lasius.wsimport.session.impl.PartnerSession;
+import org.solenopsis.lasius.wsimport.session.impl.ToolingSession;
 import org.solenopsis.lasius.wsimport.util.SalesforceWebServiceUtil;
 
-import org.solenopsis.wsdls.partner.SforceService;
-import org.solenopsis.wsdls.partner.Soap;
 
 /**
  *
@@ -17,11 +14,11 @@ import org.solenopsis.wsdls.partner.Soap;
  * @author sfloess
  *
  */
-public final class PartnerSecurityMgr extends AbstractSecurityMgr  {
+public final class ToolingSecurityMgr extends AbstractSecurityMgr  {
     /**
      * Default constructor.
      */
-    public PartnerSecurityMgr() {
+    public ToolingSecurityMgr() {
     }
 
     /**
@@ -31,7 +28,7 @@ public final class PartnerSecurityMgr extends AbstractSecurityMgr  {
     public Session login(final Credentials credentials) throws Exception {
         getLogger().log(Level.INFO, "Logging in for:  User [{0}] Password [{1}]", new Object[]{credentials.getUserName(), credentials.getSecurityPassword()});
 
-        return new PartnerSession(credentials, SalesforceWebServiceUtil.partnerLogin(credentials));
+        return new ToolingSession(credentials, SalesforceWebServiceUtil.toolingLogin(credentials));
     }
 
     /**

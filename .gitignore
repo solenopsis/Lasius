@@ -7,3 +7,6 @@
 
 # Maven work #
 target
+
+# Netbeans
+nb-configuration.xml

@@ -25,6 +25,11 @@ import org.solenopsis.lasius.wsimport.security.SecurityMgr;
 import org.solenopsis.lasius.wsimport.security.impl.EnterpriseSecurityMgr;
 import org.solenopsis.lasius.wsimport.session.Session;
 import org.solenopsis.lasius.wsimport.session.mgr.SessionMgr;
+import org.solenopsis.wsdls.metadata.MetadataPortType;
+import org.solenopsis.wsdls.metadata.MetadataService;
+import org.solenopsis.wsdls.tooling.LoginResult;
+import org.solenopsis.wsdls.tooling.SforceServicePortType;
+import org.solenopsis.wsdls.tooling.SforceServiceService;
 
 /**
  *
@@ -43,8 +48,6 @@ public final class SalesforceWebServiceUtil {
      * Manages port decoration.
      */
     public static final ServiceMgr SERVICE_MGR = new CachingServiceMgr();
-
-    public static final MethodDecorator METHOD_DECORATOR = new DefaultMethodDecorator();
 
     /**
      * A security manager to use.
@@ -88,7 +91,8 @@ public final class SalesforceWebServiceUtil {
         }
     }
 
-
+	
+	
     /**
      * Return true if message contains invalid session id.
      *
@@ -232,6 +236,7 @@ public final class SalesforceWebServiceUtil {
         return computeUrl(session.getServerUrl(), webServiceType, webServiceName);
     }
 
+
     /**
      * Set the URL on port.
      *
@@ -253,7 +258,7 @@ public final class SalesforceWebServiceUtil {
      * @param webServiceName the web service name.
      */
     public static void setUrl(final Object port, final Credentials credentials, final WebServiceTypeEnum webServiceType, final String webServiceName) {
-        UrlUtil.setUrl(port, computeUrl(credentials, webServiceType, webServiceName));
+		setUrl(port, credentials.getUrl(), webServiceType, webServiceName);
     }
 
     /**
@@ -265,44 +270,137 @@ public final class SalesforceWebServiceUtil {
      * @param webServiceName the web service name.
      */
     public static void setUrl(final Object port, final Session session, final WebServiceTypeEnum webServiceType, final String webServiceName) {
-        UrlUtil.setUrl(port, computeUrl(session, webServiceType, webServiceName));
+		setUrl(port, session.getServerUrl(), webServiceType, webServiceName);
+    }
+	
+
+	public static org.solenopsis.wsdls.enterprise.SforceService getDefaultEnterpriseService() throws Exception {
+		return SERVICE_MGR.createPort(org.solenopsis.wsdls.enterprise.SforceService.class);
+	}
+
+	public static org.solenopsis.wsdls.partner.SforceService getDefaultPartnerService() throws Exception {
+		return SERVICE_MGR.createPort(org.solenopsis.wsdls.partner.SforceService.class);
+	}
+
+	public static SforceServiceService getDefaultToolingService() throws Exception {
+		return SERVICE_MGR.createPort(SforceServiceService.class);
+	}
+	    
+    
+    public static org.solenopsis.wsdls.enterprise.LoginResult enterpriseLogin(final Credentials credentials) throws Exception {
+		return createEnterprisePort(credentials.getUrl(), credentials.getApiVersion()).login(credentials.getUserName(), credentials.getSecurityPassword());
+    }
+   
+    public static org.solenopsis.wsdls.partner.LoginResult partnerLogin(final Credentials credentials) throws Exception {
+        return  createPartnerPort(credentials.getUrl(), credentials.getApiVersion()).login(credentials.getUserName(), credentials.getSecurityPassword());
+    }
+      
+    public static LoginResult toolingLogin(final Credentials credentials) throws Exception {
+        return  createToolingPort(credentials.getUrl(), credentials.getApiVersion()).login(credentials.getUserName(), credentials.getSecurityPassword());
+    }
+    
+	
+    public static void enterpriseLogout(final Session session) throws Exception {
+        createEnterprisePort(session).logout();
+    }
+    
+    public static void partnerLogout(final Session session) throws Exception {
+        createPartnerPort(session).logout();
+    }
+        
+    public static void toolingLogout(final Session session) throws Exception {
+        createToolingPort(session).logout();
+    }  
+	
+	
+	
+    public static <P> P createPort(final String url, final WebServiceTypeEnum webServiceType, final Class<? extends Service> serviceClass, final String webServiceName) throws Exception {
+        final P retVal = SERVICE_MGR.createPort(serviceClass);
+
+        setUrl(retVal, url, webServiceType, webServiceName);
+
+        return retVal;
     }
 
-    public static <P> P createPort(final Class<? extends Service> serviceClass) throws Exception {
-        return SERVICE_MGR.createPort(serviceClass);
+	public static <P> P createEnterprisePort(final String url, Class<? extends Service> serviceClass, final String apiVersion) throws Exception {
+        return createPort(url, WebServiceTypeEnum.ENTERPRISE_SERVICE, serviceClass, apiVersion);
+    }
+    
+    public static <P> P createPartnerPort(final String url, Class<? extends Service> serviceClass, final String apiVersion) throws Exception {
+        return createPort(url, WebServiceTypeEnum.PARTNER_SERVICE, serviceClass, apiVersion);
+    }
+    
+    public static <P> P createToolingPort(final String url, Class<? extends Service> serviceClass, final String apiVersion) throws Exception {
+        return createPort(url, WebServiceTypeEnum.TOOLING_SERVICE, serviceClass, apiVersion);
     }
 
+	public static org.solenopsis.wsdls.enterprise.Soap createEnterprisePort(final String url, final String apiVersion) throws Exception {
+        return createEnterprisePort(url, org.solenopsis.wsdls.enterprise.SforceService.class, apiVersion);
+    }
+    
+    public static org.solenopsis.wsdls.partner.Soap createPartnerPort(final String url, final String apiVersion) throws Exception {
+        return createPort(url, WebServiceTypeEnum.PARTNER_SERVICE, org.solenopsis.wsdls.partner.SforceService.class, apiVersion);
+    }
+    
+    public static SforceServicePortType createToolingPort(final String url, final String apiVersion) throws Exception {
+        return createToolingPort(url, SforceServiceService.class, apiVersion);
+    }
+	
+	
+	
+	
+	
+	public static <P> P createPort(final String sessionId, final String url, final WebServiceTypeEnum webServiceType, final Class<? extends Service> serviceClass, final String webServiceName) throws Exception {
+        final P retVal = createPort(url, webServiceType, serviceClass, webServiceName);
+
+        setSessionId(retVal, serviceClass, sessionId);
+
+        return retVal;
+    }
+	
+	public static <P> P createPort(final org.solenopsis.wsdls.enterprise.LoginResult loginResult, final WebServiceTypeEnum webServiceType, final Class<? extends Service> serviceClass, final String webServiceName) throws Exception {
+        return createPort(loginResult.getSessionId(), loginResult.getServerUrl(), webServiceType, serviceClass, webServiceName);
+    }
+	
+	public static <P> P createPort(final org.solenopsis.wsdls.partner.LoginResult loginResult, final WebServiceTypeEnum webServiceType, final Class<? extends Service> serviceClass, final String webServiceName) throws Exception {
+        return createPort(loginResult.getSessionId(), loginResult.getServerUrl(), webServiceType, serviceClass, webServiceName);
+    }
+	
+	public static <P> P createPort(final LoginResult loginResult, final WebServiceTypeEnum webServiceType, final Class<? extends Service> serviceClass, final String webServiceName) throws Exception {
+        return createPort(loginResult.getSessionId(), loginResult.getServerUrl(), webServiceType, serviceClass, webServiceName);
+    }
+	
     public static <P> P createPort(final Credentials credentials, final WebServiceTypeEnum webServiceType, final Class<? extends Service> serviceClass, final String webServiceName) throws Exception {
-        final P retVal = createPort(serviceClass);
-
-        setUrl(retVal, credentials, webServiceType, webServiceName);
-
-        return retVal;
+		return createPort(enterpriseLogin(credentials), webServiceType, serviceClass, webServiceName);
     }
-
+	
     public static <P> P createPort(final Session session, final WebServiceTypeEnum webServiceType, final Class<? extends Service> serviceClass, final String webServiceName) throws Exception {
-        final P retVal = createPort(serviceClass);
-
-        setUrl(retVal, session.getServerUrl(), webServiceType, webServiceName);
-        setSessionId(retVal, serviceClass, session);
-
-        return retVal;
+        return createPort(session.getSessionId(), session.getServerUrl(), webServiceType, serviceClass, webServiceName);
     }
-
-
-    /**
-     * Create the metadata port ready for use.
-     *
-     * @param session the session to use for the port.
-     *
-     * @return a ready to use metadata port that can reach out to Salesforce.
-     *
-     * @throws Exception if any problems arise creating the metadata port.
-     */
-    public static <P> P createEnterprisePort(final Session session, Class<? extends Service> serviceClass) throws Exception {
-        return createPort(session, WebServiceTypeEnum.ENTERPRISE_SERVICE, serviceClass, session.getCredentials().getApiVersion());
+    
+    public static <P> P createPort(final Session session, final WebServiceTypeEnum webServiceType, final Class<? extends Service> serviceClass) throws Exception {
+        return createPort(session, webServiceType, serviceClass, session.getCredentials().getApiVersion());
     }
-
+	
+	
+	
+    
+    public static <P> P createEnterprisePort(final Credentials credentials, Class<? extends Service> serviceClass, final String apiVersion) throws Exception {
+        return createPort(enterpriseLogin(credentials), WebServiceTypeEnum.ENTERPRISE_SERVICE, serviceClass, apiVersion);
+    }
+       
+    public static <P> P createMetadataPort(final Credentials credentials, Class<? extends Service> serviceClass, final String apiVersion) throws Exception {
+        return createPort(enterpriseLogin(credentials), WebServiceTypeEnum.METADATA_SERVICE, serviceClass, apiVersion);
+    }
+    
+    public static <P> P createPartnerPort(final Credentials credentials, Class<? extends Service> serviceClass, final String apiVersion) throws Exception {
+        return createPort(partnerLogin(credentials), WebServiceTypeEnum.PARTNER_SERVICE, serviceClass, apiVersion);
+    }
+    
+    public static <P> P createToolingPort(final Credentials credentials, Class<? extends Service> serviceClass, final String apiVersion) throws Exception {
+        return createPort(toolingLogin(credentials), WebServiceTypeEnum.TOOLING_SERVICE, serviceClass, apiVersion);
+    }
+    
     /**
      * Create the enterprise port ready for use.
      *
@@ -313,9 +411,185 @@ public final class SalesforceWebServiceUtil {
      * @throws Exception if any problems arise creating the port.
      */
     public static <P> P createEnterprisePort(final Credentials credentials, Class<? extends Service> serviceClass) throws Exception {
-        return createPort(credentials, WebServiceTypeEnum.ENTERPRISE_SERVICE, serviceClass, credentials.getApiVersion());
+        return createEnterprisePort(credentials, serviceClass, credentials.getApiVersion());
+    }
+      
+    public static <P> P createMetadataPort(final Credentials credentials, Class<? extends Service> serviceClass) throws Exception {
+        return createMetadataPort(credentials, serviceClass, credentials.getApiVersion());
+    }
+    
+    /**
+     * Create the partner port ready for use.
+     *
+     * @param credentials the credentials to use for the port.
+     *
+     * @return a ready to use port that can reach out to Salesforce.
+     *
+     * @throws Exception if any problems arise creating the port.
+     */
+    public static <P> P createPartnerPort(final Credentials credentials, Class<? extends Service> serviceClass) throws Exception {
+        return createPartnerPort(credentials, serviceClass, credentials.getApiVersion());
+    }
+      
+    public static <P> P createToolingPort(final Credentials credentials, Class<? extends Service> serviceClass) throws Exception {
+        return createToolingPort(credentials, serviceClass, credentials.getApiVersion());
+    }    
+    
+    
+    
+    public static org.solenopsis.wsdls.enterprise.Soap createEnterprisePort(final Credentials credentials, final String apiVersion) throws Exception {
+        return createEnterprisePort(credentials, org.solenopsis.wsdls.enterprise.SforceService.class, apiVersion);
     }
 
+    public static MetadataPortType createMetadataPort(final Credentials credentials, final String apiVersion) throws Exception {
+        return createMetadataPort(credentials, MetadataService.class, apiVersion);
+    }
+    
+    public static org.solenopsis.wsdls.partner.Soap createPartnerPort(final Credentials credentials, final String apiVersion) throws Exception {
+        return createPartnerPort(credentials, org.solenopsis.wsdls.partner.SforceService.class, apiVersion);
+    }
+ 
+    public static SforceServicePortType createToolingPort(final Credentials credentials, final String apiVersion) throws Exception {
+        return createToolingPort(credentials, SforceServiceService.class, apiVersion);
+    }   
+    
+    
+    public static org.solenopsis.wsdls.enterprise.Soap createEnterprisePort(final Credentials credentials) throws Exception {
+        return createEnterprisePort(credentials, org.solenopsis.wsdls.enterprise.SforceService.class);
+    }
+
+    public static MetadataPortType createMetadataPort(final Credentials credentials) throws Exception {
+        return createMetadataPort(credentials, MetadataService.class);
+    }
+    
+    public static org.solenopsis.wsdls.partner.Soap createPartnerPort(final Credentials credentials) throws Exception {
+        return createPartnerPort(credentials, org.solenopsis.wsdls.partner.SforceService.class);
+    }
+    
+    public static SforceServicePortType createToolingPort(final Credentials credentials) throws Exception {
+        return createToolingPort(credentials, SforceServiceService.class);
+    }  
+ 
+    
+    
+    public static <P> P createEnterprisePort(final Session session, Class<? extends Service> serviceClass, final String apiVersion) throws Exception {
+        return createPort(session, WebServiceTypeEnum.ENTERPRISE_SERVICE, serviceClass, apiVersion);
+    }
+     
+    public static <P> P createMetadataPort(final Session session, Class<? extends Service> serviceClass, final String apiVersion) throws Exception {
+        return createPort(session, WebServiceTypeEnum.METADATA_SERVICE, serviceClass, apiVersion);
+    }
+     
+    public static <P> P createPartnerPort(final Session session, Class<? extends Service> serviceClass, final String apiVersion) throws Exception {
+        return createPort(session, WebServiceTypeEnum.PARTNER_SERVICE, serviceClass, apiVersion);
+    }
+      
+    public static <P> P createToolingPort(final Session session, Class<? extends Service> serviceClass, final String apiVersion) throws Exception {
+        return createPort(session, WebServiceTypeEnum.TOOLING_SERVICE, serviceClass, apiVersion);
+    }  
+     
+    public static <P> P createCustomPort(final Session session, Class<? extends Service> serviceClass, final String name) throws Exception {
+        return createPort(session, WebServiceTypeEnum.CUSTOM_SERVICE, serviceClass, name);
+    } 
+    
+    
+    /**
+     * Create the metadata port ready for use.
+     *
+     * @param session the session to use for the port.
+     *
+     * @return a ready to use metadata port that can reach out to Salesforce.
+     *
+     * @throws Exception if any problems arise creating the metadata port.
+     */
+    public static <P> P createEnterprisePort(final Session session, Class<? extends Service> serviceClass) throws Exception {
+        return createEnterprisePort(session, serviceClass, session.getCredentials().getApiVersion());
+    }
+    
+    public static <P> P createMetadataPort(final Session session, Class<? extends Service> serviceClass) throws Exception {
+        return createMetadataPort(session, serviceClass, session.getCredentials().getApiVersion());
+    }   
+      
+    /**
+     * Create the partner port ready for use.
+     *
+     * @param session the session to use for the port.
+     *
+     * @return a ready to use metadata port that can reach out to Salesforce.
+     *
+     * @throws Exception if any problems arise creating the metadata port.
+     */
+    public static <P> P createPartnerPort(final Session session, Class<? extends Service> serviceClass) throws Exception {
+        return createPartnerPort(session, serviceClass, session.getCredentials().getApiVersion());
+    }   
+       
+    public static <P> P createToolingPort(final Session session, Class<? extends Service> serviceClass) throws Exception {
+        return createToolingPort(session, serviceClass, session.getCredentials().getApiVersion());
+    } 
+     
+    public static <P> P createCustomPort(final Session session, Class<? extends Service> serviceClass) throws Exception {
+        return createPort(session, WebServiceTypeEnum.CUSTOM_SERVICE, serviceClass, SERVICE_MGR.getPortName(serviceClass));
+    }   
+    
+    
+    
+    public static org.solenopsis.wsdls.enterprise.Soap creatEnterprisePort(final Session session, final String apiVersion) throws Exception {
+        return createEnterprisePort(session, org.solenopsis.wsdls.enterprise.SforceService.class, apiVersion);
+    }
+    
+    public static MetadataPortType createMetadataPort(final Session session, final String apiVersion) throws Exception {
+        return createMetadataPort(session, MetadataService.class, apiVersion);
+    }   
+    
+    public static org.solenopsis.wsdls.partner.Soap createPartnerPort(final Session session, final String apiVersion) throws Exception {
+        return createPartnerPort(session, org.solenopsis.wsdls.partner.SforceService.class, apiVersion);
+    }   
+    
+    public static SforceServicePortType createToolingPort(final Session session, final String apiVersion) throws Exception {
+        return createToolingPort(session, org.solenopsis.wsdls.tooling.SforceServiceService.class, apiVersion);
+    }    
+    
+    
+    
+    public static org.solenopsis.wsdls.enterprise.Soap createEnterprisePort(final Session session) throws Exception {
+        return createEnterprisePort(session, org.solenopsis.wsdls.enterprise.SforceService.class);
+    }
+    
+    public static MetadataPortType createMetadataPort(final Session session) throws Exception {
+        return createMetadataPort(session, MetadataService.class);
+    }
+    
+    public static org.solenopsis.wsdls.partner.Soap createPartnerPort(final Session session) throws Exception {
+        return createPartnerPort(session, org.solenopsis.wsdls.partner.SforceService.class);
+    }
+    
+    public static SforceServicePortType createToolingPort(final Session session) throws Exception {
+        return createToolingPort(session, org.solenopsis.wsdls.tooling.SforceServiceService.class);
+    }
+ 
+
+    
+    public static <P> P createEnterprisePort(final SessionMgr sessionMgr, Class<? extends Service> serviceClass, final String apiVersion) throws Exception {
+        return createEnterprisePort(sessionMgr.getSession(), serviceClass, apiVersion);
+    }
+    
+    public static <P> P createMetadataPort(final SessionMgr sessionMgr, Class<? extends Service> serviceClass, final String apiVersion) throws Exception {
+        return createMetadataPort(sessionMgr.getSession(), serviceClass, apiVersion);
+    }
+    
+    public static <P> P createPartnerPort(final SessionMgr sessionMgr, Class<? extends Service> serviceClass, final String apiVersion) throws Exception {
+        return createPartnerPort(sessionMgr.getSession(), serviceClass, apiVersion);
+    }
+          
+    public static <P> P createToolingPort(final SessionMgr sessionMgr, Class<? extends Service> serviceClass, final String apiVersion) throws Exception {
+        return createToolingPort(sessionMgr.getSession(), serviceClass, apiVersion);
+    }   
+           
+    public static <P> P createCustomPort(final SessionMgr sessionMgr, Class<? extends Service> serviceClass, final String name) throws Exception {
+        return createCustomPort(sessionMgr.getSession(), serviceClass, name);
+    }      
+    
+    
     /**
      * Create a ready to use enterprise port.  It's decorated to handle relogins, etc.
      *
@@ -328,33 +602,11 @@ public final class SalesforceWebServiceUtil {
     public static <P> P createEnterprisePort(final SessionMgr sessionMgr, Class<? extends Service> serviceClass) throws Exception {
         return createEnterprisePort(sessionMgr.getSession(), serviceClass);
     }
-
-    /**
-     * Create the partner port ready for use.
-     *
-     * @param session the session to use for the port.
-     *
-     * @return a ready to use metadata port that can reach out to Salesforce.
-     *
-     * @throws Exception if any problems arise creating the metadata port.
-     */
-    public static <P> P createPartnerPort(final Session session, Class<? extends Service> serviceClass) throws Exception {
-        return createPort(session, WebServiceTypeEnum.PARTNER_SERVICE, serviceClass, session.getCredentials().getApiVersion());
-    }
-
-    /**
-     * Create the partner port ready for use.
-     *
-     * @param credentials the credentials to use for the port.
-     *
-     * @return a ready to use port that can reach out to Salesforce.
-     *
-     * @throws Exception if any problems arise creating the port.
-     */
-    public static <P> P createPartnerPort(final Credentials credentials, Class<? extends Service> serviceClass) throws Exception {
-        return createPort(credentials, WebServiceTypeEnum.PARTNER_SERVICE, serviceClass, credentials.getApiVersion());
-    }
-
+      
+    public static <P> P createMetadataPort(final SessionMgr sessionMgr, Class<? extends Service> serviceClass) throws Exception {
+        return createMetadataPort(sessionMgr.getSession(), serviceClass);
+    } 
+    
     /**
      * Create a ready to use partner port.  It's decorated to handle relogins, etc.
      *
@@ -366,8 +618,55 @@ public final class SalesforceWebServiceUtil {
      */
     public static <P> P createPartnerPort(final SessionMgr sessionMgr, Class<? extends Service> serviceClass) throws Exception {
         return createPartnerPort(sessionMgr.getSession(), serviceClass);
+    }   
+
+    public static <P> P createToolingPort(final SessionMgr sessionMgr, Class<? extends Service> serviceClass) throws Exception {
+        return createToolingPort(sessionMgr.getSession(), serviceClass);
+    }
+     
+    public static <P> P createCustomPort(final SessionMgr sessionMgr, Class<? extends Service> serviceClass) throws Exception {
+        return createCustomPort(sessionMgr.getSession(), serviceClass);
+    }   
+    
+    
+    
+    public static org.solenopsis.wsdls.enterprise.Soap createEnterprisePort(final SessionMgr sessionMgr, final String apiVersion) throws Exception {
+        return createEnterprisePort(sessionMgr, org.solenopsis.wsdls.enterprise.SforceService.class, apiVersion);
+    }  
+     
+    public static MetadataPortType createMetadataPort(final SessionMgr sessionMgr, final String apiVersion) throws Exception {
+        return createMetadataPort(sessionMgr, MetadataService.class, apiVersion);
+    }
+     
+    public static org.solenopsis.wsdls.partner.Soap createPartnerPort(final SessionMgr sessionMgr, final String apiVersion) throws Exception {
+        return createPartnerPort(sessionMgr, org.solenopsis.wsdls.partner.SforceService.class, apiVersion);
+    }   
+       
+    public static SforceServicePortType createToolingPort(final SessionMgr sessionMgr, final String apiVersion) throws Exception {
+        return createToolingPort(sessionMgr, org.solenopsis.wsdls.tooling.SforceServiceService.class, apiVersion);
+    }  
+
+
+
+    
+    public static org.solenopsis.wsdls.enterprise.Soap createEnterprisePort(final SessionMgr sessionMgr) throws Exception {
+        return createEnterprisePort(sessionMgr, org.solenopsis.wsdls.enterprise.SforceService.class);
+    }
+ 
+    public static MetadataPortType createMetadataPort(final SessionMgr sessionMgr) throws Exception {
+        return createMetadataPort(sessionMgr, MetadataService.class);
+    }
+    
+    public static org.solenopsis.wsdls.partner.Soap createPartnerPort(final SessionMgr sessionMgr) throws Exception {
+        return createPartnerPort(sessionMgr, org.solenopsis.wsdls.partner.SforceService.class);
+    }
+ 
+    public static SforceServicePortType createToolingPort(final SessionMgr sessionMgr) throws Exception {
+        return createToolingPort(sessionMgr, org.solenopsis.wsdls.tooling.SforceServiceService.class);
     }
 
+    
+    
     public static <P> P createProxyPort(final SessionMgr sessionMgr, final WebServiceTypeEnum webServiceType, final Class<? extends Service> serviceClass, final String name, final URL wsdlUrl) throws Exception {
         return (P) (
             Proxy.newProxyInstance(
@@ -378,10 +677,85 @@ public final class SalesforceWebServiceUtil {
         );
     }
 
+    
     public static <P> P createProxyPort(final SessionMgr sessionMgr, final WebServiceTypeEnum webServiceType, final Class<? extends Service> serviceClass, final URL wsdlUrl) throws Exception {
         return createProxyPort(sessionMgr, webServiceType, serviceClass, SERVICE_MGR.getPortName(serviceClass), wsdlUrl);
     }
+    
+    
+    public static <P> P createEnterpriseProxyPort(final SessionMgr sessionMgr, Class<? extends Service> serviceClass, final String apiVersion, final URL wsdlUrl) throws Exception {
+        return createProxyPort(sessionMgr, WebServiceTypeEnum.ENTERPRISE_SERVICE, serviceClass, apiVersion, wsdlUrl);
+    }
+      
+    public static <P> P createMetadataProxyPort(final SessionMgr sessionMgr, Class<? extends Service> serviceClass, final String apiVersion, final URL wsdlUrl) throws Exception {
+        return createProxyPort(sessionMgr, WebServiceTypeEnum.METADATA_SERVICE, serviceClass, apiVersion, wsdlUrl);
+    }
+      
+    public static <P> P createPartnerProxyPort(final SessionMgr sessionMgr, Class<? extends Service> serviceClass, final String apiVersion, final URL wsdlUrl) throws Exception {
+        return createProxyPort(sessionMgr, WebServiceTypeEnum.PARTNER_SERVICE, serviceClass, apiVersion, wsdlUrl);
+    }
+      
+    public static <P> P createToolingProxyPort(final SessionMgr sessionMgr, Class<? extends Service> serviceClass, final String apiVersion, final URL wsdlUrl) throws Exception {
+        return createProxyPort(sessionMgr, WebServiceTypeEnum.TOOLING_SERVICE, serviceClass, apiVersion, wsdlUrl);
+    }    
+    
+    public static <P> P createCustomProxyPort(final SessionMgr sessionMgr, Class<? extends Service> serviceClass, final String name, final URL wsdlUrl) throws Exception {
+        return createProxyPort(sessionMgr, WebServiceTypeEnum.CUSTOM_SERVICE, serviceClass, name, wsdlUrl);
+    } 
+    
+    
+    public static <P> P createEnterpriseProxyPort(final SessionMgr sessionMgr, Class<? extends Service> serviceClass, final URL wsdlUrl) throws Exception {
+        return createEnterpriseProxyPort(sessionMgr, serviceClass, sessionMgr.getSession().getCredentials().getApiVersion(), wsdlUrl);
+    }
+     
+    public static <P> P createMetadataProxyPort(final SessionMgr sessionMgr, Class<? extends Service> serviceClass, final URL wsdlUrl) throws Exception {
+        return createMetadataProxyPort(sessionMgr, serviceClass, sessionMgr.getSession().getCredentials().getApiVersion(), wsdlUrl);
+    }   
+     
+    public static <P> P createPartnerProxyPort(final SessionMgr sessionMgr, Class<? extends Service> serviceClass, final URL wsdlUrl) throws Exception {
+        return createPartnerProxyPort(sessionMgr,serviceClass, sessionMgr.getSession().getCredentials().getApiVersion(), wsdlUrl);
+    }   
+    
+    public static <P> P createToolingProxyPort(final SessionMgr sessionMgr, Class<? extends Service> serviceClass, final URL wsdlUrl) throws Exception {
+        return createToolingProxyPort(sessionMgr, serviceClass, sessionMgr.getSession().getCredentials().getApiVersion(), wsdlUrl);
+    }
+     
+          
+    public static org.solenopsis.wsdls.enterprise.Soap createEnterpriseProxyPort(final SessionMgr sessionMgr, final String apiVersion, final URL wsdlUrl) throws Exception {
+        return createEnterpriseProxyPort(sessionMgr, org.solenopsis.wsdls.enterprise.SforceService.class, apiVersion, wsdlUrl);
+    }
 
+    public static MetadataPortType createMetadataProxyPort(final SessionMgr sessionMgr, final String apiVersion, final URL wsdlUrl) throws Exception {
+        return createMetadataProxyPort(sessionMgr, MetadataService.class, apiVersion, wsdlUrl);
+    }
+      
+    public static org.solenopsis.wsdls.partner.Soap createPartnerProxyPort(final SessionMgr sessionMgr, final String apiVersion, final URL wsdlUrl) throws Exception {
+        return createPartnerProxyPort(sessionMgr, org.solenopsis.wsdls.partner.SforceService.class, apiVersion, wsdlUrl);
+    }
+      
+    public static SforceServicePortType createToolingProxyPort(final SessionMgr sessionMgr, final String apiVersion, final URL wsdlUrl) throws Exception {
+        return createToolingProxyPort(sessionMgr, SforceServiceService.class, apiVersion, wsdlUrl);
+    }   
+
+
+    
+    public static org.solenopsis.wsdls.enterprise.Soap createEnterpriseProxyPort(final SessionMgr sessionMgr, final URL wsdlUrl) throws Exception {
+        return createEnterpriseProxyPort(sessionMgr, sessionMgr.getSession().getCredentials().getApiVersion(), wsdlUrl);
+    }
+
+    public static MetadataPortType createMetadataProxyPort(final SessionMgr sessionMgr, final URL wsdlUrl) throws Exception {
+        return createMetadataProxyPort(sessionMgr, MetadataService.class, wsdlUrl);
+    }
+
+    public static org.solenopsis.wsdls.partner.Soap createPartnerProxyPort(final SessionMgr sessionMgr, final URL wsdlUrl) throws Exception {
+        return createPartnerProxyPort(sessionMgr, org.solenopsis.wsdls.partner.SforceService.class, sessionMgr.getSession().getCredentials().getApiVersion(), wsdlUrl);
+    }
+    
+    public static SforceServicePortType createToolingProxyPort(final SessionMgr sessionMgr, final URL wsdlUrl) throws Exception {
+        return createToolingProxyPort(sessionMgr, SforceServiceService.class, sessionMgr.getSession().getCredentials().getApiVersion(), wsdlUrl);
+    }
+
+    
     /**
      * Generate a port for use.
      *
@@ -410,10 +784,28 @@ public final class SalesforceWebServiceUtil {
         return createProxyPort(sessionMgr, webServiceType, serviceClass, SERVICE_MGR.getPortName(serviceClass));
     }
 
-    public static <P> P createEnterpriseProxyPort(final SessionMgr sessionMgr, Class<? extends Service> serviceClass, final URL wsdlUrl) throws Exception {
-        return createProxyPort(sessionMgr, WebServiceTypeEnum.ENTERPRISE_SERVICE, serviceClass, sessionMgr.getSession().getCredentials().getApiVersion(), wsdlUrl);
+    
+    public static <P> P createEnterpriseProxyPort(final SessionMgr sessionMgr, Class<? extends Service> serviceClass, final String apiVersion) throws Exception {
+        return createProxyPort(sessionMgr, WebServiceTypeEnum.ENTERPRISE_SERVICE, serviceClass, apiVersion);
     }
-
+  
+    public static <P> P createMetadataProxyPort(final SessionMgr sessionMgr, Class<? extends Service> serviceClass, final String apiVersion) throws Exception {
+        return createProxyPort(sessionMgr, WebServiceTypeEnum.METADATA_SERVICE, serviceClass, apiVersion);
+    }  
+   
+    public static <P> P createPartnerProxyPort(final SessionMgr sessionMgr, Class<? extends Service> serviceClass, final String apiVersion) throws Exception {
+        return createProxyPort(sessionMgr, WebServiceTypeEnum.PARTNER_SERVICE, serviceClass, apiVersion);
+    }     
+    
+    public static <P> P createToolingProxyPort(final SessionMgr sessionMgr, Class<? extends Service> serviceClass, final String apiVersion) throws Exception {
+        return createProxyPort(sessionMgr, WebServiceTypeEnum.TOOLING_SERVICE, serviceClass, apiVersion);
+    }   
+     
+    public static <P> P createCustomProxyPort(final SessionMgr sessionMgr, Class<? extends Service> serviceClass, final String name) throws Exception {
+        return createProxyPort(sessionMgr, WebServiceTypeEnum.CUSTOM_SERVICE, serviceClass, name);
+    } 
+    
+    
     /**
      * Create a ready to use enterprise port.  It's decorated to handle relogins, etc.
      *
@@ -424,13 +816,9 @@ public final class SalesforceWebServiceUtil {
      * @throws Exception if any problems arise creating the port.
      */
     public static <P> P createEnterpriseProxyPort(final SessionMgr sessionMgr, Class<? extends Service> serviceClass) throws Exception {
-        return createProxyPort(sessionMgr, WebServiceTypeEnum.ENTERPRISE_SERVICE, serviceClass, sessionMgr.getSession().getCredentials().getApiVersion());
+        return createEnterpriseProxyPort(sessionMgr, serviceClass, sessionMgr.getSession().getCredentials().getApiVersion());
     }
-
-    public static <P> P createMetadataProxyPort(final SessionMgr sessionMgr, Class<? extends Service> serviceClass, final URL wsdlUrl) throws Exception {
-        return createProxyPort(sessionMgr, WebServiceTypeEnum.METADATA_SERVICE, serviceClass, sessionMgr.getSession().getCredentials().getApiVersion(), wsdlUrl);
-    }
-
+     
     /**
      * Create a ready to use metadata port.  It's decorated to handle relogins, etc.
      *
@@ -441,13 +829,9 @@ public final class SalesforceWebServiceUtil {
      * @throws Exception if any problems arise creating the port.
      */
     public static <P> P createMetadataProxyPort(final SessionMgr sessionMgr, Class<? extends Service> serviceClass) throws Exception {
-        return createProxyPort(sessionMgr, WebServiceTypeEnum.METADATA_SERVICE, serviceClass, sessionMgr.getSession().getCredentials().getApiVersion());
+        return createMetadataProxyPort(sessionMgr, serviceClass, sessionMgr.getSession().getCredentials().getApiVersion());
     }
-
-    public static <P> P createPartnerProxyPort(final SessionMgr sessionMgr, Class<? extends Service> serviceClass, final URL wsdlUrl) throws Exception {
-        return createProxyPort(sessionMgr, WebServiceTypeEnum.PARTNER_SERVICE, serviceClass, sessionMgr.getSession().getCredentials().getApiVersion(), wsdlUrl);
-    }
-
+    
     /**
      * Create a ready to use partner port.  It's decorated to handle relogins, etc.
      *
@@ -458,31 +842,48 @@ public final class SalesforceWebServiceUtil {
      * @throws Exception if any problems arise creating the port.
      */
     public static <P> P createPartnerProxyPort(final SessionMgr sessionMgr, Class<? extends Service> serviceClass) throws Exception {
-        return createProxyPort(sessionMgr, WebServiceTypeEnum.PARTNER_SERVICE, serviceClass, sessionMgr.getSession().getCredentials().getApiVersion());
+        return createPartnerProxyPort(sessionMgr, serviceClass, sessionMgr.getSession().getCredentials().getApiVersion());
     }
-
-    public static <P> P createToolingProxyPort(final SessionMgr sessionMgr, Class<? extends Service> serviceClass, final URL wsdlUrl) throws Exception {
-        return createProxyPort(sessionMgr, WebServiceTypeEnum.TOOLING_SERVICE, serviceClass, sessionMgr.getSession().getCredentials().getApiVersion(), wsdlUrl);
-    }
-
-    /**
-     * Create a ready to use tooling port.  It's decorated to handle relogins, etc.
-     *
-     * @param sessionMgr the session manager to use when making calls.
-     *
-     * @return a ready to use port.
-     *
-     * @throws Exception if any problems arise creating the port.
-     */
+    
     public static <P> P createToolingProxyPort(final SessionMgr sessionMgr, Class<? extends Service> serviceClass) throws Exception {
-        return createProxyPort(sessionMgr, WebServiceTypeEnum.TOOLING_SERVICE, serviceClass, sessionMgr.getSession().getCredentials().getApiVersion());
-    }
-
-    public static <P> P createCustomProxyPort(final SessionMgr sessionMgr, Class<? extends Service> serviceClass, final URL wsdlUrl) throws Exception {
-        return createProxyPort(sessionMgr, WebServiceTypeEnum.CUSTOM_SERVICE, serviceClass, SERVICE_MGR.getPortName(serviceClass), wsdlUrl);
-    }
-
+        return createToolingProxyPort(sessionMgr, serviceClass, sessionMgr.getSession().getCredentials().getApiVersion());
+    }    
+     
     public static <P> P createCustomProxyPort(final SessionMgr sessionMgr, Class<? extends Service> serviceClass) throws Exception {
-        return createProxyPort(sessionMgr, WebServiceTypeEnum.CUSTOM_SERVICE, serviceClass, SERVICE_MGR.getPortName(serviceClass));
+        return createCustomProxyPort(sessionMgr, serviceClass, SERVICE_MGR.getPortName(serviceClass));
+    }    
+    
+    
+    public static org.solenopsis.wsdls.enterprise.Soap createEnterpriseProxyPort(final SessionMgr sessionMgr, final String apiVersion) throws Exception {
+        return createEnterpriseProxyPort(sessionMgr, org.solenopsis.wsdls.enterprise.SforceService.class, apiVersion);
+    }
+     
+    public static MetadataPortType createMetadataProxyPort(final SessionMgr sessionMgr, final String apiVersion) throws Exception {
+        return createMetadataProxyPort(sessionMgr,MetadataService.class, apiVersion);
+    }  
+    
+    public static org.solenopsis.wsdls.partner.Soap createPartnerProxyPort(final SessionMgr sessionMgr, final String apiVersion) throws Exception {
+        return createEnterpriseProxyPort(sessionMgr, org.solenopsis.wsdls.partner.SforceService.class, apiVersion);
+    }
+    
+    public static SforceServicePortType createToolingProxyPort(final SessionMgr sessionMgr, final String apiVersion) throws Exception {
+        return createToolingProxyPort(sessionMgr, SforceServiceService.class, apiVersion);
+    }      
+    
+    
+    public static org.solenopsis.wsdls.enterprise.Soap createEnterpriseProxyPort(final SessionMgr sessionMgr) throws Exception {
+        return createEnterpriseProxyPort(sessionMgr, org.solenopsis.wsdls.enterprise.SforceService.class);
+    }
+  
+    public static MetadataPortType createMetadataProxyPort(final SessionMgr sessionMgr) throws Exception {
+        return createMetadataProxyPort(sessionMgr, MetadataService.class);
+    }
+    
+    public static org.solenopsis.wsdls.partner.Soap createPartnerProxyPort(final SessionMgr sessionMgr) throws Exception {
+        return createEnterpriseProxyPort(sessionMgr, org.solenopsis.wsdls.partner.SforceService.class);
+    }
+    
+    public static SforceServicePortType createToolingProxyPort(final SessionMgr sessionMgr) throws Exception {
+        return createToolingProxyPort(sessionMgr, SforceServiceService.class);
     }
 }
