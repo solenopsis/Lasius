@@ -2,15 +2,24 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>org.solenopsis</groupId>
-	<artifactId>lasius</artifactId>
-	<version>1.1.0-SNAPSHOT</version>
-	<packaging>jar</packaging>
+	<groupId>org.solenopsis.lasius</groupId>
+	<artifactId>lasius-parent</artifactId>
+	<version>2.0.0-SNAPSHOT</version>
+	<packaging>pom</packaging>
 
-	<name>Lasius - Salesforce Utility Framework</name>
+	<name>Lasius</name>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
+        <org.apache.maven.plugins_maven-compiler-plugin_version>2.4</org.apache.maven.plugins_maven-compiler-plugin_version>
+
+        <org.flossware_version>2.0.0-SNAPSHOT</org.flossware_version>
+
+        <com.fasterxml.jackson.core_jackson-core_version>2.3.2</com.fasterxml.jackson.core_jackson-core_version>
+        <log4j_log4j_version>1.2.14</log4j_log4j_version>
+        <junit_junit_version>4.11</junit_junit_version>
+        <org.mockito_mockito-all_version>1.9.5</org.mockito_mockito-all_version>
 	</properties>
 
 	<developers>
@@ -31,6 +40,8 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
+                <version>${org.apache.maven.plugins_maven-compiler-plugin_version}</version>
+
 				<configuration>
 					<source>1.7</source>
 					<target>1.7</target>
@@ -39,37 +50,68 @@
 		</plugins>
 	</build>
 
-	<dependencies>
-		<!--  External Dependencies -->
-		<dependency>
-			<groupId>org.flossware</groupId>
-			<artifactId>utils</artifactId>
-			<version>1.1.0-SNAPSHOT</version>
-			<type>jar</type>
-		</dependency>
-		<dependency>
-			<groupId>org.solenopsis</groupId>
-			<artifactId>wsdls</artifactId>
-			<version>1.1.0-SNAPSHOT</version>
-			<type>jar</type>
-		</dependency>
-		<dependency>
-			<groupId>com.fasterxml.jackson.core</groupId>
-			<artifactId>jackson-core</artifactId>
-			<version>2.3.2</version>
-		</dependency>
-		<dependency>
-			<groupId>log4j</groupId>
-			<artifactId>log4j</artifactId>
-			<version>1.2.14</version>
-			<type>jar</type>
-			<scope>provided</scope>
-		</dependency>
-		<dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
-			<version>4.8.1</version>
-			<scope>test</scope>
-		</dependency>
-	</dependencies>
+    <modules>
+        <module>common</module>
+        <module>wsutils</module>
+    </modules>
+
+    <dependencyManagement>
+        <dependencies>
+            <!--  External Dependencies -->
+            <dependency>
+                <groupId>org.flossware</groupId>
+                <artifactId>common</artifactId>
+                <version>${org.flossware_version}</version>
+                <type>jar</type>
+            </dependency>
+
+            <dependency>
+                <groupId>org.flossware</groupId>
+                <artifactId>utils</artifactId>
+                <version>${org.flossware_version}</version>
+                <type>jar</type>
+            </dependency>
+
+            <dependency>
+                <groupId>org.flossware</groupId>
+                <artifactId>wsutils-service</artifactId>
+                <version>${org.flossware_version}</version>
+                <type>jar</type>
+            </dependency>
+
+            <dependency>
+                <groupId>org.flossware</groupId>
+                <artifactId>wsutils-soap</artifactId>
+                <version>${org.flossware_version}</version>
+                <type>jar</type>
+            </dependency>
+
+            <dependency>
+                <groupId>com.fasterxml.jackson.core</groupId>
+                <artifactId>jackson-core</artifactId>
+                <version>${com.fasterxml.jackson.core_jackson-core_version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>log4j</groupId>
+                <artifactId>log4j</artifactId>
+                <version>${log4j_log4j_version}</version>
+                <type>jar</type>
+                <scope>provided</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>junit</groupId>
+                <artifactId>junit</artifactId>
+                <version>${junit_junit_version}</version>
+                <scope>test</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>org.mockito</groupId>
+                <artifactId>mockito-all</artifactId>
+                <version>${org.mockito_mockito-all_version}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
 </project>

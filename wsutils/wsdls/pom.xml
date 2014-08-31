@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <parent>
+        <groupId>org.solenopsis.lasius</groupId>
+        <artifactId>wsutils-parent</artifactId>
+        <version>2.0.0-SNAPSHOT</version>
+    </parent>
+
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>wsutils-wsdls</artifactId>
+
+    <packaging>jar</packaging>
+
+    <name>Lasius Web Service Salesforce WSDL Library</name>
+
+	<properties>
+		<base.package>org.solenopsis.lasius.wsdls</base.package>
+	</properties>
+
+    <developers>
+        <developer>
+            <name>Scot P. Floess</name>
+            <id>flossy</id>
+            <email>flossware@gmail.com</email>
+            <organization>FlossWare</organization>
+            <roles>
+                <role>Developer</role>
+            </roles>
+            <timezone>-4</timezone>
+        </developer>
+    </developers>
+
+    <build>
+        <plugins>
+            <!-- Generate code against SFDC polling service -->
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>jaxws-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>enterprise-wsdl-import</id>
+                        <goals>
+                            <goal>wsimport</goal>
+                        </goals>
+                        <configuration>
+							<packageName>${base.package}.enterprise</packageName>
+                            <wsdlDirectory>${basedir}/src/main/resources/wsdl</wsdlDirectory>
+                            <wsdlFiles>
+                                <wsdlFile>Lasius-enterprise.wsdl</wsdlFile>
+                            </wsdlFiles>
+                            <sourceDestDir>${project.build.directory}/generated-sources/jaxws/wsimport</sourceDestDir>
+                            <xjcArgs>
+                                <!-- Must use -B-XautoNameResolution when used on the command line -->
+                                <xjcArg>-XautoNameResolution</xjcArg>
+                            </xjcArgs>
+                            <!-- Without this, multiple WSDLs won't be processed :( -->
+                            <staleFile>${project.build.directory}/jaxws/stale/wsdl.enterprise.done</staleFile>
+                        </configuration>
+                    </execution>
+
+                    <execution>
+                        <id>partner-wsdl-import</id>
+                        <goals>
+                            <goal>wsimport</goal>
+                        </goals>
+                        <configuration>
+							<packageName>${base.package}.partner</packageName>
+                            <wsdlDirectory>${basedir}/src/main/resources/wsdl</wsdlDirectory>
+                            <wsdlFiles>
+                                <wsdlFile>Lasius-partner.wsdl</wsdlFile>
+                            </wsdlFiles>
+                            <sourceDestDir>${project.build.directory}/generated-sources/jaxws/wsimport</sourceDestDir>
+                            <xjcArgs>
+                                <!-- Must use -B-XautoNameResolution when used on the command line -->
+                                <xjcArg>-XautoNameResolution</xjcArg>
+                            </xjcArgs>
+                            <!-- Without this, multiple WSDLs won't be processed :( -->
+                            <staleFile>${project.build.directory}/jaxws/stale/wsdl.partner.done</staleFile>
+                        </configuration>
+                    </execution>
+
+                    <execution>
+                        <id>metadata-wsdl-import</id>
+                        <goals>
+                            <goal>wsimport</goal>
+                        </goals>
+                        <configuration>
+							<packageName>${base.package}.metadata</packageName>
+                            <wsdlDirectory>${basedir}/src/main/resources/wsdl</wsdlDirectory>
+                            <wsdlFiles>
+                                <wsdlFile>Lasius-metadata.wsdl</wsdlFile>
+                            </wsdlFiles>
+                            <sourceDestDir>${project.build.directory}/generated-sources/jaxws/wsimport</sourceDestDir>
+                            <xjcArgs>
+                                <!-- Must use -B-XautoNameResolution when used on the command line -->
+                                <xjcArg>-XautoNameResolution</xjcArg>
+                            </xjcArgs>
+                            <!-- Without this, multiple WSDLs won't be processed :( -->
+                            <staleFile>${project.build.directory}/jaxws/stale/wsdl.metadata.done</staleFile>
+                        </configuration>
+                    </execution>
+
+                    <execution>
+                        <id>tooling-wsdl-import</id>
+                        <goals>
+                            <goal>wsimport</goal>
+                        </goals>
+                        <configuration>
+							<packageName>${base.package}.tooling</packageName>
+                            <wsdlDirectory>${basedir}/src/main/resources/wsdl</wsdlDirectory>
+                            <wsdlFiles>
+                                <wsdlFile>Lasius-tooling.wsdl</wsdlFile>
+                            </wsdlFiles>
+                            <sourceDestDir>${project.build.directory}/generated-sources/jaxws/wsimport</sourceDestDir>
+                            <xjcArgs>
+                                <!-- Must use -B-XautoNameResolution when used on the command line -->
+                                <xjcArg>-XautoNameResolution</xjcArg>
+                            </xjcArgs>
+                            <!-- Without this, multiple WSDLs won't be processed :( -->
+                            <staleFile>${project.build.directory}/jaxws/stale/wsdl.tooling.done</staleFile>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+
+    <dependencies>
+        <dependency>
+            <groupId>log4j</groupId>
+            <artifactId>log4j</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-all</artifactId>
+        </dependency>
+    </dependencies>
+</project>
