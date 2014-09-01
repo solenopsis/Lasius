@@ -21,7 +21,9 @@ import org.solenopsis.lasius.credentials.Credentials;
 import org.solenopsis.lasius.wsdls.tooling.SforceServicePortType;
 import org.solenopsis.lasius.wsimport.common.WebServiceTypeEnum;
 import org.solenopsis.lasius.wsimport.common.security.AbstractSecurityMgr;
+import org.solenopsis.lasius.wsimport.common.security.LoginException;
 import org.solenopsis.lasius.wsimport.common.security.LoginResult;
+import org.solenopsis.lasius.wsimport.common.security.LogoutException;
 import org.solenopsis.lasius.wsimport.common.util.SalesforceWebServiceUtil;
 
 /**
@@ -51,15 +53,27 @@ public class ToolingSecurityMgr extends AbstractSecurityMgr<SforceServicePortTyp
      * {@inheritDoc}
      */
     @Override
-    protected LoginResult login(final SforceServicePortType port, final Credentials credentials) throws Exception {
-        return new ToolingLoginResult(port.login(credentials.getUserName(), credentials.getSecurityPassword()), credentials, this);
+    protected LoginResult login(final SforceServicePortType port, final Credentials credentials) {
+        try {
+            return new ToolingLoginResult(port.login(credentials.getUserName(), credentials.getSecurityPassword()), credentials, this);
+        } catch (final RuntimeException runtimeException) {
+            throw runtimeException;
+        } catch (final Throwable throwable) {
+            throw new LoginException(throwable);
+        }
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    protected void logout(final SforceServicePortType port) throws Exception {
-        port.logout();
+    protected void logout(final SforceServicePortType port) {
+        try {
+            port.logout();
+        } catch (final RuntimeException runtimeException) {
+            throw runtimeException;
+        } catch (final Throwable throwable) {
+            throw new LogoutException(throwable);
+        }
     }
 }

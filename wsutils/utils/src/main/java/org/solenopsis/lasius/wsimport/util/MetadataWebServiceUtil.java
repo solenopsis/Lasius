@@ -51,11 +51,8 @@ public final class MetadataWebServiceUtil {
      * @param serviceClass the class of a metadata Web Service being used.
      *
      * @return a usable port.
-     *
-     * @throws Exception if any problems arise creating the web service
-     *                   endpoint.
      */
-    public static <P> P createMetadataPort(final Credentials credentials, final URL wsdlLocation, final Class<? extends Service> serviceClass) throws Exception {
+    public static <P> P createMetadataPort(final Credentials credentials, final URL wsdlLocation, final Class<? extends Service> serviceClass) {
         return (P) SalesforceWebServiceUtil.createPort(DEFAULT_SECURITY_MGR.login(credentials), WebServiceTypeEnum.METADATA_SERVICE, new GenericWebService(wsdlLocation, serviceClass));
     }
 
@@ -68,11 +65,8 @@ public final class MetadataWebServiceUtil {
      * @param serviceClass the class of a metadata Web Service being used.
      *
      * @return a usable port.
-     *
-     * @throws Exception if any problems arise creating the web service
-     *                   endpoint.
      */
-    public static <P> P createMetadataPort(final Credentials credentials, final String wsdlResource, final Class<? extends Service> serviceClass) throws Exception {
+    public static <P> P createMetadataPort(final Credentials credentials, final String wsdlResource, final Class<? extends Service> serviceClass) {
         return (P) SalesforceWebServiceUtil.createPort(DEFAULT_SECURITY_MGR.login(credentials), WebServiceTypeEnum.METADATA_SERVICE, new GenericWebService(wsdlResource, serviceClass));
     }
 
@@ -84,11 +78,8 @@ public final class MetadataWebServiceUtil {
      * @param serviceClass the class of a metadata Web Service being used.
      *
      * @return a usable port.
-     *
-     * @throws Exception if any problems arise creating the web service
-     *                   endpoint.
      */
-    public static <P> P createMetadataPort(final Credentials credentials, final Class<? extends Service> serviceClass) throws Exception {
+    public static <P> P createMetadataPort(final Credentials credentials, final Class<? extends Service> serviceClass) {
         return (P) SalesforceWebServiceUtil.createPort(DEFAULT_SECURITY_MGR.login(credentials), WebServiceTypeEnum.METADATA_SERVICE, new GenericWebService(serviceClass));
     }
 
@@ -102,11 +93,8 @@ public final class MetadataWebServiceUtil {
      * @param serviceClass the class of a metadata Web Service being used.
      *
      * @return a usable port.
-     *
-     * @throws Exception if any problems arise creating the web service
-     *                   endpoint.
      */
-    public static <P> P createMetadataProxyPort(final SessionMgr sessionMgr, final URL wsdlLocation, final Class<? extends Service> serviceClass) throws Exception {
+    public static <P> P createMetadataProxyPort(final SessionMgr sessionMgr, final URL wsdlLocation, final Class<? extends Service> serviceClass) {
         return (P) SalesforceWebServiceUtil.createProxyPort(sessionMgr, WebServiceTypeEnum.METADATA_SERVICE, new GenericWebService(wsdlLocation, serviceClass));
     }
 
@@ -120,11 +108,8 @@ public final class MetadataWebServiceUtil {
      * @param serviceClass the class of a metadata Web Service being used.
      *
      * @return a usable port.
-     *
-     * @throws Exception if any problems arise creating the web service
-     *                   endpoint.
      */
-    public static <P> P createMetadataProxyPort(final SessionMgr sessionMgr, final String wsdlResource, final Class<? extends Service> serviceClass) throws Exception {
+    public static <P> P createMetadataProxyPort(final SessionMgr sessionMgr, final String wsdlResource, final Class<? extends Service> serviceClass) {
         return (P) SalesforceWebServiceUtil.createProxyPort(sessionMgr, WebServiceTypeEnum.METADATA_SERVICE, new GenericWebService(wsdlResource, serviceClass));
     }
 
@@ -137,11 +122,8 @@ public final class MetadataWebServiceUtil {
      * @param serviceClass the class of a metadata Web Service being used.
      *
      * @return a usable port.
-     *
-     * @throws Exception if any problems arise creating the web service
-     *                   endpoint.
      */
-    public static <P> P createMetadataProxyPort(final SessionMgr sessionMgr, final Class<? extends Service> serviceClass) throws Exception {
+    public static <P> P createMetadataProxyPort(final SessionMgr sessionMgr, final Class<? extends Service> serviceClass) {
         return (P) SalesforceWebServiceUtil.createProxyPort(sessionMgr, WebServiceTypeEnum.METADATA_SERVICE, new GenericWebService(serviceClass));
     }
 
@@ -155,11 +137,8 @@ public final class MetadataWebServiceUtil {
      * @param serviceClass the class of a metadata Web Service being used.
      *
      * @return a usable port.
-     *
-     * @throws Exception if any problems arise creating the web service
-     *                   endpoint.
      */
-    public static <P> P createMetadataProxyPort(final Credentials credentials, final URL wsdlLocation, final Class<? extends Service> serviceClass) throws Exception {
+    public static <P> P createMetadataProxyPort(final Credentials credentials, final URL wsdlLocation, final Class<? extends Service> serviceClass) {
         return createMetadataProxyPort(new SingleSessionMgr(credentials, DEFAULT_SECURITY_MGR), serviceClass);
     }
 
@@ -173,11 +152,8 @@ public final class MetadataWebServiceUtil {
      * @param serviceClass the class of a metadata Web Service being used.
      *
      * @return a usable port.
-     *
-     * @throws Exception if any problems arise creating the web service
-     *                   endpoint.
      */
-    public static <P> P createMetadataProxyPort(final Credentials[] credentials, final URL wsdlLocation, final Class<? extends Service> serviceClass) throws Exception {
+    public static <P> P createMetadataProxyPort(final Credentials[] credentials, final URL wsdlLocation, final Class<? extends Service> serviceClass) {
         return createMetadataProxyPort(new MultiSessionMgr(credentials, DEFAULT_SECURITY_MGR), wsdlLocation, serviceClass);
     }
 
@@ -191,11 +167,8 @@ public final class MetadataWebServiceUtil {
      * @param serviceClass the class of a metadata Web Service being used.
      *
      * @return a usable port.
-     *
-     * @throws Exception if any problems arise creating the web service
-     *                   endpoint.
      */
-    public static <P> P createMetadataProxyPort(final Collection<Credentials> credentials, final URL wsdlLocation, final Class<? extends Service> serviceClass) throws Exception {
+    public static <P> P createMetadataProxyPort(final Collection<Credentials> credentials, final URL wsdlLocation, final Class<? extends Service> serviceClass) {
         return createMetadataProxyPort(new MultiSessionMgr(credentials, DEFAULT_SECURITY_MGR), wsdlLocation, serviceClass);
     }
 
@@ -209,11 +182,8 @@ public final class MetadataWebServiceUtil {
      * @param serviceClass the class of a metadata Web Service being used.
      *
      * @return a usable port.
-     *
-     * @throws Exception if any problems arise creating the web service
-     *                   endpoint.
      */
-    public static <P> P createMetadataProxyPort(final Credentials credentials, final String wsdlResource, final Class<? extends Service> serviceClass) throws Exception {
+    public static <P> P createMetadataProxyPort(final Credentials credentials, final String wsdlResource, final Class<? extends Service> serviceClass) {
         return createMetadataProxyPort(new SingleSessionMgr(credentials, DEFAULT_SECURITY_MGR), wsdlResource, serviceClass);
     }
 
@@ -226,12 +196,9 @@ public final class MetadataWebServiceUtil {
      * @param wsdlResource the classpath WSDL resource.
      * @param serviceClass the class of a metadata Web Service being used.
      *
-     * @return a usable port.
-     *
-     * @throws Exception if any problems arise creating the web service
-     *                   endpoint.
+     * @return a usable port
      */
-    public static <P> P createMetadataProxyPort(final Credentials[] credentials, final String wsdlResource, final Class<? extends Service> serviceClass) throws Exception {
+    public static <P> P createMetadataProxyPort(final Credentials[] credentials, final String wsdlResource, final Class<? extends Service> serviceClass) {
         return createMetadataProxyPort(new MultiSessionMgr(credentials, DEFAULT_SECURITY_MGR), wsdlResource, serviceClass);
     }
 
@@ -245,11 +212,8 @@ public final class MetadataWebServiceUtil {
      * @param serviceClass the class of a metadata Web Service being used.
      *
      * @return a usable port.
-     *
-     * @throws Exception if any problems arise creating the web service
-     *                   endpoint.
      */
-    public static <P> P createMetadataProxyPort(final Collection<Credentials> credentials, final String wsdlResource, final Class<? extends Service> serviceClass) throws Exception {
+    public static <P> P createMetadataProxyPort(final Collection<Credentials> credentials, final String wsdlResource, final Class<? extends Service> serviceClass) {
         return createMetadataProxyPort(new MultiSessionMgr(credentials, DEFAULT_SECURITY_MGR), wsdlResource, serviceClass);
     }
 
@@ -262,11 +226,8 @@ public final class MetadataWebServiceUtil {
      * @param serviceClass the class of a metadata Web Service being used.
      *
      * @return a usable port.
-     *
-     * @throws Exception if any problems arise creating the web service
-     *                   endpoint.
      */
-    public static <P> P createMetadataProxyPort(final Credentials credentials, final Class<? extends Service> serviceClass) throws Exception {
+    public static <P> P createMetadataProxyPort(final Credentials credentials, final Class<? extends Service> serviceClass) {
         return createMetadataProxyPort(new SingleSessionMgr(credentials, DEFAULT_SECURITY_MGR), serviceClass);
     }
 
@@ -279,11 +240,8 @@ public final class MetadataWebServiceUtil {
      * @param serviceClass the class of a metadata Web Service being used.
      *
      * @return a usable port.
-     *
-     * @throws Exception if any problems arise creating the web service
-     *                   endpoint.
      */
-    public static <P> P createMetadataProxyPort(final Credentials[] credentials, final Class<? extends Service> serviceClass) throws Exception {
+    public static <P> P createMetadataProxyPort(final Credentials[] credentials, final Class<? extends Service> serviceClass) {
         return createMetadataProxyPort(new MultiSessionMgr(credentials, DEFAULT_SECURITY_MGR), serviceClass);
     }
 
@@ -296,11 +254,8 @@ public final class MetadataWebServiceUtil {
      * @param serviceClass the class of a metadata Web Service being used.
      *
      * @return a usable port.
-     *
-     * @throws Exception if any problems arise creating the web service
-     *                   endpoint.
      */
-    public static <P> P createMetadataProxyPort(final Collection<Credentials> credentials, final Class<? extends Service> serviceClass) throws Exception {
+    public static <P> P createMetadataProxyPort(final Collection<Credentials> credentials, final Class<? extends Service> serviceClass) {
         return createMetadataProxyPort(new MultiSessionMgr(credentials, DEFAULT_SECURITY_MGR), serviceClass);
     }
 }

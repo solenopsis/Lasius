@@ -17,8 +17,6 @@ public interface QueryMgr<V> {
      * @param soql the SOQL statement when querying.
      *
      * @return an iterator of objects from query.
-     *
-     * @throws Exception if any problems arise when executing the query.
      */
-    Iterator<V> query(String soql) throws Exception;
+    Iterator<V> query(String soql);
 }
