@@ -52,10 +52,8 @@ public final class ToolingWebServiceUtil {
      *
      * @return a usable port.
      *
-     * @throws Exception if any problems arise creating the web service
-     *                   endpoint.
      */
-    public static <P> P createToolingPort(final Credentials credentials, final URL wsdlLocation, final Class<? extends Service> serviceClass) throws Exception {
+    public static <P> P createToolingPort(final Credentials credentials, final URL wsdlLocation, final Class<? extends Service> serviceClass) {
         return (P) SalesforceWebServiceUtil.createPort(DEFAULT_SECURITY_MGR.login(credentials), WebServiceTypeEnum.TOOLING_SERVICE, new GenericWebService(wsdlLocation, serviceClass));
     }
 
@@ -68,11 +66,8 @@ public final class ToolingWebServiceUtil {
      * @param serviceClass the class of a tooling Web Service being used.
      *
      * @return a usable port.
-     *
-     * @throws Exception if any problems arise creating the web service
-     *                   endpoint.
      */
-    public static <P> P createToolingPort(final Credentials credentials, final String wsdlResource, final Class<? extends Service> serviceClass) throws Exception {
+    public static <P> P createToolingPort(final Credentials credentials, final String wsdlResource, final Class<? extends Service> serviceClass) {
         return (P) SalesforceWebServiceUtil.createPort(DEFAULT_SECURITY_MGR.login(credentials), WebServiceTypeEnum.TOOLING_SERVICE, new GenericWebService(wsdlResource, serviceClass));
     }
 
@@ -84,11 +79,8 @@ public final class ToolingWebServiceUtil {
      * @param serviceClass the class of a tooling Web Service being used.
      *
      * @return a usable port.
-     *
-     * @throws Exception if any problems arise creating the web service
-     *                   endpoint.
      */
-    public static <P> P createToolingPort(final Credentials credentials, final Class<? extends Service> serviceClass) throws Exception {
+    public static <P> P createToolingPort(final Credentials credentials, final Class<? extends Service> serviceClass) {
         return (P) SalesforceWebServiceUtil.createPort(DEFAULT_SECURITY_MGR.login(credentials), WebServiceTypeEnum.TOOLING_SERVICE, new GenericWebService(serviceClass));
     }
 
@@ -102,11 +94,8 @@ public final class ToolingWebServiceUtil {
      * @param serviceClass the class of a metadata Web Service being used.
      *
      * @return a usable port.
-     *
-     * @throws Exception if any problems arise creating the web service
-     *                   endpoint.
      */
-    public static <P> P createToolingProxyPort(final SessionMgr sessionMgr, final URL wsdlLocation, final Class<? extends Service> serviceClass) throws Exception {
+    public static <P> P createToolingProxyPort(final SessionMgr sessionMgr, final URL wsdlLocation, final Class<? extends Service> serviceClass) {
         return (P) SalesforceWebServiceUtil.createProxyPort(sessionMgr, WebServiceTypeEnum.TOOLING_SERVICE, new GenericWebService(wsdlLocation, serviceClass));
     }
 
@@ -120,11 +109,8 @@ public final class ToolingWebServiceUtil {
      * @param serviceClass the class of a metadata Web Service being used.
      *
      * @return a usable port.
-     *
-     * @throws Exception if any problems arise creating the web service
-     *                   endpoint.
      */
-    public static <P> P createToolingProxyPort(final SessionMgr sessionMgr, final String wsdlResource, final Class<? extends Service> serviceClass) throws Exception {
+    public static <P> P createToolingProxyPort(final SessionMgr sessionMgr, final String wsdlResource, final Class<? extends Service> serviceClass) {
         return (P) SalesforceWebServiceUtil.createProxyPort(sessionMgr, WebServiceTypeEnum.TOOLING_SERVICE, new GenericWebService(wsdlResource, serviceClass));
     }
 
@@ -137,11 +123,8 @@ public final class ToolingWebServiceUtil {
      * @param serviceClass the class of a metadata Web Service being used.
      *
      * @return a usable port.
-     *
-     * @throws Exception if any problems arise creating the web service
-     *                   endpoint.
      */
-    public static <P> P createToolingProxyPort(final SessionMgr sessionMgr, final Class<? extends Service> serviceClass) throws Exception {
+    public static <P> P createToolingProxyPort(final SessionMgr sessionMgr, final Class<? extends Service> serviceClass) {
         return (P) SalesforceWebServiceUtil.createProxyPort(sessionMgr, WebServiceTypeEnum.TOOLING_SERVICE, new GenericWebService(serviceClass));
     }
 
@@ -155,11 +138,8 @@ public final class ToolingWebServiceUtil {
      * @param serviceClass the class of a tooling Web Service being used.
      *
      * @return a usable port.
-     *
-     * @throws Exception if any problems arise creating the web service
-     *                   endpoint.
      */
-    public static <P> P createToolingProxyPort(final Credentials credentials, final URL wsdlLocation, final Class<? extends Service> serviceClass) throws Exception {
+    public static <P> P createToolingProxyPort(final Credentials credentials, final URL wsdlLocation, final Class<? extends Service> serviceClass) {
         return createToolingProxyPort(new SingleSessionMgr(credentials, DEFAULT_SECURITY_MGR), wsdlLocation, serviceClass);
     }
 
@@ -173,11 +153,8 @@ public final class ToolingWebServiceUtil {
      * @param serviceClass the class of a tooling Web Service being used.
      *
      * @return a usable port.
-     *
-     * @throws Exception if any problems arise creating the web service
-     *                   endpoint.
      */
-    public static <P> P createToolingProxyPort(final Credentials[] credentials, final URL wsdlLocation, final Class<? extends Service> serviceClass) throws Exception {
+    public static <P> P createToolingProxyPort(final Credentials[] credentials, final URL wsdlLocation, final Class<? extends Service> serviceClass) {
         return createToolingProxyPort(new MultiSessionMgr(credentials, DEFAULT_SECURITY_MGR), wsdlLocation, serviceClass);
     }
 
@@ -191,11 +168,8 @@ public final class ToolingWebServiceUtil {
      * @param serviceClass the class of a tooling Web Service being used.
      *
      * @return a usable port.
-     *
-     * @throws Exception if any problems arise creating the web service
-     *                   endpoint.
      */
-    public static <P> P createToolingProxyPort(final Collection<Credentials> credentials, final URL wsdlLocation, final Class<? extends Service> serviceClass) throws Exception {
+    public static <P> P createToolingProxyPort(final Collection<Credentials> credentials, final URL wsdlLocation, final Class<? extends Service> serviceClass) {
         return createToolingProxyPort(new MultiSessionMgr(credentials, DEFAULT_SECURITY_MGR), wsdlLocation, serviceClass);
     }
 
@@ -209,11 +183,8 @@ public final class ToolingWebServiceUtil {
      * @param serviceClass the class of a tooling Web Service being used.
      *
      * @return a usable port.
-     *
-     * @throws Exception if any problems arise creating the web service
-     *                   endpoint.
      */
-    public static <P> P createToolingProxyPort(final Credentials credentials, final String wsdlResource, final Class<? extends Service> serviceClass) throws Exception {
+    public static <P> P createToolingProxyPort(final Credentials credentials, final String wsdlResource, final Class<? extends Service> serviceClass) {
         return createToolingProxyPort(new SingleSessionMgr(credentials, DEFAULT_SECURITY_MGR), wsdlResource, serviceClass);
     }
 
@@ -227,11 +198,8 @@ public final class ToolingWebServiceUtil {
      * @param serviceClass the class of a tooling Web Service being used.
      *
      * @return a usable port.
-     *
-     * @throws Exception if any problems arise creating the web service
-     *                   endpoint.
      */
-    public static <P> P createToolingProxyPort(final Credentials[] credentials, final String wsdlResource, final Class<? extends Service> serviceClass) throws Exception {
+    public static <P> P createToolingProxyPort(final Credentials[] credentials, final String wsdlResource, final Class<? extends Service> serviceClass) {
         return createToolingProxyPort(new MultiSessionMgr(credentials, DEFAULT_SECURITY_MGR), wsdlResource, serviceClass);
     }
 
@@ -245,11 +213,8 @@ public final class ToolingWebServiceUtil {
      * @param serviceClass the class of a tooling Web Service being used.
      *
      * @return a usable port.
-     *
-     * @throws Exception if any problems arise creating the web service
-     *                   endpoint.
      */
-    public static <P> P createToolingProxyPort(final Collection<Credentials> credentials, final String wsdlResource, final Class<? extends Service> serviceClass) throws Exception {
+    public static <P> P createToolingProxyPort(final Collection<Credentials> credentials, final String wsdlResource, final Class<? extends Service> serviceClass) {
         return createToolingProxyPort(new MultiSessionMgr(credentials, DEFAULT_SECURITY_MGR), wsdlResource, serviceClass);
     }
 
@@ -262,11 +227,8 @@ public final class ToolingWebServiceUtil {
      * @param serviceClass the class of a tooling Web Service being used.
      *
      * @return a usable port.
-     *
-     * @throws Exception if any problems arise creating the web service
-     *                   endpoint.
      */
-    public static <P> P createToolingProxyPort(final Credentials credentials, final Class<? extends Service> serviceClass) throws Exception {
+    public static <P> P createToolingProxyPort(final Credentials credentials, final Class<? extends Service> serviceClass) {
         return createToolingProxyPort(new SingleSessionMgr(credentials, DEFAULT_SECURITY_MGR), serviceClass);
     }
 
@@ -279,11 +241,8 @@ public final class ToolingWebServiceUtil {
      * @param serviceClass the class of a tooling Web Service being used.
      *
      * @return a usable port.
-     *
-     * @throws Exception if any problems arise creating the web service
-     *                   endpoint.
      */
-    public static <P> P createToolingProxyPort(final Credentials[] credentials, final Class<? extends Service> serviceClass) throws Exception {
+    public static <P> P createToolingProxyPort(final Credentials[] credentials, final Class<? extends Service> serviceClass) {
         return createToolingProxyPort(new MultiSessionMgr(credentials, DEFAULT_SECURITY_MGR), serviceClass);
     }
 
@@ -296,11 +255,8 @@ public final class ToolingWebServiceUtil {
      * @param serviceClass the class of a tooling Web Service being used.
      *
      * @return a usable port.
-     *
-     * @throws Exception if any problems arise creating the web service
-     *                   endpoint.
      */
-    public static <P> P createToolingProxyPort(final Collection<Credentials> credentials, final Class<? extends Service> serviceClass) throws Exception {
+    public static <P> P createToolingProxyPort(final Collection<Credentials> credentials, final Class<? extends Service> serviceClass) {
         return createToolingProxyPort(new MultiSessionMgr(credentials, DEFAULT_SECURITY_MGR), serviceClass);
     }
 }

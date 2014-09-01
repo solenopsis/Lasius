@@ -342,11 +342,8 @@ public final class SalesforceWebServiceUtil {
      *                       version.
      *
      * @return a usable port.
-     *
-     * @throws Exception if any problems arise creating the web service
-     *                   endpoint.
      */
-    public static <P> P createPort(final String url, final WebServiceTypeEnum webServiceType, final WebService<P> service, final String serviceName) throws Exception {
+    public static <P> P createPort(final String url, final WebServiceTypeEnum webServiceType, final WebService<P> service, final String serviceName) {
         final P retVal = service.getPort();
 
         setUrl(retVal, url, webServiceType, serviceName);
@@ -369,11 +366,8 @@ public final class SalesforceWebServiceUtil {
      *                       version.
      *
      * @return a usable port.
-     *
-     * @throws Exception if any problems arise creating the web service
-     *                   endpoint.
      */
-    public static <P> P createPort(final String sessionId, final String url, final WebServiceTypeEnum webServiceType, final WebService<P> service, final String serviceName) throws Exception {
+    public static <P> P createPort(final String sessionId, final String url, final WebServiceTypeEnum webServiceType, final WebService<P> service, final String serviceName) {
         final P retVal = createPort(url, webServiceType, service, serviceName);
 
         setSessionId(retVal, service, sessionId);
@@ -390,11 +384,8 @@ public final class SalesforceWebServiceUtil {
      * @param service        the web service.
      *
      * @return a usable port.
-     *
-     * @throws Exception if any problems arise creating the web service
-     *                   endpoint.
      */
-    public static <P> P createPort(final LoginResult loginResult, final WebServiceTypeEnum webServiceType, final WebService<P> service) throws Exception {
+    public static <P> P createPort(final LoginResult loginResult, final WebServiceTypeEnum webServiceType, final WebService<P> service) {
         return createPort(loginResult.getSessionId(), loginResult.getServerUrl(), webServiceType, service, computeWebServiceName(loginResult, webServiceType, service));
     }
 
@@ -408,11 +399,8 @@ public final class SalesforceWebServiceUtil {
      * @param service        the web service.
      *
      * @return a usable port.
-     *
-     * @throws Exception if any problems arise creating the web service
-     *                   endpoint.
      */
-    public static <P> P createPort(final Session session, final WebServiceTypeEnum webServiceType, final WebService<P> service) throws Exception {
+    public static <P> P createPort(final Session session, final WebServiceTypeEnum webServiceType, final WebService<P> service) {
         return createPort(session.getLoginResult(), webServiceType, service);
     }
 
@@ -426,11 +414,8 @@ public final class SalesforceWebServiceUtil {
      * @param service        the web service.
      *
      * @return a usable port.
-     *
-     * @throws Exception if any problems arise creating the web service
-     *                   endpoint.
      */
-    public static <P> P createPort(final SessionMgr sessionMgr, final WebServiceTypeEnum webServiceType, final WebService<P> service) throws Exception {
+    public static <P> P createPort(final SessionMgr sessionMgr, final WebServiceTypeEnum webServiceType, final WebService<P> service) {
         return createPort(sessionMgr.getSession(), webServiceType, service);
     }
 
@@ -444,11 +429,8 @@ public final class SalesforceWebServiceUtil {
      * @param service        the web service.
      *
      * @return a usable port.
-     *
-     * @throws Exception if any problems arise creating the web service
-     *                   endpoint.
      */
-    public static <P> P createProxyPort(final SessionMgr sessionMgr, final WebServiceTypeEnum webServiceType, final WebService<P> service) throws Exception {
+    public static <P> P createProxyPort(final SessionMgr sessionMgr, final WebServiceTypeEnum webServiceType, final WebService<P> service) {
         return new WebServiceInvocationDecorator<>(service, new SalesforceWebServicePortInvoker(sessionMgr, webServiceType)).getPort();
     }
 }

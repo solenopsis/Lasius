@@ -61,19 +61,15 @@ public abstract class AbstractSecurityMgr<P> extends AbstractCommonBase implemen
      * @param credentials the credentials used for login.
      *
      * @return a login result.
-     *
-     * @throws java.lang.Exception if any problem arises when calling login.
      */
-    protected abstract LoginResult login(final P port, Credentials credentials) throws Exception;
+    protected abstract LoginResult login(final P port, Credentials credentials);
 
     /**
      * Will request child classes to perform a logout.
      *
      * @param port the port to use when logging out.
-     *
-     * @throws Exception if any problems arise logging out.
      */
-    protected abstract void logout(P port) throws Exception;
+    protected abstract void logout(P port);
 
     /**
      * {@inheritDoc}

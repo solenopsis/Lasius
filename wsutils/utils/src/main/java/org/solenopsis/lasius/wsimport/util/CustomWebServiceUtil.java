@@ -51,11 +51,8 @@ public final class CustomWebServiceUtil {
      * @param serviceClass the class of a custom Web Service being used.
      *
      * @return a usable port.
-     *
-     * @throws Exception if any problems arise creating the web service
-     *                   endpoint.
      */
-    public static <P> P createCustomPort(final Credentials credentials, final URL wsdlLocation, final Class<? extends Service> serviceClass) throws Exception {
+    public static <P> P createCustomPort(final Credentials credentials, final URL wsdlLocation, final Class<? extends Service> serviceClass) {
         return (P) SalesforceWebServiceUtil.createPort(DEFAULT_SECURITY_MGR.login(credentials), WebServiceTypeEnum.CUSTOM_SERVICE, new GenericWebService(wsdlLocation, serviceClass));
     }
 
@@ -68,11 +65,8 @@ public final class CustomWebServiceUtil {
      * @param serviceClass the class of a custom Web Service being used.
      *
      * @return a usable port.
-     *
-     * @throws Exception if any problems arise creating the web service
-     *                   endpoint.
      */
-    public static <P> P createCustomPort(final Credentials credentials, final String wsdlResource, final Class<? extends Service> serviceClass) throws Exception {
+    public static <P> P createCustomPort(final Credentials credentials, final String wsdlResource, final Class<? extends Service> serviceClass) {
         return (P) SalesforceWebServiceUtil.createPort(DEFAULT_SECURITY_MGR.login(credentials), WebServiceTypeEnum.CUSTOM_SERVICE, new GenericWebService(wsdlResource, serviceClass));
     }
 
@@ -84,11 +78,8 @@ public final class CustomWebServiceUtil {
      * @param serviceClass the class of a custom Web Service being used.
      *
      * @return a usable port.
-     *
-     * @throws Exception if any problems arise creating the web service
-     *                   endpoint.
      */
-    public static <P> P createCustomPort(final Credentials credentials, final Class<? extends Service> serviceClass) throws Exception {
+    public static <P> P createCustomPort(final Credentials credentials, final Class<? extends Service> serviceClass) {
         return (P) SalesforceWebServiceUtil.createPort(DEFAULT_SECURITY_MGR.login(credentials), WebServiceTypeEnum.CUSTOM_SERVICE, new GenericWebService(serviceClass));
     }
 
@@ -102,11 +93,8 @@ public final class CustomWebServiceUtil {
      * @param serviceClass the class of a custom Web Service being used.
      *
      * @return a usable port.
-     *
-     * @throws Exception if any problems arise creating the web service
-     *                   endpoint.
      */
-    public static <P> P createCustomProxyPort(final SessionMgr sessionMgr, final URL wsdlLocation, final Class<? extends Service> serviceClass) throws Exception {
+    public static <P> P createCustomProxyPort(final SessionMgr sessionMgr, final URL wsdlLocation, final Class<? extends Service> serviceClass) {
         return (P) SalesforceWebServiceUtil.createProxyPort(sessionMgr, WebServiceTypeEnum.CUSTOM_SERVICE, new GenericWebService(wsdlLocation, serviceClass));
     }
 
@@ -120,11 +108,8 @@ public final class CustomWebServiceUtil {
      * @param serviceClass the class of a custom Web Service being used.
      *
      * @return a usable port.
-     *
-     * @throws Exception if any problems arise creating the web service
-     *                   endpoint.
      */
-    public static <P> P createCustomProxyPort(final SessionMgr sessionMgr, final String wsdlResource, final Class<? extends Service> serviceClass) throws Exception {
+    public static <P> P createCustomProxyPort(final SessionMgr sessionMgr, final String wsdlResource, final Class<? extends Service> serviceClass) {
         return (P) SalesforceWebServiceUtil.createProxyPort(sessionMgr, WebServiceTypeEnum.CUSTOM_SERVICE, new GenericWebService(wsdlResource, serviceClass));
     }
 
@@ -137,11 +122,8 @@ public final class CustomWebServiceUtil {
      * @param serviceClass the class of a custom Web Service being used.
      *
      * @return a usable port.
-     *
-     * @throws Exception if any problems arise creating the web service
-     *                   endpoint.
      */
-    public static <P> P createCustomProxyPort(final SessionMgr sessionMgr, final Class<? extends Service> serviceClass) throws Exception {
+    public static <P> P createCustomProxyPort(final SessionMgr sessionMgr, final Class<? extends Service> serviceClass) {
         return (P) SalesforceWebServiceUtil.createProxyPort(sessionMgr, WebServiceTypeEnum.CUSTOM_SERVICE, new GenericWebService(serviceClass));
     }
 
@@ -155,11 +137,8 @@ public final class CustomWebServiceUtil {
      * @param serviceClass the class of a custom Web Service being used.
      *
      * @return a usable port.
-     *
-     * @throws Exception if any problems arise creating the web service
-     *                   endpoint.
      */
-    public static <P> P createCustomProxyPort(final Credentials[] credentials, final URL wsdlLocation, final Class<? extends Service> serviceClass) throws Exception {
+    public static <P> P createCustomProxyPort(final Credentials[] credentials, final URL wsdlLocation, final Class<? extends Service> serviceClass) {
         return createCustomProxyPort(new MultiSessionMgr(credentials, DEFAULT_SECURITY_MGR), wsdlLocation, serviceClass);
     }
 
@@ -173,11 +152,8 @@ public final class CustomWebServiceUtil {
      * @param serviceClass the class of a custom Web Service being used.
      *
      * @return a usable port.
-     *
-     * @throws Exception if any problems arise creating the web service
-     *                   endpoint.
      */
-    public static <P> P createCustomProxyPort(final Collection<Credentials> credentials, final URL wsdlLocation, final Class<? extends Service> serviceClass) throws Exception {
+    public static <P> P createCustomProxyPort(final Collection<Credentials> credentials, final URL wsdlLocation, final Class<? extends Service> serviceClass) {
         return createCustomProxyPort(new MultiSessionMgr(credentials, DEFAULT_SECURITY_MGR), wsdlLocation, serviceClass);
     }
 
@@ -191,11 +167,8 @@ public final class CustomWebServiceUtil {
      * @param serviceClass the class of a custom Web Service being used.
      *
      * @return a usable port.
-     *
-     * @throws Exception if any problems arise creating the web service
-     *                   endpoint.
      */
-    public static <P> P createCustomProxyPort(final Credentials credentials, final URL wsdlLocation, final Class<? extends Service> serviceClass) throws Exception {
+    public static <P> P createCustomProxyPort(final Credentials credentials, final URL wsdlLocation, final Class<? extends Service> serviceClass) {
         return createCustomProxyPort(new SingleSessionMgr(credentials, DEFAULT_SECURITY_MGR), wsdlLocation, serviceClass);
     }
 
@@ -209,11 +182,8 @@ public final class CustomWebServiceUtil {
      * @param serviceClass the class of a custom Web Service being used.
      *
      * @return a usable port.
-     *
-     * @throws Exception if any problems arise creating the web service
-     *                   endpoint.
      */
-    public static <P> P createCustomProxyPort(final Credentials[] credentials, final String wsdlResource, final Class<? extends Service> serviceClass) throws Exception {
+    public static <P> P createCustomProxyPort(final Credentials[] credentials, final String wsdlResource, final Class<? extends Service> serviceClass) {
         return createCustomProxyPort(new MultiSessionMgr(credentials, DEFAULT_SECURITY_MGR), wsdlResource, serviceClass);
     }
 
@@ -227,11 +197,8 @@ public final class CustomWebServiceUtil {
      * @param serviceClass the class of a custom Web Service being used.
      *
      * @return a usable port.
-     *
-     * @throws Exception if any problems arise creating the web service
-     *                   endpoint.
      */
-    public static <P> P createCustomProxyPort(final Collection<Credentials> credentials, final String wsdlResource, final Class<? extends Service> serviceClass) throws Exception {
+    public static <P> P createCustomProxyPort(final Collection<Credentials> credentials, final String wsdlResource, final Class<? extends Service> serviceClass) {
         return createCustomProxyPort(new MultiSessionMgr(credentials, DEFAULT_SECURITY_MGR), wsdlResource, serviceClass);
     }
 
@@ -245,11 +212,8 @@ public final class CustomWebServiceUtil {
      * @param serviceClass the class of a custom Web Service being used.
      *
      * @return a usable port.
-     *
-     * @throws Exception if any problems arise creating the web service
-     *                   endpoint.
      */
-    public static <P> P createCustomProxyPort(final Credentials credentials, final String wsdlResource, final Class<? extends Service> serviceClass) throws Exception {
+    public static <P> P createCustomProxyPort(final Credentials credentials, final String wsdlResource, final Class<? extends Service> serviceClass) {
         return createCustomProxyPort(new SingleSessionMgr(credentials, DEFAULT_SECURITY_MGR), wsdlResource, serviceClass);
     }
 
@@ -262,11 +226,22 @@ public final class CustomWebServiceUtil {
      * @param serviceClass the class of a custom Web Service being used.
      *
      * @return a usable port.
-     *
-     * @throws Exception if any problems arise creating the web service
-     *                   endpoint.
      */
-    public static <P> P createCustomProxyPort(final Credentials[] credentials, final Class<? extends Service> serviceClass) throws Exception {
+    public static <P> P createCustomProxyPort(final Credentials[] credentials, final Class<? extends Service> serviceClass) {
+        return createCustomProxyPort(new MultiSessionMgr(credentials, DEFAULT_SECURITY_MGR), serviceClass);
+    }
+
+    /**
+     * Create a proxied port. This manages auto login and retries when calling
+     * SFDC.
+     *
+     * @param <P>          the type of web service endpoint.
+     * @param credentials  the credentials for login.
+     * @param serviceClass the class of a custom Web Service being used.
+     *
+     * @return a usable port.
+     */
+    public static <P> P createCustomProxyPort(final Collection<Credentials> credentials, final Class<? extends Service> serviceClass) {
         return createCustomProxyPort(new MultiSessionMgr(credentials, DEFAULT_SECURITY_MGR), serviceClass);
     }
 
@@ -280,27 +255,8 @@ public final class CustomWebServiceUtil {
      *
      * @return a usable port.
      *
-     * @throws Exception if any problems arise creating the web service
-     *                   endpoint.
      */
-    public static <P> P createCustomProxyPort(final Collection<Credentials> credentials, final Class<? extends Service> serviceClass) throws Exception {
-        return createCustomProxyPort(new MultiSessionMgr(credentials, DEFAULT_SECURITY_MGR), serviceClass);
-    }
-
-    /**
-     * Create a proxied port. This manages auto login and retries when calling
-     * SFDC.
-     *
-     * @param <P>          the type of web service endpoint.
-     * @param credentials  the credentials for login.
-     * @param serviceClass the class of a custom Web Service being used.
-     *
-     * @return a usable port.
-     *
-     * @throws Exception if any problems arise creating the web service
-     *                   endpoint.
-     */
-    public static <P> P createCustomProxyPort(final Credentials credentials, final Class<? extends Service> serviceClass) throws Exception {
+    public static <P> P createCustomProxyPort(final Credentials credentials, final Class<? extends Service> serviceClass) {
         return createCustomProxyPort(new SingleSessionMgr(credentials, DEFAULT_SECURITY_MGR), serviceClass);
     }
 }

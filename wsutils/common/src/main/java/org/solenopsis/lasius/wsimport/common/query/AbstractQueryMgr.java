@@ -3,7 +3,6 @@ package org.solenopsis.lasius.wsimport.common.query;
 import java.util.Iterator;
 import java.util.List;
 import java.util.logging.Logger;
-import org.solenopsis.lasius.wsimport.common.query.QueryMgr;
 
 /**
  *
@@ -13,6 +12,7 @@ import org.solenopsis.lasius.wsimport.common.query.QueryMgr;
  *
  */
 public abstract class AbstractQueryMgr<V> implements QueryMgr<V> {
+
     /**
      * Our logger.
      */
@@ -33,10 +33,8 @@ public abstract class AbstractQueryMgr<V> implements QueryMgr<V> {
      * @param soql is the soql statement to query for.
      *
      * @return an initial query with the appropriate data.
-     *
-     * @throws Exception if there are any problems querying Salesforce.
      */
-    protected abstract InitialQuery<V> querySalesforce(final String soql) throws Exception;
+    protected abstract InitialQuery<V> querySalesforce(final String soql);
 
     /**
      * Return the next batch of data from SFDC.
@@ -44,10 +42,8 @@ public abstract class AbstractQueryMgr<V> implements QueryMgr<V> {
      * @param queryResultLocator used when calling queryMore().
      *
      * @return the next batch of data.
-     *
-     * @throws Exception if there is any problem querying Salesforce.
      */
-    protected abstract List<V> getNext(String queryResultLocator) throws Exception;
+    protected abstract List<V> getNext(String queryResultLocator);
 
     /**
      * This constructor sets the port.
@@ -60,7 +56,7 @@ public abstract class AbstractQueryMgr<V> implements QueryMgr<V> {
      * {@inheritDoc}
      */
     @Override
-    public Iterator<V> query(final String soql) throws Exception {
+    public Iterator<V> query(final String soql) {
         return new QueryIterator(this, soql);
     }
 }

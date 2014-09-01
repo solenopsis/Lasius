@@ -87,7 +87,7 @@ public class QueryIterator<V> implements Iterator<V> {
      * @throws IllegalArgumentException if queryMgr is null or soql is
      *                                  empty/null.
      */
-    public QueryIterator(final AbstractQueryMgr queryMgr, final String soql) throws Exception {
+    public QueryIterator(final AbstractQueryMgr queryMgr, final String soql) {
         IntegrityUtil.ensure(queryMgr, "Query manager cannot be null!");
         IntegrityUtil.ensure(soql, "SOQL cannot be null or empty!");
 
