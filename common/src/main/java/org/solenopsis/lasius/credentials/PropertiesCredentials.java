@@ -30,19 +30,30 @@ public class PropertiesCredentials extends DefaultCredentials {
         }
     };
 
+    public PropertiesCredentials(final PropertiesMgr propertiesMgr, final String urlProperty, final String userNameProperty, final String passwordProperty, final String tokenProperty, final String apiVersionProperty) {
+        super(
+                propertiesMgr.getProperties().getProperty(urlProperty),
+                propertiesMgr.getProperties().getProperty(userNameProperty),
+                propertiesMgr.getProperties().getProperty(passwordProperty),
+                propertiesMgr.getProperties().getProperty(tokenProperty),
+                propertiesMgr.getProperties().getProperty(apiVersionProperty)
+        );
+    }
+
     /**
      * Constructs credentials from propertiesMgr.
      *
      * @param propertiesMgr contains properties from which our credentials will
      *                      be retrieved.
      */
-    public PropertiesCredentials(PropertiesMgr propertiesMgr) {
-        super(
-                propertiesMgr.getProperties().getProperty(PropertyNameEnum.URL.getName()),
-                propertiesMgr.getProperties().getProperty(PropertyNameEnum.USER_NAME.getName()),
-                propertiesMgr.getProperties().getProperty(PropertyNameEnum.PASSWORD.getName()),
-                propertiesMgr.getProperties().getProperty(PropertyNameEnum.TOKEN.getName()),
-                propertiesMgr.getProperties().getProperty(PropertyNameEnum.API_VERSION.getName())
+    public PropertiesCredentials(final PropertiesMgr propertiesMgr) {
+        this(
+                propertiesMgr,
+                PropertyNameEnum.URL.getName(),
+                PropertyNameEnum.USER_NAME.getName(),
+                PropertyNameEnum.PASSWORD.getName(),
+                PropertyNameEnum.TOKEN.getName(),
+                PropertyNameEnum.API_VERSION.getName()
         );
     }
 }
