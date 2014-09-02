@@ -16,6 +16,7 @@
 
 	<properties>
 		<base.package>org.solenopsis.lasius.wsdls</base.package>
+		<org.codehaus.mojo_jaxws-maven-plugin_version>1.12</org.codehaus.mojo_jaxws-maven-plugin_version>
 	</properties>
 
     <developers>
@@ -37,6 +38,7 @@
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>jaxws-maven-plugin</artifactId>
+				<version>${org.codehaus.mojo_jaxws-maven-plugin_version}</version>
                 <executions>
                     <execution>
                         <id>enterprise-wsdl-import</id>
