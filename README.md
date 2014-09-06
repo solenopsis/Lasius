@@ -57,7 +57,7 @@ It is highly unlikely you will ever use this class directly.  It is actually use
 
 There are currently two implementations of session managers:
 * [Single session manager] (https://github.com/solenopsis/Lasius/blob/master/wsutils/common/src/main/java/org/solenopsis/lasius/wsimport/common/session/mgr/SingleSessionMgr.java):  Deals with a single credential and a lone session.
-* [Multi session manager] (https://github.com/solenopsis/Lasius/blob/master/wsutils/common/src/main/java/org/solenopsis/lasius/wsimport/common/session/mgr/MultiSessionMgr.java):  Allows you to maintain N session managers using N credentials.
+* [Multi session manager] (https://github.com/solenopsis/Lasius/blob/master/wsutils/common/src/main/java/org/solenopsis/lasius/wsimport/common/session/mgr/MultiSessionMgr.java):  Allows you to maintain N session managers using N credentials.  Internally it uses N SingleSessionMgr's - one per [credential] (https://github.com/solenopsis/Lasius/blob/master/common/src/main/java/org/solenopsis/lasius/credentials/Credentials.java).
 
 ## Web Services
 
@@ -212,7 +212,7 @@ final MetadataPortType metadataPort = MetadataWebServiceUtil.createMetadataProxy
 
 Now you can:
 * use all the ports in a threaded capacity - across four SFDC users.
-* never exceed 40 simultaneous calls as the session manager will multiplex calls across all four SFDC users!  When you exceed 40, the calls will be blocked until one session manager becomes free.  Please note your upper bounds on number of concurrent calls is:  10 x the-number-of-credentials.  Above we used four credentials therefore our total concurrent calls is:  10 x 4 = 40!
+* never exceed 40 simultaneous calls as the session manager will multiplex calls across all four SFDC users!  When you exceed 40, the calls will be blocked until one of the internal session managers becomes free.  Please note your upper bounds on number of concurrent calls is:  10 x the-number-of-credentials.  Above we used four credentials therefore our total concurrent calls is:  10 x 4 = 40!
 * automatically logged in.
 * automatically relogin over time when a session id from one of the sessions becomes stale (invalid session id).
 
