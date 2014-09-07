@@ -1,12 +1,12 @@
 # Lasius
 
-Welcome to Lasius - a Java utility framework for SFDC.  This project contains many useful features, but chief among them is automatic session management to your SFDC web services (custom, enterprise, partner, metadata and tooling).  By this we mean using credentials (user name, password, security token SFDC API version, and URL), we can provide:
+Welcome to Lasius - a Java utility framework for SFDC.  This project contains many useful features, but chief among them is automatic session management to your SFDC web services ([custom] (https://developer.salesforce.com/page/Apex_Web_Services_and_Callouts), [enterprise] (https://github.com/solenopsis/Lasius/blob/master/wsutils/wsdls/src/main/resources/wsdl/Lasius-enterprise.wsdl), [metadata] (https://github.com/solenopsis/Lasius/blob/master/wsutils/wsdls/src/main/resources/wsdl/Lasius-metadata.wsdl), [partner] (https://github.com/solenopsis/Lasius/blob/master/wsutils/wsdls/src/main/resources/wsdl/Lasius-partner.wsdl),  and [tooling] (https://github.com/solenopsis/Lasius/blob/master/wsutils/wsdls/src/main/resources/wsdl/Lasius-tooling.wsdl)).  By this we mean using credentials (user name, password, security token SFDC API version, and URL), we can provide:
 * Automatic login.
-* Automatic relogin should a session id become invalid.
+* Automatic re-login should a session id become invalid.
 * Concurrent threaded access to SFDC per session id.
 * Multiplexed session ids for scaling up simultaneous concurrent calls to SFDC.
 
-The most interesting thing to consider in the aforementioned statements is there is nothing special you must do other than have your SFDC WSDL and use wsimport to generate your client Java code.  Once you've done this, in a matter of a few lines of code, you can leverage the above bullet points.  The following sections will show you all you that's involved.
+The most interesting thing to consider in the aforementioned statements is there is nothing special you must do other than have your SFDC WSDL and use [wsimport] (http://docs.oracle.com/javase/6/docs/technotes/tools/share/wsimport.html) to generate your client Java code.  Once you've done this, in a matter of a few lines of code, you can leverage the above bullet points.  The following sections will show you all that's involved.
 
 ## Credentials
 
@@ -36,32 +36,33 @@ final Credentials credentials = new PropertiesCredentials(new FilePropertiesMgr(
 
 ## Security Managers
 
-[Security managers] (https://github.com/solenopsis/Lasius/tree/master/wsutils/common/src/main/java/org/solenopsis/lasius/wsimport/common/security) are used to login and logout of SFDC.  All security managers provide an implementation of [LoginResult] (https://github.com/solenopsis/Lasius/blob/master/wsutils/common/src/main/java/org/solenopsis/lasius/wsimport/common/security/LoginResult.java) which represents the login result one gets when logging into SFDC using either the enterprise, partner or tooling web services.  Coincidentally, there are three security manager implementations in Lasius corresponding to them:
+[Security managers] (https://github.com/solenopsis/Lasius/tree/master/wsutils/common/src/main/java/org/solenopsis/lasius/wsimport/common/security) are used to login and logout of SFDC.  All [security managers] (https://github.com/solenopsis/Lasius/tree/master/wsutils/common/src/main/java/org/solenopsis/lasius/wsimport/common/security) provide an implementation of [LoginResult] (https://github.com/solenopsis/Lasius/blob/master/wsutils/common/src/main/java/org/solenopsis/lasius/wsimport/common/security/LoginResult.java) which represents the [login result] (https://github.com/solenopsis/Lasius/blob/master/wsutils/common/src/main/java/org/solenopsis/lasius/wsimport/common/security/LoginResult.java) one gets when logging into SFDC using either the [enterprise] (https://github.com/solenopsis/Lasius/blob/master/wsutils/wsdls/src/main/resources/wsdl/Lasius-enterprise.wsdl), [partner] (https://github.com/solenopsis/Lasius/blob/master/wsutils/wsdls/src/main/resources/wsdl/Lasius-partner.wsdl) or [tooling] (https://github.com/solenopsis/Lasius/blob/master/wsutils/wsdls/src/main/resources/wsdl/Lasius-tooling.wsdl) web services.  Coincidentally, there are three security manager implementations in Lasius corresponding to them:
 * [Enterprise Security Manager] (https://github.com/solenopsis/Lasius/tree/master/wsutils/enterprise/src/main/java/org/solenopsis/lasius/wsimport/enterprise/security/EnterpriseSecurityMgr.java)
 * [Partner Security Manager] (https://github.com/solenopsis/Lasius/tree/master/wsutils/partner/src/main/java/org/solenopsis/lasius/wsimport/partner/security/PartnerSecurityMgr.java)
 * [Tooling Security Manager] (https://github.com/solenopsis/Lasius/tree/master/wsutils/tooling/src/main/java/org/solenopsis/lasius/wsimport/tooling/security/ToolingSecurityMgr.java)
 
-A [security manager] (https://github.com/solenopsis/Lasius/tree/master/wsutils/common/src/main/java/org/solenopsis/lasius/wsimport/common/security) is used by [session managers] (https://github.com/solenopsis/Lasius/tree/master/wsutils/common/src/main/java/org/solenopsis/lasius/wsimport/common/session/mgr) to login (if not already logged in) or log out (using the resetSession() method).  The result of a login is a [Session] (https://github.com/solenopsis/Lasius/blob/master/wsutils/common/src/main/java/org/solenopsis/lasius/wsimport/common/session/Session.java).  Please see the next section for more information. 
+A [security manager] (https://github.com/solenopsis/Lasius/tree/master/wsutils/common/src/main/java/org/solenopsis/lasius/wsimport/common/security) is used by [session managers] (https://github.com/solenopsis/Lasius/tree/master/wsutils/common/src/main/java/org/solenopsis/lasius/wsimport/common/session/mgr) to [login] (https://github.com/solenopsis/Lasius/blob/master/wsutils/common/src/main/java/org/solenopsis/lasius/wsimport/common/security/SecurityMgr.java#L36) (if not already logged in) or [log out] (https://github.com/solenopsis/Lasius/blob/master/wsutils/common/src/main/java/org/solenopsis/lasius/wsimport/common/security/SecurityMgr.java#L43) (using the [resetSession()] (https://github.com/solenopsis/Lasius/blob/master/wsutils/common/src/main/java/org/solenopsis/lasius/wsimport/common/session/mgr/SessionMgr.java#L28).  The result of a [login] (https://github.com/solenopsis/Lasius/blob/master/wsutils/common/src/main/java/org/solenopsis/lasius/wsimport/common/security/SecurityMgr.java#L36) is a [session] (https://github.com/solenopsis/Lasius/blob/master/wsutils/common/src/main/java/org/solenopsis/lasius/wsimport/common/session/Session.java) which contains a [login result] (https://github.com/solenopsis/Lasius/blob/master/wsutils/common/src/main/java/org/solenopsis/lasius/wsimport/common/session/Session.java#L48).  Please see the next section for more information. 
+
 ## Sessions
 
-Once one logs into into SFDC (via a [Security Manager] (https://github.com/solenopsis/Lasius/tree/master/wsutils/common/src/main/java/org/solenopsis/lasius/wsimport/common/security)), a [Session] (https://github.com/solenopsis/Lasius/blob/master/wsutils/common/src/main/java/org/solenopsis/lasius/wsimport/common/session/Session.java) is created that holds the [login result] (https://github.com/solenopsis/Lasius/blob/master/wsutils/common/src/main/java/org/solenopsis/lasius/wsimport/common/security/LoginResult.java), and SFDC session id.  Additionally, a [session] (https://github.com/solenopsis/Lasius/blob/master/wsutils/common/src/main/java/org/solenopsis/lasius/wsimport/common/session/Session.java) can provide the mechanism for locking and unlocking to help control simultaneous calls to SFDC web services (think of a semaphore).  The call to [lock()] (https://github.com/solenopsis/Lasius/blob/master/wsutils/common/src/main/java/org/solenopsis/lasius/wsimport/common/session/Session.java#L22) will actually block should their be 0 [remaing locks available] (https://github.com/solenopsis/Lasius/blob/master/wsutils/common/src/main/java/org/solenopsis/lasius/wsimport/common/session/Session.java#L34).  Calling [unlock()] (https://github.com/solenopsis/Lasius/blob/master/wsutils/common/src/main/java/org/solenopsis/lasius/wsimport/common/session/Session.java#L27) will allow any threads being block when attempting to [lock()] (https://github.com/solenopsis/Lasius/blob/master/wsutils/common/src/main/java/org/solenopsis/lasius/wsimport/common/session/Session.java#L22) proceed.
+Once one logs into into SFDC (via a [Security Manager] (https://github.com/solenopsis/Lasius/tree/master/wsutils/common/src/main/java/org/solenopsis/lasius/wsimport/common/security)), a [session] (https://github.com/solenopsis/Lasius/blob/master/wsutils/common/src/main/java/org/solenopsis/lasius/wsimport/common/session/Session.java) is created that holds the [login result] (https://github.com/solenopsis/Lasius/blob/master/wsutils/common/src/main/java/org/solenopsis/lasius/wsimport/common/security/LoginResult.java), and SFDC session id.  Additionally, a [session] (https://github.com/solenopsis/Lasius/blob/master/wsutils/common/src/main/java/org/solenopsis/lasius/wsimport/common/session/Session.java) can provide the mechanism for [locking] (https://github.com/solenopsis/Lasius/blob/master/wsutils/common/src/main/java/org/solenopsis/lasius/wsimport/common/session/Session.java#L22) and [unlocking] (https://github.com/solenopsis/Lasius/blob/master/wsutils/common/src/main/java/org/solenopsis/lasius/wsimport/common/session/Session.java#L27) to help control simultaneous calls to SFDC web services (think of a [semaphore] (http://en.wikipedia.org/wiki/Semaphore_%28programming%29)).  The call to [lock()] (https://github.com/solenopsis/Lasius/blob/master/wsutils/common/src/main/java/org/solenopsis/lasius/wsimport/common/session/Session.java#L22) will actually block should their be 0 [remaing locks available] (https://github.com/solenopsis/Lasius/blob/master/wsutils/common/src/main/java/org/solenopsis/lasius/wsimport/common/session/Session.java#L34).  Calling [unlock()] (https://github.com/solenopsis/Lasius/blob/master/wsutils/common/src/main/java/org/solenopsis/lasius/wsimport/common/session/Session.java#L27) will allow any threads being blocked to proceed when attempting to [lock()] (https://github.com/solenopsis/Lasius/blob/master/wsutils/common/src/main/java/org/solenopsis/lasius/wsimport/common/session/Session.java#L22).
 
-It is highly unlikely you will ever use this class directly.  It is actually used by proxy ports as described below.
+It is highly unlikely you will ever use this class directly.  It is actually used by proxy ports as described later below.
 
 ## Session Managers
 
 [Session managers] (https://github.com/solenopsis/Lasius/blob/master/wsutils/common/src/main/java/org/solenopsis/lasius/wsimport/common/session/mgr/SessionMgr.java) utilize [credentials] (https://github.com/solenopsis/Lasius/blob/master/common/src/main/java/org/solenopsis/lasius/credentials/Credentials.java) and [security managers] (https://github.com/solenopsis/Lasius/tree/master/wsutils/common/src/main/java/org/solenopsis/lasius/wsimport/common/security) to:
 * Manage [sessions] (https://github.com/solenopsis/Lasius/blob/master/wsutils/common/src/main/java/org/solenopsis/lasius/wsimport/common/session/Session.java).
-* Perform automatic logins when returning a session.  If no session exists, the login will happen at that time.
-* Reset sessions: disregards the current session and will perform a login.  Please note this is only applicable if you attempt to reset a good "current" session.
+* Perform automatic [logins] (https://github.com/solenopsis/Lasius/blob/master/wsutils/common/src/main/java/org/solenopsis/lasius/wsimport/common/security/SecurityMgr.java#L36) when returning a [session] (https://github.com/solenopsis/Lasius/blob/master/wsutils/common/src/main/java/org/solenopsis/lasius/wsimport/common/session/Session.java).  If no [session] (https://github.com/solenopsis/Lasius/blob/master/wsutils/common/src/main/java/org/solenopsis/lasius/wsimport/common/session/Session.java) exists, the [login] (https://github.com/solenopsis/Lasius/blob/master/wsutils/common/src/main/java/org/solenopsis/lasius/wsimport/common/security/SecurityMgr.java#L36) will happen at that time.
+* [Reset sessions] (https://github.com/solenopsis/Lasius/blob/master/wsutils/common/src/main/java/org/solenopsis/lasius/wsimport/common/session/mgr/SessionMgr.java#L28): disregards the current session and will perform a [login] (https://github.com/solenopsis/Lasius/blob/master/wsutils/common/src/main/java/org/solenopsis/lasius/wsimport/common/security/SecurityMgr.java#L36).  Please note this is only applicable if you attempt to [reset] (https://github.com/solenopsis/Lasius/blob/master/wsutils/common/src/main/java/org/solenopsis/lasius/wsimport/common/session/mgr/SessionMgr.java#L28) a good "current" [session] (https://github.com/solenopsis/Lasius/blob/master/wsutils/common/src/main/java/org/solenopsis/lasius/wsimport/common/session/Session.java).
 
-There are currently two implementations of session managers:
-* [Single session manager] (https://github.com/solenopsis/Lasius/blob/master/wsutils/common/src/main/java/org/solenopsis/lasius/wsimport/common/session/mgr/SingleSessionMgr.java):  Deals with a single credential and a lone session.
-* [Multi session manager] (https://github.com/solenopsis/Lasius/blob/master/wsutils/common/src/main/java/org/solenopsis/lasius/wsimport/common/session/mgr/MultiSessionMgr.java):  Allows you to maintain N session managers using N credentials.  Internally it uses N SingleSessionMgr's - one per [credential] (https://github.com/solenopsis/Lasius/blob/master/common/src/main/java/org/solenopsis/lasius/credentials/Credentials.java).
+There are currently two implementations of [session managers] (https://github.com/solenopsis/Lasius/blob/master/wsutils/common/src/main/java/org/solenopsis/lasius/wsimport/common/session/mgr/SessionMgr.java):
+* [Single session manager] (https://github.com/solenopsis/Lasius/blob/master/wsutils/common/src/main/java/org/solenopsis/lasius/wsimport/common/session/mgr/SingleSessionMgr.java):  Deals with a single [credential] (https://github.com/solenopsis/Lasius/blob/master/common/src/main/java/org/solenopsis/lasius/credentials/Credentials.java) and a lone [session] (https://github.com/solenopsis/Lasius/blob/master/wsutils/common/src/main/java/org/solenopsis/lasius/wsimport/common/session/Session.java).
+* [Multi session manager] (https://github.com/solenopsis/Lasius/blob/master/wsutils/common/src/main/java/org/solenopsis/lasius/wsimport/common/session/mgr/MultiSessionMgr.java):  Allows you to maintain N [session managers] (https://github.com/solenopsis/Lasius/blob/master/wsutils/common/src/main/java/org/solenopsis/lasius/wsimport/common/session/mgr/SessionMgr.java) using N [credentials] (https://github.com/solenopsis/Lasius/blob/master/common/src/main/java/org/solenopsis/lasius/credentials/Credentials.java).  Internally it uses N [SingleSessionMgr's] (https://github.com/solenopsis/Lasius/blob/master/wsutils/common/src/main/java/org/solenopsis/lasius/wsimport/common/session/mgr/SingleSessionMgr.java) - one per [credential] (https://github.com/solenopsis/Lasius/blob/master/common/src/main/java/org/solenopsis/lasius/credentials/Credentials.java).
 
 ## Web Services
 
-When using wsimport against a WSDL, client Java code is generated containing a subclass of [Service] (http://docs.oracle.com/javase/7/docs/api/javax/xml/ws/Service.html).  This subclass will contain a "port" method that one uses to perform actual web service calls.  For example, the following snippet represents the [service] (http://docs.oracle.com/javase/7/docs/api/javax/xml/ws/Service.html) generated code for an enterprise WSDL:
+When using [wsimport] (http://docs.oracle.com/javase/6/docs/technotes/tools/share/wsimport.html) against a WSDL, client Java code is generated containing a subclass of [Service] (http://docs.oracle.com/javase/7/docs/api/javax/xml/ws/Service.html).  This subclass will contain a "port" method that one uses to perform actual web service calls.  For example, the following snippet represents the [service] (http://docs.oracle.com/javase/7/docs/api/javax/xml/ws/Service.html) generated code for an [enterprise WSDL] (https://github.com/solenopsis/Lasius/blob/master/wsutils/wsdls/src/main/resources/wsdl/Lasius-enterprise.wsdl):
 
 ```java
 @WebServiceClient(name = "SforceService", targetNamespace = "urn:enterprise.soap.sforce.com", wsdlLocation = "file:/home/sfloess/Development/personal/solenopsis/Lasius/wsutils/wsdls/src/main/resources/wsdl/Lasius-enterprise.wsdl")
@@ -75,7 +76,7 @@ public class SforceService
 }
 ```
 
-Here is a snippet of wsimport generated java code for the tooling WSDL:
+Here is a snippet of wsimport generated java code for the [tooling WSDL] (https://github.com/solenopsis/Lasius/blob/master/wsutils/wsdls/src/main/resources/wsdl/Lasius-tooling.wsdl):
 
 ```java
 
@@ -90,23 +91,23 @@ public class SforceServiceService
 }
 ```
 
-The port is denoted via the annotated method for @WebEndpoint and above is:
-* the method getSoap() for the enterprise WSDL.
-* the method getSforceService() for the tooling WSDL.
+The port is denoted via the annotated method for [@WebEndpoint] (http://docs.oracle.com/javaee/5/api/javax/xml/ws/WebEndpoint.html) and above is:
+* the method getSoap() for the [enterprise WSDL] (https://github.com/solenopsis/Lasius/blob/master/wsutils/wsdls/src/main/resources/wsdl/Lasius-enterprise.wsdl).
+* the method getSforceService() for the [tooling WSDL] (https://github.com/solenopsis/Lasius/blob/master/wsutils/wsdls/src/main/resources/wsdl/Lasius-tooling.wsdl).
 
-When making SFDC web service calls, one musts:
-* set the session id (generated from login) into the SOAP header of the port.
-* set the server URL from login as the end point.  The URL denoted above for credentials is the login URL.  Once you actually login, you are presented with a server URL in your Login Result - this is the one you want to use.
+When making SFDC web service calls, one must:
+* set the session id (generated from [login] (https://github.com/solenopsis/Lasius/blob/master/wsutils/common/src/main/java/org/solenopsis/lasius/wsimport/common/security/SecurityMgr.java#L36)) into the SOAP header of the port.
+* set the server URL from [login] (https://github.com/solenopsis/Lasius/blob/master/wsutils/common/src/main/java/org/solenopsis/lasius/wsimport/common/security/SecurityMgr.java#L36) as the end point.  The URL denoted above for [credentials] (https://github.com/solenopsis/Lasius/blob/master/common/src/main/java/org/solenopsis/lasius/credentials/Credentials.java) is the login URL.  Once you actually [login] (https://github.com/solenopsis/Lasius/blob/master/wsutils/common/src/main/java/org/solenopsis/lasius/wsimport/common/security/SecurityMgr.java#L36), you are presented with a server URL in your [login result] (https://github.com/solenopsis/Lasius/blob/master/wsutils/common/src/main/java/org/solenopsis/lasius/wsimport/common/security/LoginResult.java) - this is the one you want to use.
 
-Lasius provides a number of convenient ways to deal with ports as described below.
+Lasius provides a number of convenient ways to deal with ports as described in the sections below.
 
 ### Abstraction
 
-Lasius make use of the [FlossWare Web Service package] (https://github.com/FlossWare/java/tree/master/wsutils/service/src/main/java/org/flossware/wsimport/service) to simplify creating ports.  Above we illustrated two different methods for returning the ports on the enterprise and tooling WSDLs.  The [FlossWare Service package] (https://github.com/FlossWare/java/tree/master/wsutils/service/src/main/java/org/flossware/wsimport/service) will examine a [Service] (http://docs.oracle.com/javase/7/docs/api/javax/xml/ws/Service.html)  subclass to find the ports for a [Service] (http://docs.oracle.com/javase/7/docs/api/javax/xml/ws/Service.html) based upon the @WebEndpoint annotation and use that to create ports uniformly and easily, encapsulating this to one method [getPort()] (https://github.com/FlossWare/java/blob/master/wsutils/service/src/main/java/org/flossware/wsimport/service/WebService.java#L50).  This simplification makes port management for any SFDC custom web service trivial.
+Lasius makes use of the [FlossWare Web Service package] (https://github.com/FlossWare/java/tree/master/wsutils/service/src/main/java/org/flossware/wsimport/service) to simplify creating ports.  Above we illustrated two different methods for returning the ports on the [enterprise] (https://github.com/solenopsis/Lasius/blob/master/wsutils/wsdls/src/main/resources/wsdl/Lasius-enterprise.wsdl) and [tooling] (https://github.com/solenopsis/Lasius/blob/master/wsutils/wsdls/src/main/resources/wsdl/Lasius-tooling.wsdl) WSDLs.  The [FlossWare Service package] (https://github.com/FlossWare/java/tree/master/wsutils/service/src/main/java/org/flossware/wsimport/service) will examine a [Service] (http://docs.oracle.com/javase/7/docs/api/javax/xml/ws/Service.html)  subclass to find the ports for a [Service] (http://docs.oracle.com/javase/7/docs/api/javax/xml/ws/Service.html) based upon the [@WebEndpoint] (http://docs.oracle.com/javaee/6/api/javax/xml/ws/WebEndpoint.html) annotation and use that to create ports uniformly and easily, encapsulating this to one method [getPort()] (https://github.com/FlossWare/java/blob/master/wsutils/service/src/main/java/org/flossware/wsimport/service/WebService.java#L50).  This simplification makes port management for any SFDC web service trivial.
 
 #### Example
 
-To illustrate, we'll show how to deal with both the enterprise and tooling WSDLs above.  Please note we are denoting that the WSDLs are located in the classpath within a directory entitled "wsdl" as seen below:
+To illustrate, we'll define a [web service] (https://github.com/FlossWare/java/blob/master/wsutils/service/src/main/java/org/flossware/wsimport/service/WebService.java) for both the [enterprise] (https://github.com/solenopsis/Lasius/blob/master/wsutils/wsdls/src/main/resources/wsdl/Lasius-enterprise.wsdl) and [tooling] (https://github.com/solenopsis/Lasius/blob/master/wsutils/wsdls/src/main/resources/wsdl/Lasius-tooling.wsdl) WSDLs above.  Please note we are denoting WSDL locations in the classpath within a directory entitled "wsdl" as seen below:
 
 ```java
 final WebService<Soap> enterpriseWebService = new GenericWebService("wsdl/enterprise.wsdl", SforceService.class);
@@ -125,34 +126,36 @@ final SforceServicePortType toolingPort = new GenericWebService<SforceServicePor
 
 ### Port Management
 
-Lasius provides a number of utility classes for utilizing SFDC web service ports (please see above for the definition of "port" here as it is not related to Sockets):
+Lasius provides a number of utility classes for utilizing SFDC web service ports (please see above for the definition of "port" here as it is not related to [sockets] (http://docs.oracle.com/javase/7/docs/api/java/net/Socket.html)):
 
-* [Salesforce Web Service Util] (https://github.com/solenopsis/Lasius/blob/sfloess_issue-33/wsutils/common/src/main/java/org/solenopsis/lasius/wsimport/common/util/SalesforceWebServiceUtil.java)
-* [Custom Web Service (Developer Designed) Util] (https://github.com/solenopsis/Lasius/blob/sfloess_issue-33/wsutils/utils/src/main/java/org/solenopsis/lasius/wsimport/util/CustomWebServiceUtil.java)
-* [Enterprise Web Service Util] (https://github.com/solenopsis/Lasius/blob/sfloess_issue-33/wsutils/utils/src/main/java/org/solenopsis/lasius/wsimport/util/EnterpriseWebServiceUtil.java)
-* [Metadata Web Service Util] (https://github.com/solenopsis/Lasius/blob/sfloess_issue-33/wsutils/utils/src/main/java/org/solenopsis/lasius/wsimport/util/MetadataWebServiceUtil.java)
-* [Partner Web Service Util] (https://github.com/solenopsis/Lasius/blob/sfloess_issue-33/wsutils/utils/src/main/java/org/solenopsis/lasius/wsimport/util/PartnerWebServiceUtil.java)
-* [Tooling Web Service Util] (https://github.com/solenopsis/Lasius/blob/sfloess_issue-33/wsutils/utils/src/main/java/org/solenopsis/lasius/wsimport/util/ToolingWebServiceUtil.java)
+* [Salesforce Web Service Util] (https://github.com/solenopsis/Lasius/blob/master/wsutils/common/src/main/java/org/solenopsis/lasius/wsimport/common/util/SalesforceWebServiceUtil.java)
+* [Custom Web Service Util] (https://github.com/solenopsis/Lasius/blob/master/wsutils/utils/src/main/java/org/solenopsis/lasius/wsimport/util/CustomWebServiceUtil.java)
+* [Enterprise Web Service Util] (https://github.com/solenopsis/Lasius/blob/master/wsutils/utils/src/main/java/org/solenopsis/lasius/wsimport/util/EnterpriseWebServiceUtil.java)
+* [Metadata Web Service Util] (https://github.com/solenopsis/Lasius/blob/master/wsutils/utils/src/main/java/org/solenopsis/lasius/wsimport/util/MetadataWebServiceUtil.java)
+* [Partner Web Service Util] (https://github.com/solenopsis/Lasius/blob/master/wsutils/utils/src/main/java/org/solenopsis/lasius/wsimport/util/PartnerWebServiceUtil.java)
+* [Tooling Web Service Util] (https://github.com/solenopsis/Lasius/blob/master/wsutils/utils/src/main/java/org/solenopsis/lasius/wsimport/util/ToolingWebServiceUtil.java)
 
-The [Salesforce Web Service Util] (https://github.com/solenopsis/Lasius/blob/sfloess_issue-33/wsutils/common/src/main/java/org/solenopsis/lasius/wsimport/common/util/SalesforceWebServiceUtil.java) is a very generic utility class.  It's useful but is mostly leveraged by the other utility classes listed in the bulleted section.  While you can use this, it's unlikely you ever will.
+As a side note:
+* A [custom web service] (https://developer.salesforce.com/page/Apex_Web_Services_and_Callouts) are web services written in [Apex] (https://developer.salesforce.com/page/Apex_Code:_The_World%27s_First_On-Demand_Programming_Language) for SFDC.
+* The [Salesforce Web Service Util] (https://github.com/solenopsis/Lasius/blob/master/wsutils/common/src/main/java/org/solenopsis/lasius/wsimport/common/util/SalesforceWebServiceUtil.java) is a very generic utility class.  It's useful but is mostly leveraged by the other utility classes listed in the bulleted section.  While you can use this, it's unlikely you ever will.
 
 #### Unproxied Ports
 
 Unproxied ports are those ports that are used without concern for:
 * Sharing session ids across threads.
-* Relogins when session ids become invalid.
+* Re-logins when session ids become invalid.
 
-They are great when you need to communicate with SFDC simply and easily.  Be aware when using any of the following web service utilities in an unproxied capacity, you will be automatically logged in so your web service calls can proceed for you:
+They are great when you need to communicate with SFDC simply and easily.  Be aware when using any of the following web service utilities in an unproxied capacity, you will be automatically logged in and server URL set so your web service calls can proceed for you:
 
-* [Custom Web Service (Developer Designed) Util] (https://github.com/solenopsis/Lasius/blob/sfloess_issue-33/wsutils/utils/src/main/java/org/solenopsis/lasius/wsimport/util/CustomWebServiceUtil.java)
-* [Enterprise Web Service Util] (https://github.com/solenopsis/Lasius/blob/sfloess_issue-33/wsutils/utils/src/main/java/org/solenopsis/lasius/wsimport/util/EnterpriseWebServiceUtil.java)
-* [Metadata Web Service Util] (https://github.com/solenopsis/Lasius/blob/sfloess_issue-33/wsutils/utils/src/main/java/org/solenopsis/lasius/wsimport/util/MetadataWebServiceUtil.java)
-* [Partner Web Service Util] (https://github.com/solenopsis/Lasius/blob/sfloess_issue-33/wsutils/utils/src/main/java/org/solenopsis/lasius/wsimport/util/PartnerWebServiceUtil.java)
-* [Tooling Web Service Util] (https://github.com/solenopsis/Lasius/blob/sfloess_issue-33/wsutils/utils/src/main/java/org/solenopsis/lasius/wsimport/util/ToolingWebServiceUtil.java)
+* [Custom Web Service (Developer Designed) Util] (https://github.com/solenopsis/Lasius/blob/master/wsutils/utils/src/main/java/org/solenopsis/lasius/wsimport/util/CustomWebServiceUtil.java)
+* [Enterprise Web Service Util] (https://github.com/solenopsis/Lasius/blob/master/wsutils/utils/src/main/java/org/solenopsis/lasius/wsimport/util/EnterpriseWebServiceUtil.java)
+* [Metadata Web Service Util] (https://github.com/solenopsis/Lasius/blob/master/wsutils/utils/src/main/java/org/solenopsis/lasius/wsimport/util/MetadataWebServiceUtil.java)
+* [Partner Web Service Util] (https://github.com/solenopsis/Lasius/blob/master/wsutils/utils/src/main/java/org/solenopsis/lasius/wsimport/util/PartnerWebServiceUtil.java)
+* [Tooling Web Service Util] (https://github.com/solenopsis/Lasius/blob/master/wsutils/utils/src/main/java/org/solenopsis/lasius/wsimport/util/ToolingWebServiceUtil.java)
 
 ##### Example
 
-Assume you want to utilize your company's enterprise.wsdl and you've stored it in your classpath within a "wsdl" directory:
+Assume you want to utilize your company's [enterprise.wsdl] (https://github.com/solenopsis/Lasius/blob/master/wsutils/wsdls/src/main/resources/wsdl/Lasius-enterprise.wsdl) and you've stored it in your classpath within a "wsdl" directory:
 
 ```java
 final Credentials credentials = new DefaultCredentials("https://test.salesforce.com", "user1", "password", "abcdefghijklmnopqrstuvwx", "30.0");
@@ -167,16 +170,16 @@ Now when you use enterprisePort:
 #### Proxied Ports
 
 Proxied ports are useful when you:
-* Allow for concurrent threaded access to SFDC web services for a session id.
-* Multiplexing many SFDC users to scale up simultaneous concurrent calls.
-* Long running applications where session ids may become stale (dreaded invalid session id SOAP Fault).
-* Using more than one web service across session id.
+* Allow for concurrent threaded access to SFDC web services for a session id.  Specifically one can call SFDC without regard to the number of simultaneous concurrent calls being made for a session id.  Only the maximum number of calls (presently 10) will be allowed.  Any more calls above 10 will block until currently executing calls return from SFDC.
+* Multiplexing many SFDC users to scale up simultaneous concurrent calls.  Specifically by using more than one user, you can leverage 10 times the actual number of users ([credentials] (https://github.com/solenopsis/Lasius/blob/master/common/src/main/java/org/solenopsis/lasius/credentials/Credentials.java)) simultaneous calls.  As an example, using 5 SFDC users you can make 50 simultaneous concurrent calls to SFDC web services. 
+* Long running applications where session ids may become stale (the dreaded invalid session id SOAP Fault).
+* Using more than one web service across session id(s).
 
-Simultaneous concurrent calls per session Id is based upon SFDC API releases.  Presently Lasius supports up to 10 concurrent calls per session id.  Please note where appropriate should the number of calls for a session Id be greater than 10, we will either block (in the case of a [SingleSessionMgr] (https://github.com/solenopsis/Lasius/blob/master/wsutils/common/src/main/java/org/solenopsis/lasius/wsimport/common/session/mgr/SingleSessionMgr.java)) or attempt to use another SessionMgr (when using a [MultiSessionMgr] (https://github.com/solenopsis/Lasius/blob/master/wsutils/common/src/main/java/org/solenopsis/lasius/wsimport/common/session/mgr/MultiSessionMgr.java)).
+Please note:  simultaneous concurrent calls per session Id is based upon SFDC API releases and currently in Lasius is 10 calls per session id.  Where appropriate should the number of calls for a session Id be greater than 10, we will either block (in the case of a [SingleSessionMgr] (https://github.com/solenopsis/Lasius/blob/master/wsutils/common/src/main/java/org/solenopsis/lasius/wsimport/common/session/mgr/SingleSessionMgr.java)) or attempt to use another [SessionMgr] (https://github.com/solenopsis/Lasius/blob/master/wsutils/common/src/main/java/org/solenopsis/lasius/wsimport/common/session/mgr/SessionMgr.java) (when using a [MultiSessionMgr] (https://github.com/solenopsis/Lasius/blob/master/wsutils/common/src/main/java/org/solenopsis/lasius/wsimport/common/session/mgr/MultiSessionMgr.java)).  An [issue] (https://github.com/solenopsis/Lasius/issues/39) is presently open to externalize this number per API version and is scheduled to be fixed as part of Lasius 2.1.
 
 ##### Example
 
-Assume you want to utilize your company's enterprise.wsdl, tooling.wsdl and metdata.wsdl.  Also assume you've stored those WSDL's within a "wsdl" directory.
+Assume you want to utilize your company's [enterprise.wsdl] (https://github.com/solenopsis/Lasius/blob/master/wsutils/wsdls/src/main/resources/wsdl/Lasius-enterprise.wsdl), [tooling.wsdl] (https://github.com/solenopsis/Lasius/blob/master/wsutils/wsdls/src/main/resources/wsdl/Lasius-tooling.wsdl) and [metadata.wsdl] (https://github.com/solenopsis/Lasius/blob/master/wsutils/wsdls/src/main/resources/wsdl/Lasius-metadata.wsdl).  Also assume you've stored those WSDL's within a "wsdl" directory.
 
 ###### Single SFDC User
 
@@ -191,9 +194,9 @@ final MetadataPortType metadataPort = MetadataWebServiceUtil.createMetadataProxy
 
 Now you can:
 * use all the ports in a threaded capacity - but for one SFDC user.  
-* never exceed 10 simultaneous calls as the session manager will block any call until any additional calls complete.
+* never exceed 10 simultaneous calls as the [session manager] (https://github.com/solenopsis/Lasius/blob/master/wsutils/common/src/main/java/org/solenopsis/lasius/wsimport/common/session/mgr/SingleSessionMgr.java) will block any call until any additional calls complete.
 * automatically logged in.
-* automatically relogin over time when your session id becomes stale (invalid session id)
+* automatically re-login over time when your session id becomes stale (invalid session id).
 
 ###### Multiple SFDC Users
 
@@ -212,8 +215,8 @@ final MetadataPortType metadataPort = MetadataWebServiceUtil.createMetadataProxy
 
 Now you can:
 * use all the ports in a threaded capacity - across four SFDC users.
-* never exceed 40 simultaneous calls as the session manager will multiplex calls across all four SFDC users!  When you exceed 40, the calls will be blocked until one of the internal session managers becomes free.  Please note your upper bounds on number of concurrent calls is:  10 x the-number-of-credentials.  Above we used four credentials therefore our total concurrent calls is:  10 x 4 = 40!
+* never exceed 40 simultaneous calls as the [session manager] (https://github.com/solenopsis/Lasius/blob/master/wsutils/common/src/main/java/org/solenopsis/lasius/wsimport/common/session/mgr/MultiSessionMgr.java) will multiplex calls across all four SFDC users!  When you exceed 40, the calls will be blocked until one of the internal [session managers] (https://github.com/solenopsis/Lasius/blob/master/wsutils/common/src/main/java/org/solenopsis/lasius/wsimport/common/session/mgr/SingleSessionMgr.java) becomes free.  Please note your upper bounds on number of concurrent calls is:  10 x the-number-of-[credentials] (https://github.com/solenopsis/Lasius/blob/master/common/src/main/java/org/solenopsis/lasius/credentials/Credentials.java).  Above we used four [credentials] (https://github.com/solenopsis/Lasius/blob/master/common/src/main/java/org/solenopsis/lasius/credentials/Credentials.java) therefore our total concurrent calls is:  10 x 4 = 40!
 * automatically logged in.
-* automatically relogin over time when a session id from one of the sessions becomes stale (invalid session id).
+* automatically re-login over time when a session id from one of the [sessions] (https://github.com/solenopsis/Lasius/blob/master/wsutils/common/src/main/java/org/solenopsis/lasius/wsimport/common/session/Session.java) becomes stale (invalid session id).
 
-It's important to note this works equally well with your own custom SFDC web services - the level of effort is exactly the same!
+It's important to note this works equally well with your own [custom SFDC web services] (https://developer.salesforce.com/page/Apex_Web_Services_and_Callouts) - the level of effort is exactly the same!
