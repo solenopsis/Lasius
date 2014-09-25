@@ -114,4 +114,12 @@
             </dependency>
         </dependencies>
     </dependencyManagement>
+    
+    <distributionManagement>
+        <repository>
+            <id>bintray-solenopsis-maven-Lasius</id>
+            <name>solenopsis-maven-Lasius</name>
+            <url>https://api.bintray.com/maven/solenopsis/maven/Lasius</url>
+        </repository>
+    </distributionManagement>
 </project>
