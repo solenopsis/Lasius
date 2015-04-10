@@ -82,8 +82,7 @@ public final class SalesforceWebServiceUtil {
     public static final String SERVER_UNAVAILABLE = "SERVER_UNAVAILABLE";
 
     /**
-     * When setting up the soap header, we need to se the session header using
-     * this attribute.
+     * When setting up the soap header, we need to se the session header using this attribute.
      */
     public static final String SESSION_HEADER = "SessionHeader";
 
@@ -117,12 +116,10 @@ public final class SalesforceWebServiceUtil {
     }
 
     /**
-     * Computes the actual Web Service URL from url, webServiceType and
-     * webServiceName.
+     * Computes the actual Web Service URL from url, webServiceType and webServiceName.
      *
      * @param url            is the base url.
-     * @param webServiceType is the type of web service (enterprise, partner,
-     *                       metadata or custom).
+     * @param webServiceType is the type of web service (enterprise, partner, metadata or custom).
      * @param webServiceName is the name of the web service to be called.
      *
      * @return a URL representation.
@@ -132,12 +129,10 @@ public final class SalesforceWebServiceUtil {
     }
 
     /**
-     * Computes the actual Web Service URL from session, webServiceType and
-     * webServiceName.
+     * Computes the actual Web Service URL from session, webServiceType and webServiceName.
      *
      * @param loginResult    result of a login.
-     * @param webServiceType is the type of web service (enterprise, partner,
-     *                       metadata or custom).
+     * @param webServiceType is the type of web service (enterprise, partner, metadata or custom).
      * @param webServiceName is the name of the web service to be called.
      *
      * @return a URL representation.
@@ -147,12 +142,10 @@ public final class SalesforceWebServiceUtil {
     }
 
     /**
-     * Computes the actual Web Service URL from session, webServiceType and
-     * webServiceName.
+     * Computes the actual Web Service URL from session, webServiceType and webServiceName.
      *
      * @param session        the session being used.
-     * @param webServiceType is the type of web service (enterprise, partner,
-     *                       metadata or custom).
+     * @param webServiceType is the type of web service (enterprise, partner, metadata or custom).
      * @param webServiceName is the name of the web service to be called.
      *
      * @return a URL representation.
@@ -162,12 +155,10 @@ public final class SalesforceWebServiceUtil {
     }
 
     /**
-     * Computes the actual Web Service URL from credentials, webServiceType and
-     * webServiceName.
+     * Computes the actual Web Service URL from credentials, webServiceType and webServiceName.
      *
      * @param credentials    the credentials being used.
-     * @param webServiceType is the type of web service (enterprise, partner,
-     *                       metadata or custom).
+     * @param webServiceType is the type of web service (enterprise, partner, metadata or custom).
      * @param webServiceName is the name of the web service to be called.
      *
      * @return a URL representation.
@@ -234,6 +225,30 @@ public final class SalesforceWebServiceUtil {
     }
 
     /**
+     * Set the URL on port with the params verbatim.
+     *
+     * @param port           the port to affect the url.
+     * @param url            the host of the web service.
+     * @param webServiceType the type of web service.
+     * @param webServiceName the web service name.
+     */
+    public static <P> void setVerbatimUrl(final P port, final String url, final WebServiceTypeEnum webServiceType, final String webServiceName) {
+        SoapUtil.setUrl(port, url + URL_SEPARATOR + webServiceType.getUrlSuffix() + URL_SEPARATOR + webServiceName);
+    }
+
+    /**
+     * Set the URL on port with the params verbatim.
+     *
+     * @param port           the port to affect the url.
+     * @param credentials    credentials being used..
+     * @param webServiceType the type of web service.
+     * @param webServiceName the web service name.
+     */
+    public static void setVerbatimUrl(final Object port, final Credentials credentials, final WebServiceTypeEnum webServiceType, final String webServiceName) {
+        setVerbatimUrl(port, credentials.getUrl(), webServiceType, webServiceName);
+    }
+
+    /**
      * Set the URL on port.
      *
      * @param port           the port to affect the url.
@@ -293,36 +308,32 @@ public final class SalesforceWebServiceUtil {
     }
 
     /**
-     * Return the web service name. If its a custom web service, we can glean
-     * the web service name from the serviceClass. Otherwise, its one of the
-     * SFDC web services - in which case the web service name is the API version
+     * Return the web service name. If its a custom web service, we can glean the web service name from the
+     * serviceClass. Otherwise, its one of the SFDC web services - in which case the web service name is the API version
      * as contained in the credentials.
      *
      * @param credentials    contains the API version.
      * @param webServiceType the type of web service.
      * @param service        the web service.
      *
-     * @return the web service name. For custom web services, it's found in the
-     *         service class, otherwise its the API version in the credentials.
+     * @return the web service name. For custom web services, it's found in the service class, otherwise its the API
+     *         version in the credentials.
      */
     public static String computeWebServiceName(final Credentials credentials, final WebServiceTypeEnum webServiceType, final WebService service) {
         return isCustomService(webServiceType) ? service.getPortName() : credentials.getApiVersion();
     }
 
     /**
-     * Return the web service name. If its a custom web service, we can glean
-     * the web service name from the serviceClass. Otherwise, its one of the
-     * SFDC web services - in which case the web service name is the API version
+     * Return the web service name. If its a custom web service, we can glean the web service name from the
+     * serviceClass. Otherwise, its one of the SFDC web services - in which case the web service name is the API version
      * as contained in the loginResult's credentials.
      *
-     * @param loginResult    contains the credentials who contain the API
-     *                       version.
+     * @param loginResult    contains the credentials who contain the API version.
      * @param webServiceType the type of web service.
      * @param service        the web service.
      *
-     * @return the web service name. For custom web services, it's found in the
-     *         service class, otherwise its the API version in the credentials
-     *         within the loginResult.
+     * @return the web service name. For custom web services, it's found in the service class, otherwise its the API
+     *         version in the credentials within the loginResult.
      */
     public static String computeWebServiceName(final LoginResult loginResult, final WebServiceTypeEnum webServiceType, final WebService service) {
         return SalesforceWebServiceUtil.computeWebServiceName(loginResult.getCredentials(), webServiceType, service);
@@ -335,11 +346,9 @@ public final class SalesforceWebServiceUtil {
      * @param url            the url to use when talking to SFDC.
      * @param webServiceType the type of web service.
      * @param service        the web service.
-     * @param serviceName    the name of the web service - for example for
-     *                       custom web services, its contained in the service
-     *                       class. For stock SFDC services like metadata,
-     *                       tooling, partner or enterprise - its the API
-     *                       version.
+     * @param serviceName    the name of the web service - for example for custom web services, its contained in the
+     *                       service class. For stock SFDC services like metadata, tooling, partner or enterprise - its
+     *                       the API version.
      *
      * @return a usable port.
      */
@@ -359,11 +368,9 @@ public final class SalesforceWebServiceUtil {
      * @param url            the url to use when talking to SFDC.
      * @param webServiceType the type of web service.
      * @param service        the web service.
-     * @param serviceName    the name of the web service - for example for
-     *                       custom web services, its contained in the service
-     *                       class. For stock SFDC services like metadata,
-     *                       tooling, partner or enterprise - its the API
-     *                       version.
+     * @param serviceName    the name of the web service - for example for custom web services, its contained in the
+     *                       service class. For stock SFDC services like metadata, tooling, partner or enterprise - its
+     *                       the API version.
      *
      * @return a usable port.
      */
@@ -393,8 +400,7 @@ public final class SalesforceWebServiceUtil {
      * Create a port using data from the session.
      *
      * @param <P>            the type of web service endpoint.
-     * @param session        contains a loginResult which in turns contains a
-     *                       session id to use for SFDC.
+     * @param session        contains a loginResult which in turns contains a session id to use for SFDC.
      * @param webServiceType the type of web service.
      * @param service        the web service.
      *
@@ -408,8 +414,7 @@ public final class SalesforceWebServiceUtil {
      * Create a port usind data from the sessionMgr.
      *
      * @param <P>            the type of web service endpoint.
-     * @param sessionMgr     contains a session which contains a loginResult,
-     *                       containing a session id to use for SFDC.
+     * @param sessionMgr     contains a session which contains a loginResult, containing a session id to use for SFDC.
      * @param webServiceType the type of web service.
      * @param service        the web service.
      *
@@ -420,8 +425,7 @@ public final class SalesforceWebServiceUtil {
     }
 
     /**
-     * Create a proxied port. This manages auto login and retries when calling
-     * SFDC.
+     * Create a proxied port. This manages auto login and retries when calling SFDC.
      *
      * @param <P>            the type of web service endpoint.
      * @param sessionMgr     will be used to create sessions for SFDC calls.

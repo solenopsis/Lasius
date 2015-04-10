@@ -25,8 +25,8 @@ import org.solenopsis.lasius.wsimport.common.WebServiceTypeEnum;
 import org.solenopsis.lasius.wsimport.common.util.SalesforceWebServiceUtil;
 
 /**
- * Represents a way to login and out of SFDC. Can be used to abstract out the
- * enterprise, partner and tooling web services.
+ * Represents a way to login and out of SFDC. Can be used to abstract out the enterprise, partner and tooling web
+ * services.
  *
  * @author Scot P. Floess
  *
@@ -79,7 +79,10 @@ public abstract class AbstractSecurityMgr<P> extends AbstractCommonBase implemen
         IntegrityUtil.ensure(credentials, "Cannot have null credentials on login!");
 
         try {
-            return login(getWebService().getPort(), credentials);
+            final P port = getWebService().getPort();
+            SalesforceWebServiceUtil.setVerbatimUrl(port, credentials, getWebServiceType(), credentials.getApiVersion());
+
+            return login(port, credentials);
         } catch (final RuntimeException runtimeException) {
             getLogger().log(Level.WARNING, "Trouble logging in", runtimeException);
 
