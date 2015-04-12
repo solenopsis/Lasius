@@ -11,25 +11,16 @@ import org.flossware.util.properties.PropertiesMgr;
  */
 public class PropertiesCredentials extends DefaultCredentials {
 
-    public enum PropertyNameEnum {
-
-        URL("url"),
-        USER_NAME("username"),
-        PASSWORD("password"),
-        TOKEN("token"),
-        API_VERSION("apiVersion");
-
-        private final String name;
-
-        private PropertyNameEnum(final String name) {
-            this.name = name;
-        }
-
-        public String getName() {
-            return name;
-        }
-    };
-
+    /**
+     * Sets the property manager and the property names for the data.
+     *
+     * @param propertiesMgr
+     * @param urlProperty
+     * @param userNameProperty
+     * @param passwordProperty
+     * @param tokenProperty
+     * @param apiVersionProperty
+     */
     public PropertiesCredentials(final PropertiesMgr propertiesMgr, final String urlProperty, final String userNameProperty, final String passwordProperty, final String tokenProperty, final String apiVersionProperty) {
         super(
                 propertiesMgr.getProperties().getProperty(urlProperty),
@@ -43,17 +34,16 @@ public class PropertiesCredentials extends DefaultCredentials {
     /**
      * Constructs credentials from propertiesMgr.
      *
-     * @param propertiesMgr contains properties from which our credentials will
-     *                      be retrieved.
+     * @param propertiesMgr contains properties from which our credentials will be retrieved.
      */
     public PropertiesCredentials(final PropertiesMgr propertiesMgr) {
         this(
                 propertiesMgr,
-                PropertyNameEnum.URL.getName(),
-                PropertyNameEnum.USER_NAME.getName(),
-                PropertyNameEnum.PASSWORD.getName(),
-                PropertyNameEnum.TOKEN.getName(),
-                PropertyNameEnum.API_VERSION.getName()
+                CredentialsEnum.URL.getName(),
+                CredentialsEnum.USER_NAME.getName(),
+                CredentialsEnum.PASSWORD.getName(),
+                CredentialsEnum.TOKEN.getName(),
+                CredentialsEnum.API_VERSION.getName()
         );
     }
 }

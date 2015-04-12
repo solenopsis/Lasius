@@ -1,0 +1,12 @@
+<someRoot>
+    <element1>hello</element1>
+    <element2>goodbye</element2>
+
+    <org>
+        <url>http://theurl</url>
+        <user>theuser</user>
+        <password>the password</password>
+        <token>the token</token>
+        <api>30.0</api>
+    </org>
+</someRoot>

@@ -17,6 +17,8 @@
         <org.flossware.core_version>2.1.7</org.flossware.core_version>
 
         <com.fasterxml.jackson.core_jackson-core_version>2.3.2</com.fasterxml.jackson.core_jackson-core_version>
+        <commons-collections_commons-collections_version>3.2.1</commons-collections_commons-collections_version>
+        <commons-configuration_commons-configuration_version>1.10</commons-configuration_commons-configuration_version>
         <log4j_log4j_version>1.2.14</log4j_log4j_version>
         <junit_junit_version>4.11</junit_junit_version>
         <org.mockito_mockito-all_version>1.9.5</org.mockito_mockito-all_version>
@@ -90,6 +92,18 @@
                 <groupId>com.fasterxml.jackson.core</groupId>
                 <artifactId>jackson-core</artifactId>
                 <version>${com.fasterxml.jackson.core_jackson-core_version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>commons-configuration</groupId>
+                <artifactId>commons-configuration</artifactId>
+                <version>${commons-configuration_commons-configuration_version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>commons-collections</groupId>
+                <artifactId>commons-collections</artifactId>
+                <version>${commons-collections_commons-collections_version}</version>
             </dependency>
 
             <dependency>
