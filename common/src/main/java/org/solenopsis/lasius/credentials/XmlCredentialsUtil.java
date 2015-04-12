@@ -81,20 +81,14 @@ public class XmlCredentialsUtil {
      * Converts hierarchicalConfiguration to a credentials object. The element params are the names of the XML elements
      * that contain data.
      */
-    public static Credentials convertToCredentials(final HierarchicalConfiguration hierarchicalConfiguration, final String urlElement, final String userNameElement, final String passwordElement, final String tokenElement, final String apiVersionElement) {
-        IntegrityUtil.ensure(urlElement, "Must provide a url element!");
+    public static Credentials convertToCredentials(final HierarchicalConfiguration hierarchicalConfiguration, final Object url, final String userNameElement, final String passwordElement, final String tokenElement, final Object apiVersion) {
+        IntegrityUtil.ensure(url, "Must provide a url!");
         IntegrityUtil.ensure(userNameElement, "Must provide a user name element!");
         IntegrityUtil.ensure(passwordElement, "Must provide a password element!");
         IntegrityUtil.ensure(tokenElement, "Must provide a token element!");
-        IntegrityUtil.ensure(apiVersionElement, "Must provide an api version element!");
+        IntegrityUtil.ensure(apiVersion, "Must provide an api version!");
 
-        return new DefaultCredentials(
-                hierarchicalConfiguration.getString(urlElement),
-                hierarchicalConfiguration.getString(userNameElement),
-                hierarchicalConfiguration.getString(passwordElement),
-                hierarchicalConfiguration.getString(tokenElement),
-                hierarchicalConfiguration.getString(apiVersionElement)
-        );
+        return new DefaultCredentials(url.toString(), hierarchicalConfiguration.getString(userNameElement), hierarchicalConfiguration.getString(passwordElement), hierarchicalConfiguration.getString(tokenElement), apiVersion.toString());
     }
 
     /**
@@ -127,37 +121,21 @@ public class XmlCredentialsUtil {
         final List<Credentials> retVal = new ArrayList(configurationList.size());
 
         for (final HierarchicalConfiguration hierarchicalConfiguration : configurationList) {
-            retVal.add(convertToCredentials(hierarchicalConfiguration, urlElement, userNameElement, passwordElement, tokenElement, apiVersionElement));
+            retVal.add(convertToCredentials(hierarchicalConfiguration, xmlConfiguration.getProperty(urlElement), userNameElement, passwordElement, tokenElement, xmlConfiguration.getProperty(apiVersionElement)));
         }
 
         return retVal;
-    }
-
-    public static Collection<Credentials> getCredentials(final XMLConfiguration xmlConfiguration, final String rootElement) {
-        return getCredentials(xmlConfiguration, rootElement, CredentialsEnum.URL.getName(), CredentialsEnum.USER_NAME.getName(), CredentialsEnum.PASSWORD.getName(), CredentialsEnum.TOKEN.getName(), CredentialsEnum.API_VERSION.getName());
     }
 
     public static Collection<Credentials> getCredentials(final String fileName, final String rootElement, final String urlElement, final String userNameElement, final String passwordElement, final String tokenElement, final String apiVersionElement) {
         return getCredentials(createXmlConfiguration(fileName), rootElement, urlElement, userNameElement, passwordElement, tokenElement, apiVersionElement);
     }
 
-    public static Collection<Credentials> getCredentials(final String fileName, final String rootElement) {
-        return getCredentials(createXmlConfiguration(fileName), rootElement);
-    }
-
     public static Collection<Credentials> getCredentials(final File file, final String rootElement, final String urlElement, final String userNameElement, final String passwordElement, final String tokenElement, final String apiVersionElement) {
         return getCredentials(createXmlConfiguration(file), rootElement, urlElement, userNameElement, passwordElement, tokenElement, apiVersionElement);
     }
 
-    public static Collection<Credentials> getCredentials(final File file, final String rootElement) {
-        return getCredentials(createXmlConfiguration(file), rootElement);
-    }
-
     public static Collection<Credentials> getCredentials(final URL url, final String rootElement, final String urlElement, final String userNameElement, final String passwordElement, final String tokenElement, final String apiVersionElement) {
         return getCredentials(createXmlConfiguration(url), rootElement, urlElement, userNameElement, passwordElement, tokenElement, apiVersionElement);
-    }
-
-    public static Collection<Credentials> getCredentials(final URL url, final String rootElement) {
-        return getCredentials(createXmlConfiguration(url), rootElement);
     }
 }

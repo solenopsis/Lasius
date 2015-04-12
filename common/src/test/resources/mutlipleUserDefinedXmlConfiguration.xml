@@ -3,26 +3,22 @@
     <element2>goodbye</element2>
 
     <orgs>
+        <url>http://theurl</url>
+        <api>30.0</api>
         <org>
-            <url>http://theurl1</url>
             <user>theuser1</user>
             <password>the password1</password>
             <token>the token1</token>
-            <api>31.0</api>
         </org>
         <org>
-            <url>http://theurl2</url>
             <user>theuser2</user>
             <password>the password2</password>
             <token>the token2</token>
-            <api>32.0</api>
         </org>
         <org>
-            <url>http://theurl3</url>
             <user>theuser3</user>
             <password>the password3</password>
             <token>the token3</token>
-            <api>33.0</api>
         </org>
     </orgs>
 </someRoot>
