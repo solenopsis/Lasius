@@ -19,7 +19,11 @@ import org.flossware.common.IntegrityUtil;
  *
  * root/parent/child/username1...child/username2
  *
- * The the root element is parent.child - note the omission of the "root" element.
+ * The the root element is parent.child - note the omission of the "root" element. Please note it is assumed one will
+ * have an element for the url, an element for the API version and then child elements that resemble to individual user
+ * name, password and tokens.
+ *
+ * Look at the unit tests for sample XML files.
  *
  * @author sfloess
  *
