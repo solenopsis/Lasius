@@ -125,7 +125,7 @@ public final class SalesforceWebServiceUtil {
      * @return a URL representation.
      */
     public static String computeUrl(final String url, final WebServiceTypeEnum webServiceType, final String webServiceName) {
-        return StringUtil.concatWithSeparator(URL_SEPARATOR, url, webServiceType.getUrlSuffix(), webServiceName);
+        return StringUtil.concatWithSeparator(true, URL_SEPARATOR, url, webServiceType.getUrlSuffix(), webServiceName);
     }
 
     /**

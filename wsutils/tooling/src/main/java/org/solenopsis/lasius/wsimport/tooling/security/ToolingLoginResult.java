@@ -28,18 +28,16 @@ import org.solenopsis.lasius.wsimport.common.security.AbstractLoginResult;
 class ToolingLoginResult extends AbstractLoginResult<LoginResult, ToolingSecurityMgr> implements org.solenopsis.lasius.wsimport.common.security.LoginResult<ToolingSecurityMgr> {
 
     /**
-     * Constructor sets the login result and security manager who constructed
-     * self.
+     * Constructor sets the login result and security manager who constructed self.
      *
      * @param loginResult result of login.
      * @param credentials the credentials usef ro login.
      * @param securityMgr security manager who created self.
      *
-     * @throws IllegalArgumentException if loginResult or securityManager are
-     *                                  null.
+     * @throws IllegalArgumentException if loginResult or securityManager are null.
      */
     ToolingLoginResult(final LoginResult loginResult, final Credentials credentials, final ToolingSecurityMgr securityMgr) {
-        super(loginResult, credentials, securityMgr);
+        super(loginResult, loginResult.getServerUrl(), credentials, securityMgr);
     }
 
     /**
@@ -64,14 +62,6 @@ class ToolingLoginResult extends AbstractLoginResult<LoginResult, ToolingSecurit
     @Override
     public boolean isSandbox() {
         return getLoginResult().isSandbox();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public String getServerUrl() {
-        return getLoginResult().getServerUrl();
     }
 
     /**

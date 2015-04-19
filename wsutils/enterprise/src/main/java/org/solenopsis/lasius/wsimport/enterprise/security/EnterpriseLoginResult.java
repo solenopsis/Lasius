@@ -28,18 +28,16 @@ import org.solenopsis.lasius.wsimport.common.security.AbstractLoginResult;
 class EnterpriseLoginResult extends AbstractLoginResult<LoginResult, EnterpriseSecurityMgr> implements org.solenopsis.lasius.wsimport.common.security.LoginResult<EnterpriseSecurityMgr> {
 
     /**
-     * Constructor sets the login result and security manager who constructed
-     * self.
+     * Constructor sets the login result and security manager who constructed self.
      *
      * @param loginResult result of login.
      * @param credentials the credentials usef ro login.
      * @param securityMgr security manager who created self.
      *
-     * @throws IllegalArgumentException if loginResult or securityManager are
-     *                                  null.
+     * @throws IllegalArgumentException if loginResult or securityManager are null.
      */
     EnterpriseLoginResult(final LoginResult loginResult, final Credentials credentials, final EnterpriseSecurityMgr securityMgr) {
-        super(loginResult, credentials, securityMgr);
+        super(loginResult, loginResult.getServerUrl(), credentials, securityMgr);
     }
 
     /**
@@ -64,14 +62,6 @@ class EnterpriseLoginResult extends AbstractLoginResult<LoginResult, EnterpriseS
     @Override
     public boolean isSandbox() {
         return getLoginResult().isSandbox();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public String getServerUrl() {
-        return getLoginResult().getServerUrl();
     }
 
     /**

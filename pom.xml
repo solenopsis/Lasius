@@ -7,50 +7,50 @@
 	<version>2.1.39</version>
 	<packaging>pom</packaging>
 
-	<name>Lasius</name>
+    <name>Lasius</name>
 
-	<properties>
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
-        <org.apache.maven.plugins_maven-compiler-plugin_version>2.4</org.apache.maven.plugins_maven-compiler-plugin_version>
+        <org.apache.maven.plugins_maven-compiler-plugin_version>3.3</org.apache.maven.plugins_maven-compiler-plugin_version>
 
-        <org.flossware.core_version>2.1.7</org.flossware.core_version>
+        <org.flossware.core_version>2.1.8</org.flossware.core_version>
 
-        <com.fasterxml.jackson.core_jackson-core_version>2.3.2</com.fasterxml.jackson.core_jackson-core_version>
+        <com.fasterxml.jackson.core_jackson-core_version>2.5.2</com.fasterxml.jackson.core_jackson-core_version>
         <commons-collections_commons-collections_version>3.2.1</commons-collections_commons-collections_version>
         <commons-configuration_commons-configuration_version>1.10</commons-configuration_commons-configuration_version>
-        <log4j_log4j_version>1.2.14</log4j_log4j_version>
-        <junit_junit_version>4.11</junit_junit_version>
-        <org.mockito_mockito-all_version>1.9.5</org.mockito_mockito-all_version>
-	</properties>
+        <log4j_log4j_version>1.2.17</log4j_log4j_version>
+        <junit_junit_version>4.12</junit_junit_version>
+        <org.mockito_mockito-all_version>2.0.2-beta</org.mockito_mockito-all_version>
+    </properties>
 
-	<developers>
-		<developer>
-			<name>Scot P. Floess</name>
-			<id>flossy</id>
-			<email>flossware@gmail.com</email>
-			<organization>Solenopsis</organization>
-			<roles>
-				<role>Developer</role>
-			</roles>
-			<timezone>-4</timezone>
-		</developer>
-	</developers>
+    <developers>
+        <developer>
+            <name>Scot P. Floess</name>
+            <id>flossy</id>
+            <email>flossware@gmail.com</email>
+            <organization>Solenopsis</organization>
+            <roles>
+                <role>Developer</role>
+            </roles>
+            <timezone>-4</timezone>
+        </developer>
+    </developers>
 
-	<build>
-		<plugins>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-compiler-plugin</artifactId>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
                 <version>${org.apache.maven.plugins_maven-compiler-plugin_version}</version>
 
-				<configuration>
-					<source>1.7</source>
-					<target>1.7</target>
-				</configuration>
-			</plugin>
-		</plugins>
-	</build>
+                <configuration>
+                    <source>1.7</source>
+                    <target>1.7</target>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 
     <modules>
         <module>common</module>
@@ -103,7 +103,7 @@
             <dependency>
                 <groupId>commons-collections</groupId>
                 <artifactId>commons-collections</artifactId>
-                <version>${commons-collections_commons-collections_version}</version>
+                <version>3.2.1</version>   
             </dependency>
 
             <dependency>

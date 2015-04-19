@@ -18,6 +18,7 @@ package org.solenopsis.lasius.wsimport.common.security;
 
 import java.util.logging.Logger;
 import org.flossware.common.IntegrityUtil;
+import org.flossware.util.NetUtil;
 import org.solenopsis.lasius.credentials.Credentials;
 
 /**
@@ -40,6 +41,11 @@ public abstract class AbstractLoginResult<V, S extends SecurityMgr> implements L
     private final V loginResult;
 
     /**
+     * The server url.
+     */
+    private final String serverUrl;
+
+    /**
      * Credentials for login.
      */
     private final Credentials credentials;
@@ -50,18 +56,18 @@ public abstract class AbstractLoginResult<V, S extends SecurityMgr> implements L
     private final S securityMgr;
 
     /**
-     * Constructor to set result of login, credentials used and the security
-     * manager who created self.
+     * Constructor to set result of login, credentials used and the security manager who created self.
      *
      * @param loginResult result from login.
+     * @param serverUrl   is the full URL from loginResult.
      * @param credentials credentials for login.
      * @param securityMgr security manager used for login/logout.
      *
-     * @throws IllegalArgumentException if loginResult, credentials or
-     *                                  securityMgr are null.
+     * @throws IllegalArgumentException if loginResult, credentials or securityMgr are null.
      */
-    protected AbstractLoginResult(final V loginResult, final Credentials credentials, final S securityMgr) {
+    protected AbstractLoginResult(final V loginResult, final String serverUrl, final Credentials credentials, final S securityMgr) {
         this.loginResult = IntegrityUtil.ensure(loginResult, "Login result must not be null");
+        this.serverUrl = IntegrityUtil.ensure(NetUtil.computeHostUrlAsString(serverUrl) + "/", "The server url must not be blank or null");
         this.credentials = IntegrityUtil.ensure(credentials, "Credentials must not be null");
         this.securityMgr = IntegrityUtil.ensure(securityMgr, "Security manager ust not be null");
 
@@ -84,6 +90,14 @@ public abstract class AbstractLoginResult<V, S extends SecurityMgr> implements L
      */
     protected V getLoginResult() {
         return loginResult;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public String getServerUrl() {
+        return serverUrl;
     }
 
     /**
