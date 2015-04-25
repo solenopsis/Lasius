@@ -8,11 +8,11 @@
 
 	<modelVersion>4.0.0</modelVersion>
 
-	<artifactId>wsutils-utils</artifactId>
+	<artifactId>wsutils-custom</artifactId>
 
 	<packaging>jar</packaging>
 
-	<name>Lasius Web Service Utility Library</name>
+	<name>Lasius Web Service Salesforce Custom Library</name>
 
 	<developers>
 		<developer>

@@ -29,10 +29,10 @@
     <modules>
         <module>wsdls</module>
         <module>common</module>
+        <module>custom</module>
         <module>enterprise</module>
         <module>metadata</module>
         <module>partner</module>
         <module>tooling</module>
-        <module>utils</module>
     </modules>
 </project>

@@ -1,4 +1,4 @@
-package org.solenopsis.lasius.wsimport.util;
+package org.solenopsis.lasius.wsimport.custom.util;
 
 import java.net.URL;
 import java.util.Collection;
