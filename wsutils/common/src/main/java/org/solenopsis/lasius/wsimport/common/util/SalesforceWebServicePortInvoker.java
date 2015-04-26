@@ -59,19 +59,6 @@ public class SalesforceWebServicePortInvoker extends AbstractPortInvocationHandl
     }
 
     /**
-     * Attempts to unlock a session.
-     *
-     * @param session to unlock.
-     */
-    protected void unlock(final Session session) {
-        if (null == session) {
-            return;
-        }
-
-        session.unlock();
-    }
-
-    /**
      * When an exception happens on call, this method will handle the exception.
      *
      * @param callFailure the exception that arose when calling SFDC.
@@ -93,14 +80,12 @@ public class SalesforceWebServicePortInvoker extends AbstractPortInvocationHandl
     }
 
     /**
-     * This constructor sets the sessionMgr to use, the type of web service and
-     * the class of the web service being used.
+     * This constructor sets the sessionMgr to use, the type of web service and the class of the web service being used.
      *
      * @param sessionMgr     manages our sessions with SFDC.
      * @param webServiceType the type of web service being used.
      *
-     * @throws IllegalArgumentException if sessionMgr, webServiceType or
-     *                                  serviceClass are null.
+     * @throws IllegalArgumentException if sessionMgr, webServiceType or serviceClass are null.
      */
     public SalesforceWebServicePortInvoker(final SessionMgr sessionMgr, final WebServiceTypeEnum webServiceType) {
         this.sessionMgr = IntegrityUtil.ensure(sessionMgr, "Cannot have a null session mgr!");
@@ -122,17 +107,12 @@ public class SalesforceWebServicePortInvoker extends AbstractPortInvocationHandl
             try {
                 session = getSessionMgr().getSession();
 
-                session.lock();
-
                 return method.invoke(SalesforceWebServiceUtil.createPort(session, getWebServiceType(), webService), args);
             } catch (final Exception callFailure) {
                 handleException(callFailure, method, session);
-            } finally {
-                unlock(session);
             }
         }
 
         throw new IllegalStateException("Should have returned a value!");
     }
-
 }

@@ -1,6 +1,5 @@
 package org.solenopsis.lasius.wsimport.common.session;
 
-import java.util.concurrent.Semaphore;
 import java.util.logging.Logger;
 import org.flossware.common.IntegrityUtil;
 import org.solenopsis.lasius.wsimport.common.security.LoginResult;
@@ -23,11 +22,6 @@ public abstract class AbstractSession implements Session {
     private final LoginResult loginResult;
 
     /**
-     * Our semaphore - used for concurrent SFDC access.
-     */
-    private final Semaphore semaphore;
-
-    /**
      * Our id.
      */
     private final Long id;
@@ -42,15 +36,6 @@ public abstract class AbstractSession implements Session {
     }
 
     /**
-     * Return the semaphore used for locking.
-     *
-     * @return the semaphore used for locking.
-     */
-    protected final Semaphore getSemaphore() {
-        return semaphore;
-    }
-
-    /**
      * Set the login results for this session.
      *
      * @param loginResult the result of login.
@@ -60,36 +45,7 @@ public abstract class AbstractSession implements Session {
     protected AbstractSession(final LoginResult loginResult) {
         this.logger = Logger.getLogger(getClass().getName());
         this.loginResult = IntegrityUtil.ensure(loginResult, "Cannot have a null login result!");
-        this.semaphore = new Semaphore(DEFAULT_CONCURRENT_ACCESS);
         this.id = System.currentTimeMillis();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void lock() {
-        try {
-            getSemaphore().acquire();
-        } catch (final InterruptedException interruptedException) {
-            throw new IllegalStateException("Trouble acquiring lock", interruptedException);
-        }
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void unlock() {
-        getSemaphore().release();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public int getRemainingLocks() {
-        return getSemaphore().availablePermits();
     }
 
     /**
