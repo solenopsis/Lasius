@@ -19,7 +19,8 @@ public class PackageXml {
     }
 
     public static void computeMembersElement(final StringBuilder sb, DescribeMetadataObject describeMetadataObject) {
-        sb.append("        <members>*</members>\n");
+
+        sb.append("        <members>").append(describeMetadataObject.getXmlName()).append("</members>\n");
     }
 
     public static void computeTypesElement(final StringBuilder sb, DescribeMetadataObject describeMetadataObject) {
