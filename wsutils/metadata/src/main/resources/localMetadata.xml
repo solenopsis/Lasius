@@ -1,0 +1,729 @@
+<local>
+    <dir>
+        <name>actionLinkGroupTemplates</name>
+        <suffix>actionLinkGroupTemplate</suffix>
+        <usedMetaFile></useMetaFile>
+        <wildcard></wildcard>
+        <version></version>
+    </dir>
+
+    <dir>
+        <name>analyticSnapshots</name>
+        <suffix>snapshot</suffix>
+        <usedMetaFile></useMetaFile>
+        <wildcard></wildcard>
+        <version></version>
+    </dir>
+
+    <dir>
+        <name>appMenus</name>
+        <suffix>appMenu</suffix>
+        <usedMetaFile></useMetaFile>
+        <wildcard></wildcard>
+        <version></version>
+    </dir>
+
+    <dir>
+        <name>applications</name>
+        <suffix>app</suffix>
+        <usedMetaFile></useMetaFile>
+        <wildcard></wildcard>
+        <version></version>
+    </dir>
+
+    <dir>
+        <name>approvalProcesses</name>
+        <suffix>approvalProcess</suffix>
+        <usedMetaFile></useMetaFile>
+        <wildcard></wildcard>
+        <version></version>
+    </dir>
+
+    <dir>
+        <name>assignmentRules</name>
+        <suffix>assignmentRules</suffix>
+        <usedMetaFile></useMetaFile>
+        <wildcard></wildcard>
+        <version></version>
+
+        <metadata>
+            <type>AssignmentRule</type>
+            <usedMetaFile></useMetaFile>
+            <wildcard></wildcard>
+            <xpath></xpath>
+            <version></version>
+        </metadata>
+    </dir>
+
+    <dir>
+        <name>aura</name>
+        <suffix>null</suffix>
+        <usedMetaFile></useMetaFile>
+        <wildcard></wildcard>
+        <version></version>
+    </dir>
+
+    <dir>
+        <name>authproviders</name>
+        <suffix>authprovider</suffix>
+        <usedMetaFile></useMetaFile>
+        <wildcard></wildcard>
+        <version></version>
+    </dir>
+
+    <dir>
+        <name>autoResponseRules</name>
+        <suffix>autoResponseRules</suffix>
+        <usedMetaFile></useMetaFile>
+        <wildcard></wildcard>
+        <version></version>
+
+        <metadata>
+            <type>AutoResponseRule</type>
+            <usedMetaFile></useMetaFile>
+            <wildcard></wildcard>
+            <xpath></xpath>
+            <version></version>
+        </metadata>
+    </dir>
+
+    <dir>
+        <name>callCenters</name>
+        <suffix>callCenter</suffix>
+        <usedMetaFile></useMetaFile>
+        <wildcard></wildcard>
+        <version></version>
+    </dir>
+
+    <dir>
+        <name>channelLayouts</name>
+        <suffix>channelLayout</suffix>
+        <usedMetaFile></useMetaFile>
+        <wildcard></wildcard>
+        <version></version>
+    </dir>
+
+    <dir>
+        <name>classes</name>
+        <suffix>cls</suffix>
+        <usedMetaFile></useMetaFile>
+        <wildcard></wildcard>
+        <version></version>
+    </dir>
+
+    <dir>
+        <name>communities</name>
+        <suffix>community</suffix>
+        <usedMetaFile></useMetaFile>
+        <wildcard></wildcard>
+        <version></version>
+    </dir>
+
+    <dir>
+        <name>components</name>
+        <suffix>component</suffix>
+        <usedMetaFile></useMetaFile>
+        <wildcard></wildcard>
+        <version></version>
+    </dir>
+
+    <dir>
+        <name>connectedApps</name>
+        <suffix>connectedApp</suffix>
+        <usedMetaFile></useMetaFile>
+        <wildcard></wildcard>
+        <version></version>
+    </dir>
+
+    <dir>
+        <name>corsWhitelistOrigins</name>
+        <suffix>corsWhitelistOrigin</suffix>
+        <usedMetaFile></useMetaFile>
+        <wildcard></wildcard>
+        <version></version>
+    </dir>
+
+    <dir>
+        <name>customApplicationComponents</name>
+        <suffix>customApplicationComponent</suffix>
+        <usedMetaFile></useMetaFile>
+        <wildcard></wildcard>
+        <version></version>
+    </dir>
+
+    <dir>
+        <name>customMetadata</name>
+        <suffix>md</suffix>
+        <usedMetaFile></useMetaFile>
+        <wildcard></wildcard>
+        <version></version>
+    </dir>
+
+    <dir>
+        <name>customPermissions</name>
+        <suffix>customPermission</suffix>
+        <usedMetaFile></useMetaFile>
+        <wildcard></wildcard>
+        <version></version>
+    </dir>
+
+    <dir>
+        <name>dashboards</name>
+        <suffix>dashboard</suffix>
+        <usedMetaFile></useMetaFile>
+        <wildcard></wildcard>
+        <version></version>
+    </dir>
+
+    <dir>
+        <name>dataSources</name>
+        <suffix>dataSource</suffix>
+        <usedMetaFile></useMetaFile>
+        <wildcard></wildcard>
+        <version></version>
+    </dir>
+
+    <dir>
+        <name>datacategorygroups</name>
+        <suffix>datacategorygroup</suffix>
+        <usedMetaFile></useMetaFile>
+        <wildcard></wildcard>
+        <version></version>
+    </dir>
+
+    <dir>
+        <name>documents</name>
+        <suffix>null</suffix>
+        <usedMetaFile></useMetaFile>
+        <wildcard></wildcard>
+        <version></version>
+    </dir>
+
+    <dir>
+        <name>email</name>
+        <suffix>email</suffix>
+        <usedMetaFile></useMetaFile>
+        <wildcard></wildcard>
+        <version></version>
+    </dir>
+
+    <dir>
+        <name>entitlementProcesses</name>
+        <suffix>entitlementProcess</suffix>
+        <usedMetaFile></useMetaFile>
+        <wildcard></wildcard>
+        <version></version>
+    </dir>
+
+    <dir>
+        <name>entitlementTemplates</name>
+        <suffix>entitlementTemplate</suffix>
+        <usedMetaFile></useMetaFile>
+        <wildcard></wildcard>
+        <version></version>
+    </dir>
+
+    <dir>
+        <name>escalationRules</name>
+        <suffix>escalationRules</suffix>
+        <usedMetaFile></useMetaFile>
+        <wildcard></wildcard>
+        <version></version>
+
+        <metadata>
+            <type>EscalationRule</type>
+            <usedMetaFile></useMetaFile>
+            <wildcard></wildcard>
+            <xpath></xpath>
+            <version></version>
+        </metadata>
+    </dir>
+
+    <dir>
+        <name>flexipages</name>
+        <suffix>flexipage</suffix>
+        <usedMetaFile></useMetaFile>
+        <wildcard></wildcard>
+        <version></version>
+    </dir>
+
+    <dir>
+        <name>flowDefinitions</name>
+        <suffix>flowDefinition</suffix>
+        <usedMetaFile></useMetaFile>
+        <wildcard></wildcard>
+        <version></version>
+    </dir>
+
+    <dir>
+        <name>flows</name>
+        <suffix>flow</suffix>
+        <usedMetaFile></useMetaFile>
+        <wildcard></wildcard>
+        <version></version>
+    </dir>
+
+    <dir>
+        <name>groups</name>
+        <suffix>group</suffix>
+        <usedMetaFile></useMetaFile>
+        <wildcard></wildcard>
+        <version></version>
+    </dir>
+
+    <dir>
+        <name>homePageComponents</name>
+        <suffix>homePageComponent</suffix>
+        <usedMetaFile></useMetaFile>
+        <wildcard></wildcard>
+        <version></version>
+    </dir>
+
+    <dir>
+        <name>homePageLayouts</name>
+        <suffix>homePageLayout</suffix>
+        <usedMetaFile></useMetaFile>
+        <wildcard></wildcard>
+        <version></version>
+    </dir>
+
+    <dir>
+        <name>installedPackages</name>
+        <suffix>installedPackage</suffix>
+        <usedMetaFile></useMetaFile>
+        <wildcard></wildcard>
+        <version></version>
+    </dir>
+
+    <dir>
+        <name>labels</name>
+        <suffix>labels</suffix>
+        <usedMetaFile></useMetaFile>
+        <wildcard></wildcard>
+        <version></version>
+
+        <metadata>
+            <type>CustomLabel</type>
+            <usedMetaFile></useMetaFile>
+            <wildcard></wildcard>
+            <xpath></xpath>
+            <version></version>
+        </metadata>
+    </dir>
+
+    <dir>
+        <name>layouts</name>
+        <suffix>layout</suffix>
+        <usedMetaFile></useMetaFile>
+        <wildcard></wildcard>
+        <version></version>
+    </dir>
+
+    <dir>
+        <name>letterhead</name>
+        <suffix>letter</suffix>
+        <usedMetaFile></useMetaFile>
+        <wildcard></wildcard>
+        <version></version>
+    </dir>
+
+    <dir>
+        <name>liveChatAgentConfigs</name>
+        <suffix>liveChatAgentConfig</suffix>
+        <usedMetaFile></useMetaFile>
+        <wildcard></wildcard>
+        <version></version>
+    </dir>
+
+    <dir>
+        <name>liveChatButtons</name>
+        <suffix>liveChatButton</suffix>
+        <usedMetaFile></useMetaFile>
+        <wildcard></wildcard>
+        <version></version>
+    </dir>
+
+    <dir>
+        <name>liveChatDeployments</name>
+        <suffix>liveChatDeployment</suffix>
+        <usedMetaFile></useMetaFile>
+        <wildcard></wildcard>
+        <version></version>
+    </dir>
+
+    <dir>
+        <name>matchingRules</name>
+        <suffix>matchingRule</suffix>
+        <usedMetaFile></useMetaFile>
+        <wildcard></wildcard>
+        <version></version>
+
+        <metadata>
+            <type>MatchingRule</type>
+            <usedMetaFile></useMetaFile>
+            <wildcard></wildcard>
+            <xpath></xpath>
+            <version></version>
+        </metadata>
+    </dir>
+
+    <dir>
+        <name>milestoneTypes</name>
+        <suffix>milestoneType</suffix>
+        <usedMetaFile></useMetaFile>
+        <wildcard></wildcard>
+        <version></version>
+    </dir>
+
+    <dir>
+        <name>namedCredentials</name>
+        <suffix>namedCredential</suffix>
+        <usedMetaFile></useMetaFile>
+        <wildcard></wildcard>
+        <version></version>
+    </dir>
+
+    <dir>
+        <name>objectTranslations</name>
+        <suffix>objectTranslation</suffix>
+        <usedMetaFile></useMetaFile>
+        <wildcard></wildcard>
+        <version></version>
+    </dir>
+
+    <dir>
+        <name>objects</name>
+        <suffix>object</suffix>
+        <usedMetaFile></useMetaFile>
+        <wildcard></wildcard>
+        <version></version>
+
+        <metadata>
+            <type>BusinessProcess</type>
+            <usedMetaFile></useMetaFile>
+            <wildcard></wildcard>
+            <xpath></xpath>
+            <version></version>
+        </metadata>
+
+        <metadata>
+            <type>CompactLayout</type>
+            <usedMetaFile></useMetaFile>
+            <wildcard></wildcard>
+            <xpath></xpath>
+            <version></version>
+        </metadata>
+
+        <metadata>
+            <type>CustomField</type>
+            <usedMetaFile></useMetaFile>
+            <wildcard></wildcard>
+            <xpath></xpath>
+            <version></version>
+        </metadata>
+
+        <metadata>
+            <type>FieldSet</type>
+            <usedMetaFile></useMetaFile>
+            <wildcard></wildcard>
+            <xpath></xpath>
+            <version></version>
+        </metadata>
+
+        <metadata>
+            <type>ListView</type>
+            <usedMetaFile></useMetaFile>
+            <wildcard></wildcard>
+            <xpath></xpath>
+            <version></version>
+        </metadata>
+
+        <metadata>
+            <type>RecordType</type>
+            <usedMetaFile></useMetaFile>
+            <wildcard></wildcard>
+            <xpath></xpath>
+            <version></version>
+        </metadata>
+
+        <metadata>
+            <type>SharingReason</type>
+            <usedMetaFile></useMetaFile>
+            <wildcard></wildcard>
+            <xpath></xpath>
+            <version></version>
+        </metadata>
+
+        <metadata>
+            <type>ValidationRule</type>
+            <usedMetaFile></useMetaFile>
+            <wildcard></wildcard>
+            <xpath></xpath>
+            <version></version>
+        </metadata>
+
+        <metadata>
+            <type>WebLink</type>
+            <usedMetaFile></useMetaFile>
+            <wildcard></wildcard>
+            <xpath></xpath>
+            <version></version>
+        </metadata>
+    </dir>
+
+    <dir>
+        <name>pages</name>
+        <suffix>page</suffix>
+        <usedMetaFile></useMetaFile>
+        <wildcard></wildcard>
+        <version></version>
+    </dir>
+
+    <dir>
+        <name>pathAssistants</name>
+        <suffix>pathAssistant</suffix>
+        <usedMetaFile></useMetaFile>
+        <wildcard></wildcard>
+        <version></version>
+    </dir>
+
+    <dir>
+        <name>permissionsets</name>
+        <suffix>permissionset</suffix>
+        <usedMetaFile></useMetaFile>
+        <wildcard></wildcard>
+        <version></version>
+    </dir>
+
+    <dir>
+        <name>portals</name>
+        <suffix>portal</suffix>
+        <usedMetaFile></useMetaFile>
+        <wildcard></wildcard>
+        <version></version>
+    </dir>
+
+    <dir>
+        <name>postTemplates</name>
+        <suffix>postTemplate</suffix>
+        <usedMetaFile></useMetaFile>
+        <wildcard></wildcard>
+        <version></version>
+    </dir>
+
+    <dir>
+        <name>profiles</name>
+        <suffix>profile</suffix>
+        <usedMetaFile></useMetaFile>
+        <wildcard></wildcard>
+        <version></version>
+    </dir>
+
+    <dir>
+        <name>queues</name>
+        <suffix>queue</suffix>
+        <usedMetaFile></useMetaFile>
+        <wildcard></wildcard>
+        <version></version>
+    </dir>
+
+    <dir>
+        <name>quickActions</name>
+        <suffix>quickAction</suffix>
+        <usedMetaFile></useMetaFile>
+        <wildcard></wildcard>
+        <version></version>
+    </dir>
+
+    <dir>
+        <name>remoteSiteSettings</name>
+        <suffix>remoteSite</suffix>
+        <usedMetaFile></useMetaFile>
+        <wildcard></wildcard>
+        <version></version>
+    </dir>
+
+    <dir>
+        <name>reportTypes</name>
+        <suffix>reportType</suffix>
+        <usedMetaFile></useMetaFile>
+        <wildcard></wildcard>
+        <version></version>
+    </dir>
+
+    <dir>
+        <name>reports</name>
+        <suffix>report</suffix>
+        <usedMetaFile></useMetaFile>
+        <wildcard></wildcard>
+        <version></version>
+    </dir>
+
+    <dir>
+        <name>roles</name>
+        <suffix>role</suffix>
+        <usedMetaFile></useMetaFile>
+        <wildcard></wildcard>
+        <version></version>
+    </dir>
+
+    <dir>
+        <name>scontrols</name>
+        <suffix>scf</suffix>
+        <usedMetaFile></useMetaFile>
+        <wildcard></wildcard>
+        <version></version>
+    </dir>
+
+    <dir>
+        <name>settings</name>
+        <suffix>settings</suffix>
+        <usedMetaFile></useMetaFile>
+        <wildcard></wildcard>
+        <version></version>
+    </dir>
+
+    <dir>
+        <name>sharingRules</name>
+        <suffix>sharingRules</suffix>
+        <usedMetaFile></useMetaFile>
+        <wildcard></wildcard>
+        <version></version>
+
+        <metadata>
+            <type>SharingCriteriaRule</type>
+            <usedMetaFile></useMetaFile>
+            <wildcard></wildcard>
+            <xpath></xpath>
+            <version></version>
+        </metadata>
+
+        <metadata>
+            <type>SharingOwnerRule</type>
+            <usedMetaFile></useMetaFile>
+            <wildcard></wildcard>
+            <xpath></xpath>
+            <version></version>
+        </metadata>
+    </dir>
+
+    <dir>
+        <name>sharingSets</name>
+        <suffix>sharingSet</suffix>
+        <usedMetaFile></useMetaFile>
+        <wildcard></wildcard>
+        <version></version>
+    </dir>
+
+    <dir>
+        <name>siteDotComSites</name>
+        <suffix>site</suffix>
+        <usedMetaFile></useMetaFile>
+        <wildcard></wildcard>
+        <version></version>
+    </dir>
+
+    <dir>
+        <name>sites</name>
+        <suffix>site</suffix>
+        <usedMetaFile></useMetaFile>
+        <wildcard></wildcard>
+        <version></version>
+    </dir>
+
+    <dir>
+        <name>skills</name>
+        <suffix>skill</suffix>
+        <usedMetaFile></useMetaFile>
+        <wildcard></wildcard>
+        <version></version>
+    </dir>
+
+    <dir>
+        <name>staticresources</name>
+        <suffix>resource</suffix>
+        <usedMetaFile></useMetaFile>
+        <wildcard></wildcard>
+        <version></version>
+    </dir>
+
+    <dir>
+        <name>tabs</name>
+        <suffix>tab</suffix>
+        <usedMetaFile></useMetaFile>
+        <wildcard></wildcard>
+        <version></version>
+    </dir>
+
+    <dir>
+        <name>triggers</name>
+        <suffix>trigger</suffix>
+        <usedMetaFile></useMetaFile>
+        <wildcard></wildcard>
+        <version></version>
+    </dir>
+
+    <dir>
+        <name>weblinks</name>
+        <suffix>weblink</suffix>
+        <usedMetaFile></useMetaFile>
+        <wildcard></wildcard>
+        <version></version>
+    </dir>
+
+    <dir>
+        <name>workflows</name>
+        <suffix>workflow</suffix>
+        <usedMetaFile></useMetaFile>
+        <wildcard></wildcard>
+        <version></version>
+
+        <metadata>
+            <type>WorkflowAlert</type>
+            <usedMetaFile></useMetaFile>
+            <wildcard></wildcard>
+            <xpath></xpath>
+            <version></version>
+        </metadata>
+
+        <metadata>
+            <type>WorkflowFieldUpdate</type>
+            <usedMetaFile></useMetaFile>
+            <wildcard></wildcard>
+            <xpath></xpath>
+            <version></version>
+        </metadata>
+
+        <metadata>
+            <type>WorkflowOutboundMessage</type>
+            <usedMetaFile></useMetaFile>
+            <wildcard></wildcard>
+            <xpath></xpath>
+            <version></version>
+        </metadata>
+
+        <metadata>
+            <type>WorkflowRule</type>
+            <usedMetaFile></useMetaFile>
+            <wildcard></wildcard>
+            <xpath></xpath>
+            <version></version>
+        </metadata>
+
+        <metadata>
+            <type>WorkflowSend</type>
+            <usedMetaFile></useMetaFile>
+            <wildcard></wildcard>
+            <xpath></xpath>
+            <version></version>
+        </metadata>
+
+        <metadata>
+            <type>WorkflowTask</type>
+            <usedMetaFile></useMetaFile>
+            <wildcard></wildcard>
+            <xpath></xpath>
+            <version></version>
+        </metadata>
+    </dir>
+</local>
