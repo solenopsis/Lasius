@@ -2,85 +2,167 @@
     <dir>
         <name>actionLinkGroupTemplates</name>
         <suffix>actionLinkGroupTemplate</suffix>
-        <usedMetaFile></useMetaFile>
-        <wildcard></wildcard>
-        <version></version>
+        <isFolder></isFolder>
+
+        <metadata>
+            <type>ActionLinkGroupTemplate</type>
+            <useMetaFile></useMetaFile>
+            <wildcard></wildcard>
+            <xpath>/ActionLinkGroupTemplate/name</xpath>
+            <version>33.0</version>
+        </metadata>
     </dir>
 
     <dir>
         <name>analyticSnapshots</name>
         <suffix>snapshot</suffix>
-        <usedMetaFile></useMetaFile>
-        <wildcard></wildcard>
-        <version></version>
+        <isFolder></isFolder>
+
+        <metadata>
+            <type>AnalyticSnapshot</type>
+            <useMetaFile></useMetaFile>
+            <wildcard>false</wildcard>
+            <xpath>/AnalyticSnapshot/name</xpath>
+            <version>16.0</version>
+        </metadata>
     </dir>
 
     <dir>
         <name>appMenus</name>
         <suffix>appMenu</suffix>
-        <usedMetaFile></useMetaFile>
-        <wildcard></wildcard>
-        <version></version>
+        <isFolder></isFolder>
+
+        <metadata>
+            <type>AppMenu</type>
+            <useMetaFile></useMetaFile>
+            <wildcard></wildcard>
+            <xpath></xpath>
+            <version>30.0</version>
+        </metadata>
     </dir>
 
     <dir>
         <name>applications</name>
         <suffix>app</suffix>
-        <usedMetaFile></useMetaFile>
-        <wildcard></wildcard>
-        <version></version>
+        <isFolder></isFolder>
+
+        <metadata>
+            <type>CustomApplication</type>
+            <useMetaFile></useMetaFile>
+            <wildcard></wildcard>
+            <xpath></xpath>
+            <version>10.0</version>
+        </metadata>
     </dir>
 
     <dir>
         <name>approvalProcesses</name>
         <suffix>approvalProcess</suffix>
-        <usedMetaFile></useMetaFile>
-        <wildcard></wildcard>
-        <version></version>
+        <isFolder></isFolder>
+
+        <metadata>
+            <type>ApprovalProcess</type>
+            <useMetaFile></useMetaFile>
+            <wildcard></wildcard>
+            <xpath>/ApprovalProcess/approvalStep/name</xpath>
+            <version>28.0</version>
+        </metadata>
     </dir>
 
     <dir>
         <name>assignmentRules</name>
         <suffix>assignmentRules</suffix>
-        <usedMetaFile></useMetaFile>
-        <wildcard></wildcard>
-        <version></version>
+        <isFolder></isFolder>
 
         <metadata>
             <type>AssignmentRule</type>
-            <usedMetaFile></useMetaFile>
+            <useMetaFile></useMetaFile>
+            <wildcard></wildcard>
+            <xpath>/AssignmentRules/assignmentRule/fullName</xpath>
+            <version>27.0</version>
+        </metadata>
+
+        <metadata>
+            <type>AssignmentRules</type>
+            <useMetaFile></useMetaFile>
             <wildcard></wildcard>
             <xpath></xpath>
-            <version></version>
+            <version>27.0</version>
         </metadata>
     </dir>
 
     <dir>
         <name>aura</name>
         <suffix>null</suffix>
-        <usedMetaFile></useMetaFile>
-        <wildcard></wildcard>
-        <version></version>
+        <isFolder></isFolder>
+
+        <metadata>
+            <type>AuraDefinitionBundle</type>
+            <useMetaFile></useMetaFile>
+            <wildcard></wildcard>
+            <xpath></xpath>
+            <version>32.0</version>
+        </metadata>
     </dir>
 
     <dir>
         <name>authproviders</name>
         <suffix>authprovider</suffix>
-        <usedMetaFile></useMetaFile>
-        <wildcard></wildcard>
-        <version></version>
+        <isFolder></isFolder>
+
+        <metadata>
+            <type>AuthProvider</type>
+            <useMetaFile></useMetaFile>
+            <wildcard></wildcard>
+            <xpath>/AuthProvider/providerType</xpath>
+            <version>27.0</version>
+        </metadata>
     </dir>
 
     <dir>
         <name>autoResponseRules</name>
         <suffix>autoResponseRules</suffix>
-        <usedMetaFile></useMetaFile>
-        <wildcard></wildcard>
-        <version></version>
+        <isFolder></isFolder>
 
         <metadata>
             <type>AutoResponseRule</type>
-            <usedMetaFile></useMetaFile>
+            <useMetaFile></useMetaFile>
+            <wildcard></wildcard>
+            <xpath>/AutoResponseRules/autoResponseRule/fullName</xpath>
+            <version>27.0</version>
+        </metadata>
+
+        <metadata>
+            <type>AutoResponseRules</type>
+            <useMetaFile></useMetaFile>
+            <wildcard></wildcard>
+            <xpath></xpath>
+            <version>27.0</version>
+        </metadata>
+    </dir>
+
+    <dir>
+        <name>callCenters</name>
+        <suffix>callCenter</suffix>
+        <isFolder></isFolder>
+
+        <metadata>
+            <type>CallCenter</type>
+            <useMetaFile></useMetaFile>
+            <wildcard></wildcard>
+            <xpath>/CallCenter/sections/items/name</xpath>
+            <version>27.0</version>
+        </metadata>
+    </dir>
+
+    <dir>
+        <name>channelLayouts</name>
+        <suffix>channelLayout</suffix>
+        <isFolder></isFolder>
+
+        <metadata>
+            <type>ChannelLayout</type>
+            <useMetaFile></useMetaFile>
             <wildcard></wildcard>
             <xpath></xpath>
             <version></version>
@@ -88,151 +170,231 @@
     </dir>
 
     <dir>
-        <name>callCenters</name>
-        <suffix>callCenter</suffix>
-        <usedMetaFile></useMetaFile>
-        <wildcard></wildcard>
-        <version></version>
-    </dir>
-
-    <dir>
-        <name>channelLayouts</name>
-        <suffix>channelLayout</suffix>
-        <usedMetaFile></useMetaFile>
-        <wildcard></wildcard>
-        <version></version>
-    </dir>
-
-    <dir>
         <name>classes</name>
         <suffix>cls</suffix>
-        <usedMetaFile></useMetaFile>
-        <wildcard></wildcard>
-        <version></version>
+        <isFolder></isFolder>
+
+        <metadata>
+            <type>ApexClass</type>
+            <useMetaFile></useMetaFile>
+            <wildcard></wildcard>
+            <xpath></xpath>
+            <version>10.0</version>
+        </metadata>
     </dir>
 
     <dir>
         <name>communities</name>
         <suffix>community</suffix>
-        <usedMetaFile></useMetaFile>
-        <wildcard></wildcard>
-        <version></version>
+        <isFolder></isFolder>
+
+        <metadata>
+            <type>Community</type>
+            <useMetaFile></useMetaFile>
+            <wildcard></wildcard>
+            <xpath></xpath>
+            <version>27.0</version>
+        </metadata>
     </dir>
 
     <dir>
         <name>components</name>
         <suffix>component</suffix>
-        <usedMetaFile></useMetaFile>
-        <wildcard></wildcard>
-        <version></version>
+        <isFolder></isFolder>
+
+        <metadata>
+            <type>ApexComponent</type>
+            <useMetaFile>true</useMetaFile>
+            <wildcard></wildcard>
+            <xpath>/ApexComponent/label</xpath>
+            <version>12.0</version>
+        </metadata>
     </dir>
 
     <dir>
         <name>connectedApps</name>
         <suffix>connectedApp</suffix>
-        <usedMetaFile></useMetaFile>
-        <wildcard></wildcard>
-        <version></version>
+        <isFolder></isFolder>
+
+        <metadata>
+            <type>ConnectedApp</type>
+            <useMetaFile></useMetaFile>
+            <wildcard></wildcard>
+            <xpath></xpath>
+            <version>29.0</version>
+        </metadata>
     </dir>
 
     <dir>
         <name>corsWhitelistOrigins</name>
         <suffix>corsWhitelistOrigin</suffix>
-        <usedMetaFile></useMetaFile>
-        <wildcard></wildcard>
-        <version></version>
+        <isFolder></isFolder>
+
+        <metadata>
+            <type>CorsWhitelistOrigin</type>
+            <useMetaFile></useMetaFile>
+            <wildcard></wildcard>
+            <xpath></xpath>
+            <version>32.0</version>
+        </metadata>
     </dir>
 
     <dir>
         <name>customApplicationComponents</name>
         <suffix>customApplicationComponent</suffix>
-        <usedMetaFile></useMetaFile>
-        <wildcard></wildcard>
-        <version></version>
+        <isFolder></isFolder>
+
+        <metadata>
+            <type>CustomApplicationComponent</type>
+            <useMetaFile></useMetaFile>
+            <wildcard></wildcard>
+            <xpath></xpath>
+            <version>25.0</version>
+        </metadata>
     </dir>
 
     <dir>
         <name>customMetadata</name>
         <suffix>md</suffix>
-        <usedMetaFile></useMetaFile>
-        <wildcard></wildcard>
-        <version></version>
+        <isFolder></isFolder>
+
+        <metadata>
+            <type>CustomMetadata</type>
+            <useMetaFile></useMetaFile>
+            <wildcard></wildcard>
+            <xpath>/CustomMetadata/values/field</xpath>
+            <version>31.0</version>
+        </metadata>
     </dir>
 
     <dir>
         <name>customPermissions</name>
         <suffix>customPermission</suffix>
-        <usedMetaFile></useMetaFile>
-        <wildcard></wildcard>
-        <version></version>
+        <isFolder></isFolder>
+
+        <metadata>
+            <type>CustomPermission</type>
+            <useMetaFile></useMetaFile>
+            <wildcard></wildcard>
+            <xpath>/CustomPermission/label</xpath>
+            <version>31.0</version>
+        </metadata>
     </dir>
 
     <dir>
         <name>dashboards</name>
         <suffix>dashboard</suffix>
-        <usedMetaFile></useMetaFile>
-        <wildcard></wildcard>
-        <version></version>
+        <isFolder>true</isFolder>
+
+        <metadata>
+            <type>Dashboard</type>
+            <useMetaFile></useMetaFile>
+            <wildcard>false</wildcard>
+            <xpath></xpath>
+            <version>14.0</version>
+        </metadata>
     </dir>
 
     <dir>
         <name>dataSources</name>
         <suffix>dataSource</suffix>
-        <usedMetaFile></useMetaFile>
-        <wildcard></wildcard>
-        <version></version>
+        <isFolder></isFolder>
+
+        <metadata>
+            <type>ExternalDataSource</type>
+            <useMetaFile></useMetaFile>
+            <wildcard></wildcard>
+            <xpath></xpath>
+            <version>28.0</version>
+        </metadata>
     </dir>
 
     <dir>
         <name>datacategorygroups</name>
         <suffix>datacategorygroup</suffix>
-        <usedMetaFile></useMetaFile>
-        <wildcard></wildcard>
-        <version></version>
+        <isFolder></isFolder>
+
+        <metadata>
+            <type>DataCategoryGroup</type>
+            <useMetaFile></useMetaFile>
+            <wildcard></wildcard>
+            <xpath>/DataCategoryGroup/fullName</xpath>  <!-- Questionable -->
+            <version>18.0</version>
+        </metadata>
     </dir>
 
     <dir>
         <name>documents</name>
         <suffix>null</suffix>
-        <usedMetaFile></useMetaFile>
-        <wildcard></wildcard>
-        <version></version>
+        <isFolder>true</isFolder>
+
+        <metadata>
+            <type>Document</type>
+            <useMetaFile></useMetaFile>
+            <wildcard>false</wildcard>
+            <xpath></xpath>
+            <version>10.0</version>
+        </metadata>
     </dir>
 
     <dir>
         <name>email</name>
         <suffix>email</suffix>
-        <usedMetaFile></useMetaFile>
-        <wildcard></wildcard>
-        <version></version>
+        <isFolder>true</isFolder>
+
+        <metadata>
+            <type>EmailTemplate</type>
+            <useMetaFile></useMetaFile>
+            <wildcard></wildcard>
+            <xpath></xpath>
+            <version>12.0</version>
+        </metadata>
     </dir>
 
     <dir>
         <name>entitlementProcesses</name>
         <suffix>entitlementProcess</suffix>
-        <usedMetaFile></useMetaFile>
-        <wildcard></wildcard>
-        <version></version>
+        <isFolder></isFolder>
+
+        <metadata>
+            <type>EntitlementProcess</type>
+            <useMetaFile></useMetaFile>
+            <wildcard></wildcard>
+            <xpath></xpath>
+            <version>27.0</version>
+        </metadata>
     </dir>
 
     <dir>
         <name>entitlementTemplates</name>
         <suffix>entitlementTemplate</suffix>
-        <usedMetaFile></useMetaFile>
-        <wildcard></wildcard>
-        <version></version>
+        <isFolder></isFolder>
+
+        <metadata>
+            <type>EntitlementTemplate</type>
+            <useMetaFile></useMetaFile>
+            <wildcard></wildcard>
+            <xpath></xpath>
+            <version>18.0</version>
+        </metadata>
     </dir>
 
     <dir>
         <name>escalationRules</name>
         <suffix>escalationRules</suffix>
-        <usedMetaFile></useMetaFile>
-        <wildcard></wildcard>
-        <version></version>
+        <isFolder></isFolder>
 
         <metadata>
             <type>EscalationRule</type>
-            <usedMetaFile></useMetaFile>
+            <useMetaFile></useMetaFile>
+            <wildcard></wildcard>
+            <xpath></xpath>
+            <version></version>
+        </metadata>
+
+        <metadata>
+            <type>EscalationRules</type>
+            <useMetaFile></useMetaFile>
             <wildcard></wildcard>
             <xpath></xpath>
             <version></version>
@@ -242,488 +404,740 @@
     <dir>
         <name>flexipages</name>
         <suffix>flexipage</suffix>
-        <usedMetaFile></useMetaFile>
-        <wildcard></wildcard>
-        <version></version>
+        <isFolder></isFolder>
+
+        <metadata>
+            <type>FlexiPage</type>
+            <useMetaFile></useMetaFile>
+            <wildcard></wildcard>
+            <xpath></xpath>
+            <version>29.0</version>
+        </metadata>
     </dir>
 
     <dir>
         <name>flowDefinitions</name>
         <suffix>flowDefinition</suffix>
-        <usedMetaFile></useMetaFile>
-        <wildcard></wildcard>
-        <version></version>
+        <isFolder></isFolder>
+
+        <metadata>
+            <type>FlowDefinition</type>
+            <useMetaFile></useMetaFile>
+            <wildcard></wildcard>
+            <xpath></xpath>
+            <version></version>
+        </metadata>
     </dir>
 
     <dir>
         <name>flows</name>
         <suffix>flow</suffix>
-        <usedMetaFile></useMetaFile>
-        <wildcard></wildcard>
-        <version></version>
+        <isFolder></isFolder>
+
+        <metadata>
+            <type>Flow</type>
+            <useMetaFile></useMetaFile>
+            <wildcard></wildcard>
+            <xpath></xpath>
+            <version>24.0</version>
+        </metadata>
     </dir>
 
     <dir>
         <name>groups</name>
         <suffix>group</suffix>
-        <usedMetaFile></useMetaFile>
-        <wildcard></wildcard>
-        <version></version>
+        <isFolder></isFolder>
+
+        <metadata>
+            <type>Group</type>
+            <useMetaFile></useMetaFile>
+            <wildcard></wildcard>
+            <xpath>/Group/fullName</xpath>      <!-- Questionable -->
+            <version>24.0</version>
+        </metadata>
     </dir>
 
     <dir>
         <name>homePageComponents</name>
         <suffix>homePageComponent</suffix>
-        <usedMetaFile></useMetaFile>
-        <wildcard></wildcard>
-        <version></version>
+        <isFolder></isFolder>
+
+        <metadata>
+            <type>HomePageComponent</type>
+            <useMetaFile></useMetaFile>
+            <wildcard></wildcard>
+            <xpath></xpath>
+            <version>12.0</version>
+        </metadata>
     </dir>
 
     <dir>
         <name>homePageLayouts</name>
         <suffix>homePageLayout</suffix>
-        <usedMetaFile></useMetaFile>
-        <wildcard></wildcard>
-        <version></version>
+        <isFolder></isFolder>
+
+        <metadata>
+            <type>HomePageLayout</type>
+            <useMetaFile></useMetaFile>
+            <wildcard></wildcard>
+            <xpath></xpath>
+            <version>12.0</version>
+        </metadata>
     </dir>
 
     <dir>
         <name>installedPackages</name>
         <suffix>installedPackage</suffix>
-        <usedMetaFile></useMetaFile>
-        <wildcard></wildcard>
-        <version></version>
+        <isFolder></isFolder>
+
+        <metadata>
+            <type>InstalledPackage</type>
+            <useMetaFile></useMetaFile>
+            <wildcard></wildcard>
+            <xpath></xpath>
+            <version>28.0</version>
+        </metadata>
     </dir>
 
     <dir>
         <name>labels</name>
         <suffix>labels</suffix>
-        <usedMetaFile></useMetaFile>
-        <wildcard></wildcard>
-        <version></version>
+        <isFolder></isFolder>
 
         <metadata>
             <type>CustomLabel</type>
-            <usedMetaFile></useMetaFile>
-            <wildcard></wildcard>
+            <useMetaFile></useMetaFile>
+            <wildcard>false</wildcard>
             <xpath></xpath>
             <version></version>
+        </metadata>
+
+        <metadata>
+            <type>CustomLabels</type>
+            <useMetaFile></useMetaFile>
+            <wildcard></wildcard>
+            <xpath>/CustomLabels/labels/fullName</xpath>
+            <version>14.0</version>
         </metadata>
     </dir>
 
     <dir>
         <name>layouts</name>
         <suffix>layout</suffix>
-        <usedMetaFile></useMetaFile>
-        <wildcard></wildcard>
-        <version></version>
+        <isFolder></isFolder>
+
+        <metadata>
+            <type>Layout</type>
+            <useMetaFile></useMetaFile>
+            <wildcard></wildcard>
+            <xpath></xpath>
+            <version>13.0</version>
+        </metadata>
     </dir>
 
     <dir>
         <name>letterhead</name>
         <suffix>letter</suffix>
-        <usedMetaFile></useMetaFile>
-        <wildcard></wildcard>
-        <version></version>
+        <isFolder></isFolder>
+
+        <metadata>
+            <type>Letterhead</type>
+            <useMetaFile></useMetaFile>
+            <wildcard></wildcard>
+            <xpath></xpath>
+            <version>12.0</version>
+        </metadata>
     </dir>
 
     <dir>
         <name>liveChatAgentConfigs</name>
         <suffix>liveChatAgentConfig</suffix>
-        <usedMetaFile></useMetaFile>
-        <wildcard></wildcard>
-        <version></version>
+        <isFolder></isFolder>
+
+        <metadata>
+            <type>LiveChatAgentConfig</type>
+            <useMetaFile></useMetaFile>
+            <wildcard></wildcard>
+            <xpath></xpath>
+            <version>28.0</version>
+        </metadata>
     </dir>
 
     <dir>
         <name>liveChatButtons</name>
         <suffix>liveChatButton</suffix>
-        <usedMetaFile></useMetaFile>
-        <wildcard></wildcard>
-        <version></version>
+        <isFolder></isFolder>
+
+        <metadata>
+            <type>LiveChatButton</type>
+            <useMetaFile></useMetaFile>
+            <wildcard></wildcard>
+            <xpath></xpath>
+            <version>28.0</version>
+        </metadata>
     </dir>
 
     <dir>
         <name>liveChatDeployments</name>
         <suffix>liveChatDeployment</suffix>
-        <usedMetaFile></useMetaFile>
-        <wildcard></wildcard>
-        <version></version>
+        <isFolder></isFolder>
+
+        <metadata>
+            <type>LiveChatDeployment</type>
+            <useMetaFile></useMetaFile>
+            <wildcard></wildcard>
+            <xpath></xpath>
+            <version>28.0</version>
+        </metadata>
     </dir>
 
     <dir>
         <name>matchingRules</name>
         <suffix>matchingRule</suffix>
-        <usedMetaFile></useMetaFile>
-        <wildcard></wildcard>
-        <version></version>
+        <isFolder></isFolder>
 
         <metadata>
             <type>MatchingRule</type>
-            <usedMetaFile></useMetaFile>
+            <useMetaFile></useMetaFile>
+            <wildcard></wildcard>
+            <xpath>/MatchingRules/matchingRules/fullName</xpath>
+            <version>33.0</version>
+        </metadata>
+
+        <metadata>
+            <type>MatchingRules</type>
+            <useMetaFile></useMetaFile>
             <wildcard></wildcard>
             <xpath></xpath>
-            <version></version>
+            <version>33.0</version>
         </metadata>
     </dir>
 
     <dir>
         <name>milestoneTypes</name>
         <suffix>milestoneType</suffix>
-        <usedMetaFile></useMetaFile>
-        <wildcard></wildcard>
-        <version></version>
+        <isFolder></isFolder>
+
+        <metadata>
+            <type>MilestoneType</type>
+            <useMetaFile></useMetaFile>
+            <wildcard></wildcard>
+            <xpath></xpath>
+            <version>27.0</version>
+        </metadata>
     </dir>
 
     <dir>
         <name>namedCredentials</name>
         <suffix>namedCredential</suffix>
-        <usedMetaFile></useMetaFile>
-        <wildcard></wildcard>
-        <version></version>
+        <isFolder></isFolder>
+
+        <metadata>
+            <type>NamedCredential</type>
+            <useMetaFile></useMetaFile>
+            <wildcard></wildcard>
+            <xpath></xpath>
+            <version>33.0</version>
+        </metadata>
     </dir>
 
     <dir>
         <name>objectTranslations</name>
         <suffix>objectTranslation</suffix>
-        <usedMetaFile></useMetaFile>
-        <wildcard></wildcard>
-        <version></version>
+        <isFolder></isFolder>
+
+        <metadata>
+            <type>CustomObjectTranslation</type>
+            <useMetaFile></useMetaFile>
+            <wildcard></wildcard>
+            <xpath></xpath>
+            <version>14.0</version>
+        </metadata>
     </dir>
 
     <dir>
         <name>objects</name>
         <suffix>object</suffix>
-        <usedMetaFile></useMetaFile>
-        <wildcard></wildcard>
-        <version></version>
+        <isFolder></isFolder>
 
         <metadata>
             <type>BusinessProcess</type>
-            <usedMetaFile></useMetaFile>
-            <wildcard></wildcard>
-            <xpath></xpath>
-            <version></version>
+            <useMetaFile></useMetaFile>
+            <wildcard>false</wildcard>
+            <xpath>/CustomObject/businessProcesses/fullName</xpath>
+            <version>17.0</version>
         </metadata>
 
         <metadata>
             <type>CompactLayout</type>
-            <usedMetaFile></useMetaFile>
-            <wildcard></wildcard>
-            <xpath></xpath>
-            <version></version>
+            <useMetaFile></useMetaFile>
+            <wildcard>true</wildcard>
+            <xpath>/CustomObject/compactLayouts/fullName</xpath>
+            <version>29.0</version>
         </metadata>
 
         <metadata>
             <type>CustomField</type>
-            <usedMetaFile></useMetaFile>
-            <wildcard></wildcard>
+            <useMetaFile></useMetaFile>
+            <wildcard>false</wildcard>
+            <xpath>/CustomObject/fields/fullName</xpath>
+            <version>10.0</version>
+        </metadata>
+
+        <metadata>
+            <type>CustomObject</type>
+            <useMetaFile></useMetaFile>
+            <wildcard>flase</wildcard>
             <xpath></xpath>
-            <version></version>
+            <version>10.0</version>
         </metadata>
 
         <metadata>
             <type>FieldSet</type>
-            <usedMetaFile></useMetaFile>
+            <useMetaFile></useMetaFile>
             <wildcard></wildcard>
-            <xpath></xpath>
-            <version></version>
+            <xpath>/CustomObject/fieldSets/fullName</xpath>
+            <version>21.0</version>
         </metadata>
 
         <metadata>
             <type>ListView</type>
-            <usedMetaFile></useMetaFile>
-            <wildcard></wildcard>
-            <xpath></xpath>
-            <version></version>
+            <useMetaFile></useMetaFile>
+            <wildcard>false</wildcard>
+            <xpath>/CustomObject/listViews/fullName</xpath>
+            <version>14.0</version>
         </metadata>
 
         <metadata>
             <type>RecordType</type>
-            <usedMetaFile></useMetaFile>
-            <wildcard></wildcard>
-            <xpath></xpath>
-            <version></version>
+            <useMetaFile></useMetaFile>
+            <wildcard>false</wildcard>
+            <xpath>/CustomObject/recordTypes/fullName</xpath>
+            <version>12.0</version>
         </metadata>
 
         <metadata>
             <type>SharingReason</type>
-            <usedMetaFile></useMetaFile>
-            <wildcard></wildcard>
-            <xpath></xpath>
-            <version></version>
+            <useMetaFile></useMetaFile>
+            <wildcard>false</wildcard>
+            <xpath>/CustomObject/sharingReasons/fullName</xpath>
+            <version>14.0</version>
         </metadata>
 
         <metadata>
             <type>ValidationRule</type>
-            <usedMetaFile></useMetaFile>
-            <wildcard></wildcard>
-            <xpath></xpath>
-            <version></version>
+            <useMetaFile></useMetaFile>
+            <wildcard>false</wildcard>
+            <xpath>/CustomObject/validationRules/fullName</xpath>
+            <version>12.0</version>
         </metadata>
 
         <metadata>
             <type>WebLink</type>
-            <usedMetaFile></useMetaFile>
-            <wildcard></wildcard>
-            <xpath></xpath>
-            <version></version>
+            <useMetaFile></useMetaFile>
+            <wildcard>false</wildcard>
+            <xpath>/CustomObject/webLinks/fullName</xpath>
+            <version>12.0</version>
         </metadata>
     </dir>
 
     <dir>
         <name>pages</name>
         <suffix>page</suffix>
-        <usedMetaFile></useMetaFile>
-        <wildcard></wildcard>
-        <version></version>
+        <isFolder></isFolder>
+
+        <metadata>
+            <type>ApexPage</type>
+            <useMetaFile>true</useMetaFile>
+            <wildcard></wildcard>
+            <xpath>/ApexPage/label</xpath>
+            <version>11.0</version>
+        </metadata>
     </dir>
 
     <dir>
         <name>pathAssistants</name>
         <suffix>pathAssistant</suffix>
-        <usedMetaFile></useMetaFile>
-        <wildcard></wildcard>
-        <version></version>
+        <isFolder></isFolder>
+
+        <metadata>
+            <type>PathAssistant</type>          <!-- Not sure about this -->
+            <useMetaFile></useMetaFile>
+            <wildcard></wildcard>
+            <xpath></xpath>
+            <version>34.0</version>
+        </metadata>
     </dir>
 
     <dir>
         <name>permissionsets</name>
         <suffix>permissionset</suffix>
-        <usedMetaFile></useMetaFile>
-        <wildcard></wildcard>
-        <version></version>
+        <isFolder></isFolder>
+
+        <metadata>
+            <type>PermissionSet</type>          <!-- Not sure about this -->
+            <useMetaFile></useMetaFile>
+            <wildcard></wildcard>
+            <xpath></xpath>
+            <version>22.0</version>
+        </metadata>
     </dir>
 
     <dir>
         <name>portals</name>
         <suffix>portal</suffix>
-        <usedMetaFile></useMetaFile>
-        <wildcard></wildcard>
-        <version></version>
+        <isFolder></isFolder>
+
+        <metadata>
+            <type>Portal</type>
+            <useMetaFile></useMetaFile>
+            <wildcard></wildcard>
+            <xpath></xpath>
+            <version>15.0</version>
+        </metadata>
     </dir>
 
     <dir>
         <name>postTemplates</name>
         <suffix>postTemplate</suffix>
-        <usedMetaFile></useMetaFile>
-        <wildcard></wildcard>
-        <version></version>
+        <isFolder></isFolder>
+
+        <metadata>
+            <type>PostTemplate</type>       <!-- Not sure about this one -->
+            <useMetaFile></useMetaFile>
+            <wildcard></wildcard>
+            <xpath></xpath>
+            <version>29.0</version>
+        </metadata>
     </dir>
 
     <dir>
         <name>profiles</name>
         <suffix>profile</suffix>
-        <usedMetaFile></useMetaFile>
-        <wildcard></wildcard>
-        <version></version>
+        <isFolder></isFolder>
+
+        <metadata>
+            <type>Profile</type>
+            <useMetaFile></useMetaFile>
+            <wildcard></wildcard>
+            <xpath></xpath>
+            <version>10.0</version>
+        </metadata>
     </dir>
 
     <dir>
         <name>queues</name>
         <suffix>queue</suffix>
-        <usedMetaFile></useMetaFile>
-        <wildcard></wildcard>
-        <version></version>
+        <isFolder></isFolder>
+
+        <metadata>
+            <type>Queue</type>
+            <useMetaFile></useMetaFile>
+            <wildcard></wildcard>
+            <xpath>/Queue/fullName</xpath>
+            <version>24.0</version>
+        </metadata>
     </dir>
 
     <dir>
         <name>quickActions</name>
         <suffix>quickAction</suffix>
-        <usedMetaFile></useMetaFile>
-        <wildcard></wildcard>
-        <version></version>
+        <isFolder></isFolder>
+
+        <metadata>
+            <type>QuickAction</type>
+            <useMetaFile></useMetaFile>
+            <wildcard></wildcard>
+            <xpath></xpath>
+            <version>28.0</version>
+        </metadata>
     </dir>
 
     <dir>
         <name>remoteSiteSettings</name>
         <suffix>remoteSite</suffix>
-        <usedMetaFile></useMetaFile>
-        <wildcard></wildcard>
-        <version></version>
+        <isFolder></isFolder>
+
+        <metadata>
+            <type>RemoteSiteSetting</type>
+            <useMetaFile></useMetaFile>
+            <wildcard></wildcard>
+            <xpath></xpath>
+            <version>19.0</version>
+        </metadata>
     </dir>
 
     <dir>
         <name>reportTypes</name>
         <suffix>reportType</suffix>
-        <usedMetaFile></useMetaFile>
-        <wildcard></wildcard>
-        <version></version>
+        <isFolder></isFolder>
+
+        <metadata>
+            <type>ReportType</type>
+            <useMetaFile></useMetaFile>
+            <wildcard></wildcard>
+            <xpath></xpath>
+            <version>14.0</version>
+        </metadata>
     </dir>
 
     <dir>
         <name>reports</name>
         <suffix>report</suffix>
-        <usedMetaFile></useMetaFile>
-        <wildcard></wildcard>
-        <version></version>
+        <isFolder>true</isFolder>
+
+        <metadata>
+            <type>Report</type>
+            <useMetaFile></useMetaFile>
+            <wildcard>false</wildcard>
+            <xpath></xpath>
+            <version>14.0</version>
+        </metadata>
     </dir>
 
     <dir>
         <name>roles</name>
         <suffix>role</suffix>
-        <usedMetaFile></useMetaFile>
-        <wildcard></wildcard>
-        <version></version>
+        <isFolder></isFolder>
+
+        <metadata>
+            <type>Role</type>
+            <useMetaFile></useMetaFile>
+            <wildcard></wildcard>
+            <xpath></xpath>
+            <version>24.0</version>
+        </metadata>
     </dir>
 
     <dir>
         <name>scontrols</name>
         <suffix>scf</suffix>
-        <usedMetaFile></useMetaFile>
-        <wildcard></wildcard>
-        <version></version>
+        <isFolder></isFolder>
+
+        <metadata>
+            <type>Scontrol</type>
+            <useMetaFile></useMetaFile>
+            <wildcard></wildcard>
+            <xpath></xpath>
+            <version>10.0</version>
+        </metadata>
     </dir>
 
     <dir>
         <name>settings</name>
         <suffix>settings</suffix>
-        <usedMetaFile></useMetaFile>
-        <wildcard></wildcard>
-        <version></version>
+        <isFolder></isFolder>
+
+        <metadata>
+            <type>Settings</type>
+            <useMetaFile></useMetaFile>
+            <wildcard></wildcard>
+            <xpath></xpath>
+            <version>27.0</version>
+        </metadata>
     </dir>
 
     <dir>
         <name>sharingRules</name>
         <suffix>sharingRules</suffix>
-        <usedMetaFile></useMetaFile>
-        <wildcard></wildcard>
-        <version></version>
+        <isFolder></isFolder>
 
         <metadata>
             <type>SharingCriteriaRule</type>
-            <usedMetaFile></useMetaFile>
+            <useMetaFile></useMetaFile>
             <wildcard></wildcard>
-            <xpath></xpath>
-            <version></version>
+            <xpath>/SharingRules/sharingCriteriaRules/fullName</xpath>
+            <version>33.0</version>
         </metadata>
 
         <metadata>
             <type>SharingOwnerRule</type>
-            <usedMetaFile></useMetaFile>
+            <useMetaFile></useMetaFile>
             <wildcard></wildcard>
-            <xpath></xpath>
-            <version></version>
+            <xpath>/SharingRules/sharingOwnerRules/fullName</xpath>
+            <version>33.0</version>
+        </metadata>
+
+        <metadata>
+            <type>SharingRules</type>
+            <useMetaFile></useMetaFile>
+            <wildcard></wildcard>
+            <xpath>/SharingRules/sharingTerritoryRules/fullName</xpath>
+            <version>33.0</version>
         </metadata>
     </dir>
 
     <dir>
         <name>sharingSets</name>
         <suffix>sharingSet</suffix>
-        <usedMetaFile></useMetaFile>
-        <wildcard></wildcard>
-        <version></version>
+        <isFolder></isFolder>
+
+        <metadata>
+            <type>SharingSet</type>
+            <useMetaFile></useMetaFile>
+            <wildcard></wildcard>
+            <xpath>/SharingSet/name</xpath>
+            <version>30.0</version>
+        </metadata>
     </dir>
 
     <dir>
         <name>siteDotComSites</name>
         <suffix>site</suffix>
-        <usedMetaFile></useMetaFile>
-        <wildcard></wildcard>
-        <version></version>
+        <isFolder></isFolder>
+
+        <metadata>
+            <type>SiteDotCom</type>
+            <useMetaFile></useMetaFile>
+            <wildcard></wildcard>
+            <xpath></xpath>
+            <version>30.0</version>
+        </metadata>
     </dir>
 
     <dir>
         <name>sites</name>
         <suffix>site</suffix>
-        <usedMetaFile></useMetaFile>
-        <wildcard></wildcard>
-        <version></version>
+        <isFolder></isFolder>
+
+        <metadata>
+            <type>CustomSite</type>
+            <useMetaFile></useMetaFile>
+            <wildcard></wildcard>
+            <xpath></xpath>
+            <version>14.0</version>
+        </metadata>
     </dir>
 
     <dir>
         <name>skills</name>
         <suffix>skill</suffix>
-        <usedMetaFile></useMetaFile>
-        <wildcard></wildcard>
-        <version></version>
+        <isFolder></isFolder>
+
+        <metadata>
+            <type>Skill</type>
+            <useMetaFile></useMetaFile>
+            <wildcard></wildcard>
+            <xpath></xpath>
+            <version>28.0</version>
+        </metadata>
     </dir>
 
     <dir>
         <name>staticresources</name>
         <suffix>resource</suffix>
-        <usedMetaFile></useMetaFile>
-        <wildcard></wildcard>
-        <version></version>
+        <isFolder></isFolder>
+
+        <metadata>
+            <type>StaticResource</type>
+            <useMetaFile></useMetaFile>
+            <wildcard></wildcard>
+            <xpath></xpath>
+            <version>12.0</version>
+        </metadata>
     </dir>
 
     <dir>
         <name>tabs</name>
         <suffix>tab</suffix>
-        <usedMetaFile></useMetaFile>
-        <wildcard></wildcard>
-        <version></version>
+        <isFolder></isFolder>
+
+        <metadata>
+            <type>CustomTab</type>
+            <useMetaFile></useMetaFile>
+            <wildcard></wildcard>
+            <xpath></xpath>
+            <version>10.0</version>
+        </metadata>
     </dir>
 
     <dir>
         <name>triggers</name>
         <suffix>trigger</suffix>
-        <usedMetaFile></useMetaFile>
-        <wildcard></wildcard>
-        <version></version>
+        <isFolder></isFolder>
+
+        <metadata>
+            <type>ApexTrigger</type>
+            <useMetaFile></useMetaFile>
+            <wildcard></wildcard>
+            <xpath></xpath>
+            <version>10.0</version>
+        </metadata>
     </dir>
 
     <dir>
         <name>weblinks</name>
         <suffix>weblink</suffix>
-        <usedMetaFile></useMetaFile>
-        <wildcard></wildcard>
-        <version></version>
+        <isFolder></isFolder>
+
+        <metadata>
+            <type>CustomPageWebLink</type>
+            <useMetaFile></useMetaFile>
+            <wildcard></wildcard>
+            <xpath></xpath>
+            <version>13.0</version>
+        </metadata>
     </dir>
 
     <dir>
         <name>workflows</name>
         <suffix>workflow</suffix>
-        <usedMetaFile></useMetaFile>
-        <wildcard></wildcard>
-        <version></version>
+        <isFolder></isFolder>
+
+        <metadata>
+            <type>Workflow</type>
+            <useMetaFile></useMetaFile>
+            <wildcard></wildcard>
+            <xpath></xpath>
+            <version>13.0</version>
+        </metadata>
 
         <metadata>
             <type>WorkflowAlert</type>
-            <usedMetaFile></useMetaFile>
+            <useMetaFile></useMetaFile>
             <wildcard></wildcard>
-            <xpath></xpath>
-            <version></version>
+            <xpath>/Workflow/alerts/fullName</xpath>
+            <version>13.0</version>
         </metadata>
 
         <metadata>
             <type>WorkflowFieldUpdate</type>
-            <usedMetaFile></useMetaFile>
+            <useMetaFile></useMetaFile>
             <wildcard></wildcard>
-            <xpath></xpath>
-            <version></version>
+            <xpath>/Workflow/fieldUpdates/fullName</xpath>
+            <version>13.0</version>
         </metadata>
 
         <metadata>
             <type>WorkflowOutboundMessage</type>
-            <usedMetaFile></useMetaFile>
+            <useMetaFile></useMetaFile>
             <wildcard></wildcard>
-            <xpath></xpath>
-            <version></version>
+            <xpath>/Workflow/outboundMessages/fullName</xpath>
+            <version>13.0</version>
         </metadata>
 
         <metadata>
             <type>WorkflowRule</type>
-            <usedMetaFile></useMetaFile>
+            <useMetaFile></useMetaFile>
             <wildcard></wildcard>
-            <xpath></xpath>
-            <version></version>
+            <xpath>/Workflow/rules/fullName</xpath>
+            <version>13.0</version>
         </metadata>
 
         <metadata>
             <type>WorkflowSend</type>
-            <usedMetaFile></useMetaFile>
+            <useMetaFile></useMetaFile>
             <wildcard></wildcard>
             <xpath></xpath>
-            <version></version>
+            <version>13.0</version>
         </metadata>
 
         <metadata>
             <type>WorkflowTask</type>
-            <usedMetaFile></useMetaFile>
+            <useMetaFile></useMetaFile>
             <wildcard></wildcard>
-            <xpath></xpath>
-            <version></version>
+            <xpath>/Workflow/tasks/fullName</xpath>
+            <version>13.0</version>
         </metadata>
     </dir>
 </local>
