@@ -27,6 +27,33 @@
 		</developer>
 	</developers>
 
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>jaxb2-maven-plugin</artifactId>
+                <version>1.4</version>
+
+                <executions>
+                    <execution>
+                        <id>xjc</id>
+                        <phase>generate-sources</phase>
+                        <goals>
+                            <goal>xjc</goal>
+                        </goals>
+                    </execution>
+                </executions>
+
+                <configuration>
+                    <packageName>org.solenopsis.lasius.wsimport.metadata.org.local.data</packageName>
+                    <schemaDirectory>src/main/resources</schemaDirectory>
+                    <schemaFile>localMetadata.xsd</schemaFile>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+
 	<dependencies>
         <dependency>
             <groupId>org.flossware</groupId>
