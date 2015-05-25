@@ -45,7 +45,7 @@
                 </executions>
 
                 <configuration>
-                    <packageName>org.solenopsis.lasius.wsimport.metadata.org.local.data</packageName>
+                    <packageName>org.solenopsis.lasius.wsimport.metadata.sfdcOrg.local</packageName>
                     <schemaDirectory>src/main/resources</schemaDirectory>
                     <schemaFile>localMetadata.xsd</schemaFile>
                 </configuration>
