@@ -326,7 +326,6 @@ public final class SalesforceWebServiceUtil {
      *         version in the credentials.
      */
     public static String computeWebServiceName(final Credentials credentials, final WebServiceTypeEnum webServiceType, final WebService service) {
-        System.out.println("Port name [" + service.getPortName() + "]");
         return isCustomService(webServiceType) ? service.getPortName() : credentials.getApiVersion();
     }
 
@@ -384,11 +383,6 @@ public final class SalesforceWebServiceUtil {
     public static <P> P createPort(final String sessionId, final String url, final WebServiceTypeEnum webServiceType, final WebService<P> service, final String serviceName) {
         final P retVal = createPort(url, webServiceType, service, serviceName);
         
-        System.out.println("url [" + url + "]");
-        System.out.println("webServiceType [" + webServiceType + "]");
-        System.out.println("service [" + service + "]");
-        System.out.println("serviceName [" + serviceName + "]");
-
         setSessionId(retVal, service, sessionId);
 
         return retVal;
