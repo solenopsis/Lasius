@@ -131,9 +131,9 @@
 
     <distributionManagement>
         <repository>
-            <id>bintray-solenopsis-maven-Lasius</id>
+            <id>bintray-solenopsis-maven</id>
             <name>solenopsis-maven-Lasius</name>
-            <url>https://api.bintray.com/maven/solenopsis/maven/Lasius</url>
+            <url>https://api.bintray.com/maven/solenopsis/maven/Lasius/;publish=1</url>
         </repository>
     </distributionManagement>
 </project>
