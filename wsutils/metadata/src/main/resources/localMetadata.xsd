@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+
+<xsd:schema targetNamespace="http://www.solenopsis.org/lasius" elementFormDefault="qualified" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://www.solenopsis.org/lasius">
+    <xsd:annotation>
+        <xsd:documentation>
+            Defines metadata like type (XML name), is it folder based, an xpath to gather data, etc.
+        </xsd:documentation>
+    </xsd:annotation>
+
+    <xsd:complexType name="metadataType">
+        <xsd:sequence>
+            <xsd:element name="type" type="xsd:string">
+                <xsd:annotation>
+                    <xsd:documentation>
+                        This is the metadata type - for example ApexClass or CustomField.
+                    </xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+
+            <xsd:element name="useMetaFile" type="xsd:boolean" minOccurs="0">
+                <xsd:annotation>
+                    <xsd:documentation>
+                        A flag, when true denotes where one can find unique data.  For example, when using
+                        an XPath, the name may be found there.  For example ApexComponents, using the metafile
+                        contains /ApexComponent/label which is unique.
+                    </xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+
+            <xsd:element name="wildcard" type="xsd:boolean" minOccurs="0">
+                <xsd:annotation>
+                    <xsd:documentation>
+                        A flag, if true or missing denotes this metadata type supports the asterisk wildcard in package.xml.
+                    </xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+
+            <xsd:element name="xpath" type="xsd:string" minOccurs="0">
+                <xsd:annotation>
+                    <xsd:documentation>
+                        An XPath into either an XML file (maybe the metafile) that can be used to gather members.
+                    </xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+
+            <xsd:element name="version" type="xsd:string" minOccurs="0">
+                <xsd:annotation>
+                    <xsd:documentation>
+                        This is the version when the metadata type was first supported.
+                    </xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+        </xsd:sequence>
+    </xsd:complexType>
+
+    <xsd:complexType name="dirType">
+        <xsd:sequence>
+            <xsd:element name="name" type="xsd:string">
+                <xsd:annotation>
+                    <xsd:documentation>
+                        The name of the directory.
+                    </xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+
+            <xsd:element name="suffix" type="xsd:string">
+                <xsd:annotation>
+                    <xsd:documentation>
+                        The file suffix.
+                    </xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+
+            <xsd:element name="isFolder" type="xsd:boolean">
+                <xsd:annotation>
+                    <xsd:documentation>
+                        A flag, if true denotes this is for folder based metadata types.  Presently that is Dashboard, Document, EmailTemplate
+                        and Report metadata types.
+                    </xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+
+            <xsd:element name="metadata" type="tns:metadataType" minOccurs="1" maxOccurs="unbounded">
+                <xsd:annotation>
+                    <xsd:documentation>
+                        For this directory, all the metadata types supported.
+                    </xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+        </xsd:sequence>
+    </xsd:complexType>
+
+    <xsd:complexType name="localType">
+        <xsd:sequence>
+            <xsd:element name="dir" type="tns:dirType" minOccurs="1" maxOccurs="unbounded">
+                <xsd:annotation>
+                    <xsd:documentation>
+                        The root definition of metadata locally.
+                    </xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+        </xsd:sequence>
+    </xsd:complexType>
+
+    <xsd:element name="dir" type="tns:dirType">
+        <xsd:annotation>
+            <xsd:documentation>
+                A directory.
+            </xsd:documentation>
+        </xsd:annotation>
+    </xsd:element>
+
+    <xsd:element name="local" type="tns:localType">
+        <xsd:annotation>
+            <xsd:documentation>
+                A local representation of metadata.
+            </xsd:documentation>
+        </xsd:annotation>
+    </xsd:element>
+
+    <xsd:element name="metadata" type="tns:metadataType">
+        <xsd:annotation>
+            <xsd:documentation>
+                The metadata itself.
+            </xsd:documentation>
+        </xsd:annotation>
+    </xsd:element>
+</xsd:schema>

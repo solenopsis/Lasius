@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <parent>
+        <groupId>org.solenopsis.lasius</groupId>
+        <artifactId>lasius-parent</artifactId>
+        <version>3.0.11</version>
+    </parent>
+
+	<modelVersion>4.0.0</modelVersion>
+	<artifactId>next-gen</artifactId>
+	<packaging>jar</packaging>
+
+	<name>Lasius Next Generation Library</name>
+
+	<developers>
+		<developer>
+			<name>Scot P. Floess</name>
+			<id>flossy</id>
+			<email>flossware@gmail.com</email>
+			<organization>FlossWare</organization>
+			<roles>
+				<role>Developer</role>
+			</roles>
+			<timezone>-4</timezone>
+		</developer>
+	</developers>
+
+	<dependencies>
+		<dependency>
+			<groupId>org.solenopsis</groupId>
+			<artifactId>keraiai</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>log4j</groupId>
+			<artifactId>log4j</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+		</dependency>
+
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-all</artifactId>
+        </dependency>
+	</dependencies>
+</project>
