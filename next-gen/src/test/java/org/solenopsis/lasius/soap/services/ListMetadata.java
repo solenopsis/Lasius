@@ -12,7 +12,7 @@ import org.solenopsis.keraiai.soap.credentials.Credentials;
 import org.solenopsis.keraiai.soap.credentials.PropertiesCredentials;
 import org.solenopsis.keraiai.soap.security.SecurityMgr;
 import org.solenopsis.keraiai.soap.security.enterprise.EnterpriseSecurityMgr;
-import org.solenopsis.keraiai.soap.session.ProxiedSessionPortFactory;
+import org.solenopsis.keraiai.soap.session.proxy.ProxiedSessionPortFactory;
 import org.solenopsis.keraiai.wsdl.metadata.DescribeMetadataObject;
 import org.solenopsis.keraiai.wsdl.metadata.DescribeMetadataResult;
 import org.solenopsis.keraiai.wsdl.metadata.FileProperties;
@@ -197,7 +197,9 @@ public class ListMetadata {
      */
     public static void emitMetadata(final MetadataPortType port, final double version) throws Exception {
         System.out.println("Double version [" + version + "]");
-        emitMetadata(port.describeMetadata(version));
+        for (int i = 0; i < 100; i++) {
+            emitMetadata(port.describeMetadata(version));
+        }
     }
 
     /**
