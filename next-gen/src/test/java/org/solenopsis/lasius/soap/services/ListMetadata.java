@@ -2,6 +2,7 @@ package org.solenopsis.lasius.soap.services;
 
 import java.io.FileInputStream;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Properties;
@@ -197,8 +198,18 @@ public class ListMetadata {
      */
     public static void emitMetadata(final MetadataPortType port, final double version) throws Exception {
         System.out.println("Double version [" + version + "]");
-        for (int i = 0; i < 100; i++) {
+        int runNum = 1;
+
+        while (true) {
             emitMetadata(port.describeMetadata(version));
+
+            System.out.println("----------------------------------------------------");
+            System.out.println(new Date() + "   -> " + (runNum++));
+            System.out.println("----------------------------------------------------");
+
+            synchronized (ListMetadata.class) {
+                ListMetadata.class.wait(60000);
+            }
         }
     }
 
