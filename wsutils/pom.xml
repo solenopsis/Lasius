@@ -2,7 +2,7 @@
     <parent>
         <groupId>org.solenopsis.lasius</groupId>
         <artifactId>lasius-parent</artifactId>
-        <version>3.0.15</version>
+        <version>3.0.16</version>
     </parent>
 
     <modelVersion>4.0.0</modelVersion>
