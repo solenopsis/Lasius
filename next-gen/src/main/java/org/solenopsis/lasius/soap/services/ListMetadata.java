@@ -7,18 +7,17 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Properties;
 import java.util.logging.Logger;
-import org.solenopsis.keraiai.soap.ApiWebServiceTypeEnum;
-import org.solenopsis.keraiai.soap.WebServiceTypeEnum;
-import org.solenopsis.keraiai.soap.credentials.Credentials;
-import org.solenopsis.keraiai.soap.credentials.PropertiesCredentials;
-import org.solenopsis.keraiai.soap.security.SecurityMgr;
+import org.solenopsis.keraiai.Credentials;
+import org.solenopsis.keraiai.SecurityMgr;
+import org.solenopsis.keraiai.credentials.PropertiesCredentials;
+import org.solenopsis.keraiai.soap.port.WebServiceTypeEnum;
 import org.solenopsis.keraiai.soap.security.enterprise.EnterpriseSecurityMgr;
-import org.solenopsis.keraiai.soap.session.proxy.ProxiedSessionPortFactory;
 import org.solenopsis.keraiai.wsdl.metadata.DescribeMetadataObject;
 import org.solenopsis.keraiai.wsdl.metadata.DescribeMetadataResult;
 import org.solenopsis.keraiai.wsdl.metadata.FileProperties;
 import org.solenopsis.keraiai.wsdl.metadata.ListMetadataQuery;
 import org.solenopsis.keraiai.wsdl.metadata.MetadataPortType;
+import org.solenopsis.keraiai.wsdl.metadata.MetadataService;
 
 /**
  * @author Scot P. Floess
@@ -175,7 +174,7 @@ public class ListMetadata {
         System.out.println("    Folder    [" + metadata.isInFolder() + "]");
         System.out.println("    Meta file [" + metadata.isMetaFile() + "]");
 
-//        emitMetadataChildren(metadata.getChildXmlNames());
+        emitMetadataChildren(metadata.getChildXmlNames());
     }
 
     public static void emitMetadata(final List<DescribeMetadataObject> metadataList) {
@@ -197,7 +196,7 @@ public class ListMetadata {
      * @throws Exception
      */
     public static void emitMetadata(final MetadataPortType port, final double version) throws Exception {
-        System.out.println("Double version [" + version + "]");
+        System.out.println("Double version [" + version + "] -> [" + port + "]");
         int runNum = 1;
 
         while (true) {
@@ -279,14 +278,15 @@ public class ListMetadata {
 
 //            final MetadataPortType port = new PortFactory().createProxySessionPort(securityMgr, WebServiceTypeEnum.METADATA_WEBSERVICE);
 //            final MetadataPortType port = new UnproxiedSessionPortFactory(securityMgr).createSessionPort(WebServiceTypeEnum.METADATA_TYPE, ApiWebServiceTypeEnum.METADATA_SERVICE.getWebService());
-            final MetadataPortType port = new ProxiedSessionPortFactory(securityMgr).createSessionPort(WebServiceTypeEnum.METADATA_TYPE, ApiWebServiceTypeEnum.METADATA_SERVICE.getWebService());
-
-//            processWithThreads(port, securityMgr);
-//            System.out.println("\n");
-//            processWithThreads(port, securityMgr);
-//            System.out.println("\n");
-//            processWithThreads(port, securityMgr);
-            emitMetadata(port, 35.0);
+//            final MetadataPortType port = new ProxiedSessionPortFactory(securityMgr).createSessionPort(WebServiceTypeEnum.METADATA_TYPE, ApiWebServiceTypeEnum.METADATA_SERVICE.getWebService());
+            final MetadataPortType port = WebServiceTypeEnum.METADATA_SERVICE_TYPE.createSessionPort(securityMgr, MetadataService.class, "file:///home/sfloess/Development/github/solenopsis/Lasius/wsutils/wsdls/src/main/resources/wsdl/Lasius-metadata.wsdl");
+            //            processWithThreads(port, securityMgr);
+            //            System.out.println("\n");
+            //            processWithThreads(port, securityMgr);
+            //            System.out.println("\n");
+            //            processWithThreads(port, securityMgr);
+//            emitMetadata(port, 38.0);
+            emitMetadata(port, 38.0);
 
 //            process(port);
         } catch (final Exception e) {

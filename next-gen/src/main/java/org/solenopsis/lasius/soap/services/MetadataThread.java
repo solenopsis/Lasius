@@ -16,7 +16,7 @@
  */
 package org.solenopsis.lasius.soap.services;
 
-import org.solenopsis.keraiai.soap.security.SecurityMgr;
+import org.solenopsis.keraiai.SecurityMgr;
 import org.solenopsis.keraiai.wsdl.metadata.MetadataPortType;
 
 /**

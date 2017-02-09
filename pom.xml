@@ -15,7 +15,7 @@
         <org.apache.maven.plugins_maven-compiler-plugin_version>3.3</org.apache.maven.plugins_maven-compiler-plugin_version>
 
         <org.flossware.core_version>2.1.9</org.flossware.core_version>
-        <org.solenopsis.keraiai_version>1.0.0</org.solenopsis.keraiai_version>
+        <org.solenopsis.keraiai_version>2.0.2</org.solenopsis.keraiai_version>
 
         <com.fasterxml.jackson.core_jackson-core_version>2.5.2</com.fasterxml.jackson.core_jackson-core_version>
         <commons-collections_commons-collections_version>3.2.1</commons-collections_commons-collections_version>
@@ -134,6 +134,11 @@
                 <groupId>org.mockito</groupId>
                 <artifactId>mockito-all</artifactId>
                 <version>${org.mockito_mockito-all_version}</version>
+            </dependency>
+            <dependency>
+                <groupId>net.sourceforge.cobertura</groupId>
+                <artifactId>cobertura</artifactId>
+                <version>2.1.1</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
