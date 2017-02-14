@@ -20,6 +20,11 @@ import org.solenopsis.lasius.wsimport.common.session.mgr.SessionMgr;
 public class SalesforceWebServicePortInvoker extends AbstractPortInvocationHandler {
 
     /**
+     * Default pause time in millis.
+     */
+    final static long DEFAULT_PAUSE_TIME = 2000;
+
+    /**
      * The session manager.
      */
     private final SessionMgr sessionMgr;
@@ -28,6 +33,21 @@ public class SalesforceWebServicePortInvoker extends AbstractPortInvocationHandl
      * The type of web service.
      */
     private final WebServiceTypeEnum webServiceType;
+
+    /**
+     * Pauses execution.
+     */
+    void pause(final Object lock) {
+        try {
+            getLogger().log(Level.INFO, "Pausing current thread before retrying...");
+
+            synchronized (lock) {
+                lock.wait(DEFAULT_PAUSE_TIME);
+            }
+        } catch (final InterruptedException ex) {
+            getLogger().log(Level.WARNING, "Trouble pausing current thread...", ex);
+        }
+    }
 
     /**
      * Return the session manager.
@@ -68,15 +88,19 @@ public class SalesforceWebServicePortInvoker extends AbstractPortInvocationHandl
      * @throws Throwable if the exception cannot be handled.
      */
     protected void handleException(final Throwable callFailure, final Method method, final Session session) throws Throwable {
-        if (!ExceptionUtil.isReloginException(callFailure)) {
-            getLogger().log(Level.FINE, "Trouble calling [{0}] - [{1}]", new Object[] {method.getName(), callFailure.getLocalizedMessage()});
+        if (ExceptionUtil.isReloginException(callFailure)) {
+            getLogger().log(Level.INFO, "Received a relogin exception when calling [{0}]", method.getName());
+
+            getSessionMgr().resetSession(session);
+        } else if (ExceptionUtil.isRetryException(callFailure)) {
+            getLogger().log(Level.WARNING, "Web service retry encountered calling [{0}] - [{1}]", new Object[]{method.getName(), callFailure.getLocalizedMessage()});
+
+            pause(new byte[0]);
+        } else {
+            getLogger().log(Level.FINE, "Trouble calling [{0}] - [{1}]", new Object[]{method.getName(), callFailure.getLocalizedMessage()});
 
             throw callFailure;
         }
-
-        getLogger().log(Level.FINE, "Received a relogin exception when calling [{0}]", method.getName());
-
-        getSessionMgr().resetSession(session);
     }
 
     /**

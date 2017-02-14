@@ -41,6 +41,11 @@ public class ExceptionUtil {
     public static final String SERVER_UNAVAILABLE = "SERVER_UNAVAILABLE";
 
     /**
+     * Denotes unable to lock a row.
+     */
+    public static final String UNABLE_TO_LOCK_ROW = "UNABLE_TO_LOCK_ROW";
+
+    /**
      * Return the logger.
      */
     protected static Logger getLogger() {
@@ -103,8 +108,17 @@ public class ExceptionUtil {
      *
      * @param failure is the failure to examine for server unavailable.
      */
-    public static boolean isServerUnavailable(final Exception failure) {
+    public static boolean isServerUnavailable(final Throwable failure) {
         return isExceptionMsg(SERVER_UNAVAILABLE, failure);
+    }
+
+    /**
+     * Return true if we are unable to lock a row in SFDC.
+     *
+     * @param failure is the failure to examine for unable to lock row.
+     */
+    public static boolean isUnableToLockRow(final Throwable failure) {
+        return isExceptionMsg(UNABLE_TO_LOCK_ROW, failure);
     }
 
     /**
@@ -116,6 +130,17 @@ public class ExceptionUtil {
      */
     public static boolean isReloginException(final Throwable failure) {
         return isInvalidSessionId(failure) || org.flossware.util.ExceptionUtil.containsIOException(failure);
+    }
+
+    /**
+     * Returns true if the failure represents one where a retry should occur.
+     *
+     * @param failure the exception to examine if retry is necessary.
+     *
+     * @return true if retry is necessary.
+     */
+    public static boolean isRetryException(final Throwable failure) {
+        return isServerUnavailable(failure) || isUnableToLockRow(failure);
     }
 
     /**
