@@ -22,7 +22,7 @@ public class SalesforceWebServicePortInvoker extends AbstractPortInvocationHandl
     /**
      * Default pause time in millis.
      */
-    final static long DEFAULT_PAUSE_TIME = 2000;
+    final static long DEFAULT_PAUSE_TIME = 4000;
 
     /**
      * The session manager.

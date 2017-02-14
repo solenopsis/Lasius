@@ -99,7 +99,7 @@ public final class SalesforceWebServiceUtil {
     /**
      * Denotes maximum number of retries.
      */
-    public static final int MAX_RETRIES = 4;
+    public static final int MAX_RETRIES = 8;
 
     /**
      * Our logger.
@@ -126,11 +126,11 @@ public final class SalesforceWebServiceUtil {
      */
     public static String computeUrl(final String url, final WebServiceTypeEnum webServiceType, final String webServiceName) {
         final String retVal = StringUtil.concatWithSeparator(true, URL_SEPARATOR, url.endsWith("/") ? url.substring(0, url.length() - 1) : url, webServiceType.getUrlSuffix(), webServiceName);
-        
+
         if (retVal.endsWith("/")) {
             return retVal.substring(0, retVal.length() - 1);
         }
-        
+
         return retVal;
     }
 
@@ -382,7 +382,7 @@ public final class SalesforceWebServiceUtil {
      */
     public static <P> P createPort(final String sessionId, final String url, final WebServiceTypeEnum webServiceType, final WebService<P> service, final String serviceName) {
         final P retVal = createPort(url, webServiceType, service, serviceName);
-        
+
         setSessionId(retVal, service, sessionId);
 
         return retVal;
