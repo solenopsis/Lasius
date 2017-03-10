@@ -63,7 +63,7 @@ public class SingleSessionMgr extends AbstractSessionMgr {
 
         this.credentials = credentials;
         this.securityWebSvc = securityWebSvc;
-        this.session = new AtomicReference(new DefaultSession(securityWebSvc.login(getCredentials())));
+        this.session = new AtomicReference(new DefaultSession(securityWebSvc.login(credentials)));
     }
 
     /**
