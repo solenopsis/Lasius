@@ -1,5 +1,6 @@
 package org.solenopsis.lasius.wsimport.common.session.mgr;
 
+import java.util.concurrent.atomic.AtomicReference;
 import org.flossware.common.IntegrityUtil;
 import org.solenopsis.lasius.credentials.Credentials;
 import org.solenopsis.lasius.wsimport.common.security.SecurityMgr;
@@ -28,7 +29,7 @@ public class SingleSessionMgr extends AbstractSessionMgr {
     /**
      * Our current session.
      */
-    private Session session;
+    private final AtomicReference<Session> session;
 
     /**
      * Return the credentials.
@@ -62,34 +63,24 @@ public class SingleSessionMgr extends AbstractSessionMgr {
 
         this.credentials = credentials;
         this.securityWebSvc = securityWebSvc;
+        this.session = new AtomicReference(new DefaultSession(securityWebSvc.login(getCredentials())));
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public synchronized Session getSession() {
-        if (session != null) {
-            return session;
-        }
-
-        session = new DefaultSession(getSecurityWebSvc().login(getCredentials()));
-
-        return session;
+    public Session getSession() {
+        return session.get();
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public synchronized Session resetSession(final Session oldSession) {
-        // If the Id's are not the same, its already been reset...
-        if (session != null && !session.getId().equals(oldSession.getId())) {
-            return session;
-        }
+    public Session resetSession(final Session oldSession) {
+        session.set(new DefaultSession(getSecurityWebSvc().login(getCredentials())));
 
-        this.session = null;
-
-        return getSession();
+        return session.get();
     }
 }
