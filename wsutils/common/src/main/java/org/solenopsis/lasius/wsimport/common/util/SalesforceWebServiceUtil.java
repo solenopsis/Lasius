@@ -427,6 +427,8 @@ public final class SalesforceWebServiceUtil {
      * @return a usable port.
      */
     public static <P> P createPort(final SessionMgr sessionMgr, final WebServiceTypeEnum webServiceType, final WebService<P> service) {
+        service.getPort();
+
         return createPort(sessionMgr.getSession(), webServiceType, service);
     }
 
@@ -441,6 +443,8 @@ public final class SalesforceWebServiceUtil {
      * @return a usable port.
      */
     public static <P> P createProxyPort(final SessionMgr sessionMgr, final WebServiceTypeEnum webServiceType, final WebService<P> service) {
-        return new WebServiceInvocationDecorator<>(service, new SalesforceWebServicePortInvoker(sessionMgr, webServiceType)).getPort();
+        service.getPort();
+
+        return new WebServiceInvocationDecorator<>(service, new SalesforceWebServicePortInvoker(service, sessionMgr, webServiceType)).getPort();
     }
 }
