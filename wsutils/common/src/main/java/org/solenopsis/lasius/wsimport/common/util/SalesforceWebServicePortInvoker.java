@@ -51,67 +51,62 @@ public class SalesforceWebServicePortInvoker extends AbstractPortInvocationHandl
      *
      * @param totalLocks
      */
-    public static void setSemaphoreLimit(final Class klass, final int totalLocks) {
-        System.out.println("ADDING [" + klass.getName() + "]");
-        METHOD_MAP.put(klass, new Semaphore(totalLocks));
-        System.out.println(METHOD_MAP);
-    }
-
+//    public static void setSemaphoreLimit(final Class klass, final int totalLocks) {
+//        System.out.println("ADDING [" + klass.getName() + "]");
+//        METHOD_MAP.put(klass, new Semaphore(totalLocks));
+//        System.out.println(METHOD_MAP);
+//    }
     /**
      * Lock down the proxy...
      */
-    static boolean lock(final Class klass) throws Exception {
-        System.out.println(METHOD_MAP);
-        if (!METHOD_MAP.contains(klass)) {
-            System.out.println("NOT FOUND [" + klass.getName() + "]");
-            System.out.println(METHOD_MAP);
-            return false;
-        }
-
-        System.out.println("LOCK FOUND [" + klass.getName() + "]");
-
-        METHOD_MAP.get(klass).acquire();
-        return true;
-    }
-
+//    static boolean lock(final Class klass) throws Exception {
+//        System.out.println(METHOD_MAP);
+//        if (!METHOD_MAP.contains(klass)) {
+//            System.out.println("NOT FOUND [" + klass.getName() + "]");
+//            System.out.println(METHOD_MAP);
+//            return false;
+//        }
+//
+//        System.out.println("LOCK FOUND [" + klass.getName() + "]");
+//
+//        METHOD_MAP.get(klass).acquire();
+//        return true;
+//    }
     /**
      * Lock down the proxy.
      */
-    static void lock(final Object proxy) throws Exception {
-        for (final Class intr : proxy.getClass().getInterfaces()) {
-            System.out.println("Examining [" + intr.getName() + "]");
-            if (lock(intr)) {
-                return;
-            }
-        }
-    }
-
+//    static void lock(final Object proxy) throws Exception {
+//        for (final Class intr : proxy.getClass().getInterfaces()) {
+//            System.out.println("Examining [" + intr.getName() + "]");
+//            if (lock(intr)) {
+//                return;
+//            }
+//        }
+//    }
     /**
      * Release the proxy...
      */
-    static boolean unlock(final Class klass) throws Exception {
-        System.out.println(METHOD_MAP);
-        if (!METHOD_MAP.contains(klass)) {
-            return false;
-        }
-
-        System.out.println("UNLOCK FOUND [" + klass.getName() + "]");
-
-        METHOD_MAP.get(klass).release();
-        return true;
-    }
-
+//    static boolean unlock(final Class klass) throws Exception {
+//        System.out.println(METHOD_MAP);
+//        if (!METHOD_MAP.contains(klass)) {
+//            return false;
+//        }
+//
+//        System.out.println("UNLOCK FOUND [" + klass.getName() + "]");
+//
+//        METHOD_MAP.get(klass).release();
+//        return true;
+//    }
     /**
      * Release the proxy.
      */
-    static void unlock(final Object proxy) throws Exception {
-        for (final Class intr : proxy.getClass().getInterfaces()) {
-            if (unlock(intr)) {
-                return;
-            }
-        }
-    }
-
+//    static void unlock(final Object proxy) throws Exception {
+//        for (final Class intr : proxy.getClass().getInterfaces()) {
+//            if (unlock(intr)) {
+//                return;
+//            }
+//        }
+//    }
     /**
      * Pauses execution.
      */
