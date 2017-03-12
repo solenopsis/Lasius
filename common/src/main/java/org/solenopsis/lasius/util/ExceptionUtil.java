@@ -41,6 +41,11 @@ public class ExceptionUtil {
     public static final String SERVER_UNAVAILABLE = "SERVER_UNAVAILABLE";
 
     /**
+     * Denotes server is unavailable.
+     */
+    public static final String SERVICE_UNAVAILABLE = "Service Unavailable";
+
+    /**
      * Denotes unable to lock a row.
      */
     public static final String UNABLE_TO_LOCK_ROW = "UNABLE_TO_LOCK_ROW";
@@ -113,6 +118,15 @@ public class ExceptionUtil {
     }
 
     /**
+     * Return true if we have service is unavailable or false if not.
+     *
+     * @param failure is the failure to examine for service unavailable.
+     */
+    public static boolean isServiceUnavailable(final Throwable failure) {
+        return isExceptionMsg(SERVICE_UNAVAILABLE, failure);
+    }
+
+    /**
      * Return true if we are unable to lock a row in SFDC.
      *
      * @param failure is the failure to examine for unable to lock row.
@@ -140,7 +154,7 @@ public class ExceptionUtil {
      * @return true if retry is necessary.
      */
     public static boolean isRetryException(final Throwable failure) {
-        return isServerUnavailable(failure) || isUnableToLockRow(failure);
+        return isServerUnavailable(failure) || isUnableToLockRow(failure) || isServiceUnavailable(failure);
     }
 
     /**
