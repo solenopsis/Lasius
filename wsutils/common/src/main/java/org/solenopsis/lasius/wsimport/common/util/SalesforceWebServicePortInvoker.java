@@ -220,6 +220,8 @@ public class SalesforceWebServicePortInvoker extends AbstractPortInvocationHandl
             }
         }
 
-        throw new IllegalStateException("Should have returned a value!");
+        getLogger().log(Level.SEVERE, "Unable to call [{0}].[{1}] after retry [{2}] attemps, raising exception", new Object[]{port.get().getClass().getName(), method.getName(), totalCalls});
+
+        throw new IllegalStateException("Attempts to retry calls to Salesforce have failed after [" + totalCalls + "] times");
     }
 }
