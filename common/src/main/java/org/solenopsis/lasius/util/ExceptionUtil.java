@@ -17,6 +17,7 @@
 package org.solenopsis.lasius.util;
 
 import java.lang.reflect.InvocationTargetException;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
@@ -35,20 +36,28 @@ public class ExceptionUtil {
      */
     public static final String INVALID_SESSION_ID = "INVALID_SESSION_ID";
 
+    public static final int INVALID_SESSION_INDEX = 0;
+
     /**
      * Denotes server is unavailable.
      */
     public static final String SERVER_UNAVAILABLE = "SERVER_UNAVAILABLE";
+
+    public static final int SERVER_UNAVAILABLE_INDEX = 1;
 
     /**
      * Denotes server is unavailable.
      */
     public static final String SERVICE_UNAVAILABLE = "Service Unavailable";
 
+    public static final int SERVICE_UNAVAILABLE_INDEX = 2;
+
     /**
      * Denotes unable to lock a row.
      */
     public static final String UNABLE_TO_LOCK_ROW = "UNABLE_TO_LOCK_ROW";
+
+    public static final int UNABLE_TO_LOCK_ROW_INDEX = 3;
 
     /**
      * Return the logger.
@@ -104,8 +113,15 @@ public class ExceptionUtil {
      *
      * @param message is the message to examine for being server unavailable.
      */
-    public static boolean isServerUnavailable(final String message) {
-        return isExceptionMsg(SERVER_UNAVAILABLE, message);
+    public static boolean isServerUnavailable(final String message, final int[] retryIssues) {
+        final boolean retVal = isExceptionMsg(SERVER_UNAVAILABLE, message);
+
+        if (retVal) {
+            retryIssues[SERVER_UNAVAILABLE_INDEX]++;
+
+            getLogger().log(Level.INFO, "Received a server unavailable failure from SFDC...");
+        }
+        return retVal;
     }
 
     /**
@@ -113,8 +129,16 @@ public class ExceptionUtil {
      *
      * @param failure is the failure to examine for server unavailable.
      */
-    public static boolean isServerUnavailable(final Throwable failure) {
-        return isExceptionMsg(SERVER_UNAVAILABLE, failure);
+    public static boolean isServerUnavailable(final Throwable failure, final int[] retryIssues) {
+        final boolean retVal = isExceptionMsg(SERVER_UNAVAILABLE, failure);
+
+        if (retVal) {
+            retryIssues[SERVICE_UNAVAILABLE_INDEX]++;
+
+            getLogger().log(Level.INFO, "Received a server unavailable failure from SFDC...");
+        }
+
+        return retVal;
     }
 
     /**
@@ -122,8 +146,16 @@ public class ExceptionUtil {
      *
      * @param failure is the failure to examine for service unavailable.
      */
-    public static boolean isServiceUnavailable(final Throwable failure) {
-        return isExceptionMsg(SERVICE_UNAVAILABLE, failure);
+    public static boolean isServiceUnavailable(final Throwable failure, final int[] retryIssues) {
+        final boolean retVal = isExceptionMsg(SERVICE_UNAVAILABLE, failure);
+
+        if (retVal) {
+            retryIssues[SERVICE_UNAVAILABLE_INDEX]++;
+
+            getLogger().log(Level.INFO, "Received a service unavailable failure from SFDC...");
+        }
+
+        return retVal;
     }
 
     /**
@@ -131,8 +163,16 @@ public class ExceptionUtil {
      *
      * @param failure is the failure to examine for unable to lock row.
      */
-    public static boolean isUnableToLockRow(final Throwable failure) {
-        return isExceptionMsg(UNABLE_TO_LOCK_ROW, failure);
+    public static boolean isUnableToLockRow(final Throwable failure, final int[] retryIssues) {
+        final boolean retVal = isExceptionMsg(UNABLE_TO_LOCK_ROW, failure);
+
+        if (retVal) {
+            retryIssues[UNABLE_TO_LOCK_ROW_INDEX]++;
+
+            getLogger().log(Level.INFO, "Received an unable to lock row failure from SFDC...");
+        }
+
+        return retVal;
     }
 
     /**
@@ -142,8 +182,16 @@ public class ExceptionUtil {
      *
      * @return true if relogin is necessary.
      */
-    public static boolean isReloginException(final Throwable failure) {
-        return isInvalidSessionId(failure) || org.flossware.util.ExceptionUtil.containsIOException(failure);
+    public static boolean isReloginException(final Throwable failure, final int[] retryIssues) {
+        final boolean retVal = isInvalidSessionId(failure) || org.flossware.util.ExceptionUtil.containsIOException(failure);
+
+        if (retVal) {
+            retryIssues[INVALID_SESSION_INDEX]++;
+
+            getLogger().log(Level.INFO, "Will be performing a relogin...");
+        }
+
+        return retVal;
     }
 
     /**
@@ -153,8 +201,8 @@ public class ExceptionUtil {
      *
      * @return true if retry is necessary.
      */
-    public static boolean isRetryException(final Throwable failure) {
-        return isServerUnavailable(failure) || isUnableToLockRow(failure) || isServiceUnavailable(failure);
+    public static boolean isRetryException(final Throwable failure, final int[] retryIssues) {
+        return isServerUnavailable(failure, retryIssues) || isUnableToLockRow(failure, retryIssues) || isServiceUnavailable(failure, retryIssues);
     }
 
     /**

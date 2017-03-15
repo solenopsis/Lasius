@@ -15,7 +15,6 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */package org.solenopsis.lasius.util;
 
-import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import org.junit.Assert;
 import org.junit.Test;
@@ -78,90 +77,90 @@ public class ExceptionUtilTest {
         Assert.assertTrue("Should be an exception msg", ExceptionUtil.isInvalidSessionId(new InvocationTargetException(new RuntimeException(ExceptionUtil.INVALID_SESSION_ID))));
     }
 
-    @Test
-    public void test_isServerUnavailable_String() {
-        Assert.assertFalse("Should not be an invalid session id", ExceptionUtil.isServerUnavailable((String) null));
-        Assert.assertFalse("Should not be an invalid session id", ExceptionUtil.isServerUnavailable("test a"));
-
-        Assert.assertTrue("Should be an invalid session id", ExceptionUtil.isServerUnavailable(" foo " + ExceptionUtil.SERVER_UNAVAILABLE + " bar "));
-        Assert.assertTrue("Should be an invalid session id", ExceptionUtil.isServerUnavailable(" foo " + ExceptionUtil.SERVER_UNAVAILABLE));
-        Assert.assertTrue("Should be an invalid session id", ExceptionUtil.isServerUnavailable(ExceptionUtil.SERVER_UNAVAILABLE + "bar"));
-        Assert.assertTrue("Should be an invalid session id", ExceptionUtil.isServerUnavailable(ExceptionUtil.SERVER_UNAVAILABLE));
-    }
-
-    @Test
-    public void test_isServerUnavailable_Throwable() {
-        Assert.assertFalse("Should not be a server unavailable exception", ExceptionUtil.isServerUnavailable(new RuntimeException("hello world")));
-        Assert.assertTrue("Should be a server unavailable exception", ExceptionUtil.isServerUnavailable(new RuntimeException(" foo " + ExceptionUtil.SERVER_UNAVAILABLE + " bar ")));
-        Assert.assertTrue("Should be an exception", ExceptionUtil.isServerUnavailable(new RuntimeException(" foo " + ExceptionUtil.SERVER_UNAVAILABLE)));
-        Assert.assertTrue("Should be an exception", ExceptionUtil.isServerUnavailable(new RuntimeException(ExceptionUtil.SERVER_UNAVAILABLE + "bar")));
-        Assert.assertTrue("Should be an exception", ExceptionUtil.isServerUnavailable(new RuntimeException(ExceptionUtil.SERVER_UNAVAILABLE)));
-
-        Assert.assertFalse("Should not be a server unavailable exception", ExceptionUtil.isServerUnavailable(new InvocationTargetException(new RuntimeException("hello world"))));
-        Assert.assertTrue("Should be a server unavailable exception", ExceptionUtil.isServerUnavailable(new InvocationTargetException(new RuntimeException(" foo " + ExceptionUtil.SERVER_UNAVAILABLE + " bar "))));
-        Assert.assertTrue("Should be a server unavailable exception", ExceptionUtil.isServerUnavailable(new InvocationTargetException(new RuntimeException(" foo " + ExceptionUtil.SERVER_UNAVAILABLE))));
-        Assert.assertTrue("Should be a server unavailable exception", ExceptionUtil.isServerUnavailable(new InvocationTargetException(new RuntimeException(ExceptionUtil.SERVER_UNAVAILABLE + "bar"))));
-        Assert.assertTrue("Should be a server unavailable exception", ExceptionUtil.isServerUnavailable(new InvocationTargetException(new RuntimeException(ExceptionUtil.SERVER_UNAVAILABLE))));
-    }
-
-    @Test
-    public void test_isUnableToLockRow_Throwable() {
-        Assert.assertFalse("Should not be an unable to lock row exception", ExceptionUtil.isUnableToLockRow(new RuntimeException("hello world")));
-        Assert.assertTrue("Should be an unable to lock row exception", ExceptionUtil.isUnableToLockRow(new RuntimeException(" foo " + ExceptionUtil.UNABLE_TO_LOCK_ROW + " bar ")));
-        Assert.assertTrue("Should be an unable to lock row exception", ExceptionUtil.isUnableToLockRow(new RuntimeException(" foo " + ExceptionUtil.UNABLE_TO_LOCK_ROW)));
-        Assert.assertTrue("Should be an unable to lock row exception", ExceptionUtil.isUnableToLockRow(new RuntimeException(ExceptionUtil.UNABLE_TO_LOCK_ROW + "bar")));
-        Assert.assertTrue("Should be an unable to lock row exception", ExceptionUtil.isUnableToLockRow(new RuntimeException(ExceptionUtil.UNABLE_TO_LOCK_ROW)));
-
-        Assert.assertFalse("Should not be an unable to lock row exception", ExceptionUtil.isUnableToLockRow(new InvocationTargetException(new RuntimeException("hello world"))));
-        Assert.assertTrue("Should be an unable to lock row exception", ExceptionUtil.isUnableToLockRow(new InvocationTargetException(new RuntimeException(" foo " + ExceptionUtil.UNABLE_TO_LOCK_ROW + " bar "))));
-        Assert.assertTrue("Should be an unable to lock row exception", ExceptionUtil.isUnableToLockRow(new InvocationTargetException(new RuntimeException(" foo " + ExceptionUtil.UNABLE_TO_LOCK_ROW))));
-        Assert.assertTrue("Should be an unable to lock row exception", ExceptionUtil.isUnableToLockRow(new InvocationTargetException(new RuntimeException(ExceptionUtil.UNABLE_TO_LOCK_ROW + "bar"))));
-        Assert.assertTrue("Should be an unable to lock row exception", ExceptionUtil.isUnableToLockRow(new InvocationTargetException(new RuntimeException(ExceptionUtil.UNABLE_TO_LOCK_ROW))));
-    }
-
-    @Test
-    public void test_isReloginException_Throwable() {
-        Assert.assertFalse("Should not be a relogin exception", ExceptionUtil.isReloginException(new RuntimeException("hello world")));
-        Assert.assertTrue("Should be a relogin exception", ExceptionUtil.isReloginException(new RuntimeException(" foo " + ExceptionUtil.INVALID_SESSION_ID + " bar ")));
-        Assert.assertTrue("Should be a relogin exception", ExceptionUtil.isReloginException(new RuntimeException(" foo " + ExceptionUtil.INVALID_SESSION_ID)));
-        Assert.assertTrue("Should be a relogin exception", ExceptionUtil.isReloginException(new RuntimeException(ExceptionUtil.INVALID_SESSION_ID + "bar")));
-        Assert.assertTrue("Should be a relogin exception", ExceptionUtil.isReloginException(new RuntimeException(ExceptionUtil.INVALID_SESSION_ID)));
-
-        Assert.assertFalse("Should not be a relogin exception", ExceptionUtil.isReloginException(new InvocationTargetException(new RuntimeException("hello world"))));
-        Assert.assertTrue("Should be a relogin exception", ExceptionUtil.isReloginException(new InvocationTargetException(new RuntimeException(" foo " + ExceptionUtil.INVALID_SESSION_ID + " bar "))));
-        Assert.assertTrue("Should be a relogin exception", ExceptionUtil.isReloginException(new InvocationTargetException(new RuntimeException(" foo " + ExceptionUtil.INVALID_SESSION_ID))));
-        Assert.assertTrue("Should be a relogin exception", ExceptionUtil.isReloginException(new InvocationTargetException(new RuntimeException(ExceptionUtil.INVALID_SESSION_ID + "bar"))));
-        Assert.assertTrue("Should be a relogin exception", ExceptionUtil.isReloginException(new InvocationTargetException(new RuntimeException(ExceptionUtil.INVALID_SESSION_ID))));
-
-        Assert.assertTrue("Should be a relogin exception", ExceptionUtil.isReloginException(new IOException("hello world")));
-        Assert.assertTrue("Should be a relogin exception", ExceptionUtil.isReloginException(new IOException()));
-
-        Assert.assertTrue("Should be a relogin exception", ExceptionUtil.isReloginException(new InvocationTargetException(new IOException("hello world"))));
-        Assert.assertTrue("Should be a relogin exception", ExceptionUtil.isReloginException(new InvocationTargetException(new IOException())));
-    }
-
-    @Test
-    public void test_isRetryException_Throwable() {
-        Assert.assertFalse("Should not be a retry exception", ExceptionUtil.isRetryException(new RuntimeException("hello world")));
-        Assert.assertTrue("Should be a retry exception", ExceptionUtil.isRetryException(new RuntimeException(" foo " + ExceptionUtil.SERVER_UNAVAILABLE + " bar ")));
-        Assert.assertTrue("Should be a retry exception", ExceptionUtil.isRetryException(new RuntimeException(" foo " + ExceptionUtil.SERVER_UNAVAILABLE)));
-        Assert.assertTrue("Should be a retry exception", ExceptionUtil.isRetryException(new RuntimeException(ExceptionUtil.SERVER_UNAVAILABLE + "bar")));
-        Assert.assertTrue("Should be a retry exception", ExceptionUtil.isRetryException(new RuntimeException(ExceptionUtil.SERVER_UNAVAILABLE)));
-
-        Assert.assertFalse("Should not be a retry exception", ExceptionUtil.isRetryException(new InvocationTargetException(new RuntimeException("hello world"))));
-        Assert.assertTrue("Should be a retry exception", ExceptionUtil.isRetryException(new InvocationTargetException(new RuntimeException(" foo " + ExceptionUtil.SERVER_UNAVAILABLE + " bar "))));
-        Assert.assertTrue("Should be a retry exception", ExceptionUtil.isRetryException(new InvocationTargetException(new RuntimeException(" foo " + ExceptionUtil.SERVER_UNAVAILABLE))));
-        Assert.assertTrue("Should be a retry exception", ExceptionUtil.isRetryException(new InvocationTargetException(new RuntimeException(ExceptionUtil.SERVER_UNAVAILABLE + "bar"))));
-        Assert.assertTrue("Should be a retry exception", ExceptionUtil.isRetryException(new InvocationTargetException(new RuntimeException(ExceptionUtil.SERVER_UNAVAILABLE))));
-
-        Assert.assertTrue("Should be a retry exception", ExceptionUtil.isRetryException(new RuntimeException(" foo " + ExceptionUtil.UNABLE_TO_LOCK_ROW + " bar ")));
-        Assert.assertTrue("Should be a retry exception", ExceptionUtil.isRetryException(new RuntimeException(" foo " + ExceptionUtil.UNABLE_TO_LOCK_ROW)));
-        Assert.assertTrue("Should be a retry exception", ExceptionUtil.isRetryException(new RuntimeException(ExceptionUtil.UNABLE_TO_LOCK_ROW + "bar")));
-        Assert.assertTrue("Should be a retry exception", ExceptionUtil.isRetryException(new RuntimeException(ExceptionUtil.UNABLE_TO_LOCK_ROW)));
-
-        Assert.assertTrue("Should be a retry exception", ExceptionUtil.isRetryException(new InvocationTargetException(new RuntimeException(" foo " + ExceptionUtil.UNABLE_TO_LOCK_ROW + " bar "))));
-        Assert.assertTrue("Should be a retry exception", ExceptionUtil.isRetryException(new InvocationTargetException(new RuntimeException(" foo " + ExceptionUtil.UNABLE_TO_LOCK_ROW))));
-        Assert.assertTrue("Should be a retry exception", ExceptionUtil.isRetryException(new InvocationTargetException(new RuntimeException(ExceptionUtil.UNABLE_TO_LOCK_ROW + "bar"))));
-        Assert.assertTrue("Should be a retry exception", ExceptionUtil.isRetryException(new InvocationTargetException(new RuntimeException(ExceptionUtil.UNABLE_TO_LOCK_ROW))));
-    }
+//    @Test
+//    public void test_isServerUnavailable_String() {
+//        Assert.assertFalse("Should not be an invalid session id", ExceptionUtil.isServerUnavailable((String) null));
+//        Assert.assertFalse("Should not be an invalid session id", ExceptionUtil.isServerUnavailable("test a"));
+//
+//        Assert.assertTrue("Should be an invalid session id", ExceptionUtil.isServerUnavailable(" foo " + ExceptionUtil.SERVER_UNAVAILABLE + " bar "));
+//        Assert.assertTrue("Should be an invalid session id", ExceptionUtil.isServerUnavailable(" foo " + ExceptionUtil.SERVER_UNAVAILABLE));
+//        Assert.assertTrue("Should be an invalid session id", ExceptionUtil.isServerUnavailable(ExceptionUtil.SERVER_UNAVAILABLE + "bar"));
+//        Assert.assertTrue("Should be an invalid session id", ExceptionUtil.isServerUnavailable(ExceptionUtil.SERVER_UNAVAILABLE));
+//    }
+//
+//    @Test
+//    public void test_isServerUnavailable_Throwable() {
+//        Assert.assertFalse("Should not be a server unavailable exception", ExceptionUtil.isServerUnavailable(new RuntimeException("hello world")));
+//        Assert.assertTrue("Should be a server unavailable exception", ExceptionUtil.isServerUnavailable(new RuntimeException(" foo " + ExceptionUtil.SERVER_UNAVAILABLE + " bar ")));
+//        Assert.assertTrue("Should be an exception", ExceptionUtil.isServerUnavailable(new RuntimeException(" foo " + ExceptionUtil.SERVER_UNAVAILABLE)));
+//        Assert.assertTrue("Should be an exception", ExceptionUtil.isServerUnavailable(new RuntimeException(ExceptionUtil.SERVER_UNAVAILABLE + "bar")));
+//        Assert.assertTrue("Should be an exception", ExceptionUtil.isServerUnavailable(new RuntimeException(ExceptionUtil.SERVER_UNAVAILABLE)));
+//
+//        Assert.assertFalse("Should not be a server unavailable exception", ExceptionUtil.isServerUnavailable(new InvocationTargetException(new RuntimeException("hello world"))));
+//        Assert.assertTrue("Should be a server unavailable exception", ExceptionUtil.isServerUnavailable(new InvocationTargetException(new RuntimeException(" foo " + ExceptionUtil.SERVER_UNAVAILABLE + " bar "))));
+//        Assert.assertTrue("Should be a server unavailable exception", ExceptionUtil.isServerUnavailable(new InvocationTargetException(new RuntimeException(" foo " + ExceptionUtil.SERVER_UNAVAILABLE))));
+//        Assert.assertTrue("Should be a server unavailable exception", ExceptionUtil.isServerUnavailable(new InvocationTargetException(new RuntimeException(ExceptionUtil.SERVER_UNAVAILABLE + "bar"))));
+//        Assert.assertTrue("Should be a server unavailable exception", ExceptionUtil.isServerUnavailable(new InvocationTargetException(new RuntimeException(ExceptionUtil.SERVER_UNAVAILABLE))));
+//    }
+//
+//    @Test
+//    public void test_isUnableToLockRow_Throwable() {
+//        Assert.assertFalse("Should not be an unable to lock row exception", ExceptionUtil.isUnableToLockRow(new RuntimeException("hello world")));
+//        Assert.assertTrue("Should be an unable to lock row exception", ExceptionUtil.isUnableToLockRow(new RuntimeException(" foo " + ExceptionUtil.UNABLE_TO_LOCK_ROW + " bar ")));
+//        Assert.assertTrue("Should be an unable to lock row exception", ExceptionUtil.isUnableToLockRow(new RuntimeException(" foo " + ExceptionUtil.UNABLE_TO_LOCK_ROW)));
+//        Assert.assertTrue("Should be an unable to lock row exception", ExceptionUtil.isUnableToLockRow(new RuntimeException(ExceptionUtil.UNABLE_TO_LOCK_ROW + "bar")));
+//        Assert.assertTrue("Should be an unable to lock row exception", ExceptionUtil.isUnableToLockRow(new RuntimeException(ExceptionUtil.UNABLE_TO_LOCK_ROW)));
+//
+//        Assert.assertFalse("Should not be an unable to lock row exception", ExceptionUtil.isUnableToLockRow(new InvocationTargetException(new RuntimeException("hello world"))));
+//        Assert.assertTrue("Should be an unable to lock row exception", ExceptionUtil.isUnableToLockRow(new InvocationTargetException(new RuntimeException(" foo " + ExceptionUtil.UNABLE_TO_LOCK_ROW + " bar "))));
+//        Assert.assertTrue("Should be an unable to lock row exception", ExceptionUtil.isUnableToLockRow(new InvocationTargetException(new RuntimeException(" foo " + ExceptionUtil.UNABLE_TO_LOCK_ROW))));
+//        Assert.assertTrue("Should be an unable to lock row exception", ExceptionUtil.isUnableToLockRow(new InvocationTargetException(new RuntimeException(ExceptionUtil.UNABLE_TO_LOCK_ROW + "bar"))));
+//        Assert.assertTrue("Should be an unable to lock row exception", ExceptionUtil.isUnableToLockRow(new InvocationTargetException(new RuntimeException(ExceptionUtil.UNABLE_TO_LOCK_ROW))));
+//    }
+//
+//    @Test
+//    public void test_isReloginException_Throwable() {
+//        Assert.assertFalse("Should not be a relogin exception", ExceptionUtil.isReloginException(new RuntimeException("hello world")));
+//        Assert.assertTrue("Should be a relogin exception", ExceptionUtil.isReloginException(new RuntimeException(" foo " + ExceptionUtil.INVALID_SESSION_ID + " bar ")));
+//        Assert.assertTrue("Should be a relogin exception", ExceptionUtil.isReloginException(new RuntimeException(" foo " + ExceptionUtil.INVALID_SESSION_ID)));
+//        Assert.assertTrue("Should be a relogin exception", ExceptionUtil.isReloginException(new RuntimeException(ExceptionUtil.INVALID_SESSION_ID + "bar")));
+//        Assert.assertTrue("Should be a relogin exception", ExceptionUtil.isReloginException(new RuntimeException(ExceptionUtil.INVALID_SESSION_ID)));
+//
+//        Assert.assertFalse("Should not be a relogin exception", ExceptionUtil.isReloginException(new InvocationTargetException(new RuntimeException("hello world"))));
+//        Assert.assertTrue("Should be a relogin exception", ExceptionUtil.isReloginException(new InvocationTargetException(new RuntimeException(" foo " + ExceptionUtil.INVALID_SESSION_ID + " bar "))));
+//        Assert.assertTrue("Should be a relogin exception", ExceptionUtil.isReloginException(new InvocationTargetException(new RuntimeException(" foo " + ExceptionUtil.INVALID_SESSION_ID))));
+//        Assert.assertTrue("Should be a relogin exception", ExceptionUtil.isReloginException(new InvocationTargetException(new RuntimeException(ExceptionUtil.INVALID_SESSION_ID + "bar"))));
+//        Assert.assertTrue("Should be a relogin exception", ExceptionUtil.isReloginException(new InvocationTargetException(new RuntimeException(ExceptionUtil.INVALID_SESSION_ID))));
+//
+//        Assert.assertTrue("Should be a relogin exception", ExceptionUtil.isReloginException(new IOException("hello world")));
+//        Assert.assertTrue("Should be a relogin exception", ExceptionUtil.isReloginException(new IOException()));
+//
+//        Assert.assertTrue("Should be a relogin exception", ExceptionUtil.isReloginException(new InvocationTargetException(new IOException("hello world"))));
+//        Assert.assertTrue("Should be a relogin exception", ExceptionUtil.isReloginException(new InvocationTargetException(new IOException())));
+//    }
+//
+//    @Test
+//    public void test_isRetryException_Throwable() {
+//        Assert.assertFalse("Should not be a retry exception", ExceptionUtil.isRetryException(new RuntimeException("hello world")));
+//        Assert.assertTrue("Should be a retry exception", ExceptionUtil.isRetryException(new RuntimeException(" foo " + ExceptionUtil.SERVER_UNAVAILABLE + " bar ")));
+//        Assert.assertTrue("Should be a retry exception", ExceptionUtil.isRetryException(new RuntimeException(" foo " + ExceptionUtil.SERVER_UNAVAILABLE)));
+//        Assert.assertTrue("Should be a retry exception", ExceptionUtil.isRetryException(new RuntimeException(ExceptionUtil.SERVER_UNAVAILABLE + "bar")));
+//        Assert.assertTrue("Should be a retry exception", ExceptionUtil.isRetryException(new RuntimeException(ExceptionUtil.SERVER_UNAVAILABLE)));
+//
+//        Assert.assertFalse("Should not be a retry exception", ExceptionUtil.isRetryException(new InvocationTargetException(new RuntimeException("hello world"))));
+//        Assert.assertTrue("Should be a retry exception", ExceptionUtil.isRetryException(new InvocationTargetException(new RuntimeException(" foo " + ExceptionUtil.SERVER_UNAVAILABLE + " bar "))));
+//        Assert.assertTrue("Should be a retry exception", ExceptionUtil.isRetryException(new InvocationTargetException(new RuntimeException(" foo " + ExceptionUtil.SERVER_UNAVAILABLE))));
+//        Assert.assertTrue("Should be a retry exception", ExceptionUtil.isRetryException(new InvocationTargetException(new RuntimeException(ExceptionUtil.SERVER_UNAVAILABLE + "bar"))));
+//        Assert.assertTrue("Should be a retry exception", ExceptionUtil.isRetryException(new InvocationTargetException(new RuntimeException(ExceptionUtil.SERVER_UNAVAILABLE))));
+//
+//        Assert.assertTrue("Should be a retry exception", ExceptionUtil.isRetryException(new RuntimeException(" foo " + ExceptionUtil.UNABLE_TO_LOCK_ROW + " bar ")));
+//        Assert.assertTrue("Should be a retry exception", ExceptionUtil.isRetryException(new RuntimeException(" foo " + ExceptionUtil.UNABLE_TO_LOCK_ROW)));
+//        Assert.assertTrue("Should be a retry exception", ExceptionUtil.isRetryException(new RuntimeException(ExceptionUtil.UNABLE_TO_LOCK_ROW + "bar")));
+//        Assert.assertTrue("Should be a retry exception", ExceptionUtil.isRetryException(new RuntimeException(ExceptionUtil.UNABLE_TO_LOCK_ROW)));
+//
+//        Assert.assertTrue("Should be a retry exception", ExceptionUtil.isRetryException(new InvocationTargetException(new RuntimeException(" foo " + ExceptionUtil.UNABLE_TO_LOCK_ROW + " bar "))));
+//        Assert.assertTrue("Should be a retry exception", ExceptionUtil.isRetryException(new InvocationTargetException(new RuntimeException(" foo " + ExceptionUtil.UNABLE_TO_LOCK_ROW))));
+//        Assert.assertTrue("Should be a retry exception", ExceptionUtil.isRetryException(new InvocationTargetException(new RuntimeException(ExceptionUtil.UNABLE_TO_LOCK_ROW + "bar"))));
+//        Assert.assertTrue("Should be a retry exception", ExceptionUtil.isRetryException(new InvocationTargetException(new RuntimeException(ExceptionUtil.UNABLE_TO_LOCK_ROW))));
+//    }
 }

@@ -162,14 +162,14 @@ public class SalesforceWebServicePortInvoker extends AbstractPortInvocationHandl
      *
      * @throws Throwable if the exception cannot be handled.
      */
-    protected void handleException(final Throwable callFailure, final WebService webService, final Object proxy, final Method method, final Session session, final int totalCalls) throws Throwable {
+    protected void handleException(final Throwable callFailure, final WebService webService, final Object proxy, final Method method, final Session session, final int totalCalls, final int[] retryIssues) throws Throwable {
 //        unlock(proxy);
-        if (ExceptionUtil.isReloginException(callFailure)) {
+        if (ExceptionUtil.isReloginException(callFailure, retryIssues)) {
             getLogger().log(Level.INFO, "Received a relogin exception when calling [{0}] - retry attempt [#{1}]", new Object[]{method.getName(), totalCalls});
 
             getSessionMgr().resetSession(session);
             port.set(SalesforceWebServiceUtil.createPort(session, getWebServiceType(), webService));
-        } else if (ExceptionUtil.isRetryException(callFailure)) {
+        } else if (ExceptionUtil.isRetryException(callFailure, retryIssues)) {
             getLogger().log(Level.WARNING, "Web service retry encountered calling [{0}] - retry attempt [#{1}]", new Object[]{method.getName(), totalCalls});
 
             pause(new byte[0], totalCalls);
@@ -206,6 +206,8 @@ public class SalesforceWebServicePortInvoker extends AbstractPortInvocationHandl
 
         Session session = null;
 
+        final int[] retryIssues = new int[4];
+
         while (isCallable(totalCalls++)) {
 //            lock(proxy);
             try {
@@ -216,12 +218,12 @@ public class SalesforceWebServicePortInvoker extends AbstractPortInvocationHandl
 
                 return retVal;
             } catch (final Exception callFailure) {
-                handleException(callFailure, webService, proxy, method, session, totalCalls);
+                handleException(callFailure, webService, proxy, method, session, totalCalls, retryIssues);
             }
         }
 
-        getLogger().log(Level.SEVERE, "Unable to call [{0}].[{1}] after retry [{2}] attemps, raising exception", new Object[]{port.get().getClass().getName(), method.getName(), totalCalls});
+        getLogger().log(Level.SEVERE, "Unable to call [{0}].[{1}] after retry [{2}] attemps, raising exception.  Relogins: [{3}]  Server Unavailable: [{4}]  Service Unavaible: [{5}]  Unable To Lock Row: [{6}]", new Object[]{port.get().getClass().getName(), method.getName(), totalCalls, retryIssues[0], retryIssues[1], retryIssues[2], retryIssues[3]});
 
-        throw new IllegalStateException("Attempts to retry calls to Salesforce have failed after [" + totalCalls + "] times");
+        throw new IllegalStateException("Attempts to retry calls to Salesforce have failed after [" + totalCalls + "] times. Relogins: [" + retryIssues[0] + "]  Server Unavailable: [" + retryIssues[1] + "]  Service Unavaible: [" + retryIssues[2] + "]  Unable To Lock Row: [" + retryIssues[3] + "]");
     }
 }
