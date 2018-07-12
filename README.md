@@ -4,6 +4,8 @@ Welcome to Lasius - a Java utility framework for SFDC.
 
 _Please be aware we will be phasing out much of the present functionality found in version 3.x.y.  Subsequent versions (4.0.0 and beyond) will resemble the new next-gen subproject.  A major refactoring has been written containing much of the connection like functionality now found in project [Keraiai] (https://github.com/solenopsis/Keraiai)._
 
+![Build Status](http://flossware.no-ip.org:58080/buildStatus/icon?job=Solenopsis-Lasius&style=plastic)
+
 ## 3.x.y Versions (and Prior)
 
 This project contains many useful features, but chief among them is automatic session management to your SFDC web services ([custom] (https://developer.salesforce.com/page/Apex_Web_Services_and_Callouts), [enterprise] (https://github.com/solenopsis/Lasius/blob/master/wsutils/wsdls/src/main/resources/wsdl/Lasius-enterprise.wsdl), [metadata] (https://github.com/solenopsis/Lasius/blob/master/wsutils/wsdls/src/main/resources/wsdl/Lasius-metadata.wsdl), [partner] (https://github.com/solenopsis/Lasius/blob/master/wsutils/wsdls/src/main/resources/wsdl/Lasius-partner.wsdl),  and [tooling] (https://github.com/solenopsis/Lasius/blob/master/wsutils/wsdls/src/main/resources/wsdl/Lasius-tooling.wsdl)).  By this we mean using credentials (user name, password, security token SFDC API version, and URL), we can provide:
