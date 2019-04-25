@@ -11,7 +11,8 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
-        <org.apache.maven.plugins_maven-compiler-plugin_version>3.3</org.apache.maven.plugins_maven-compiler-plugin_version>
+        <org.apache.maven.plugins_maven-compiler-plugin_version>3.6.1</org.apache.maven.plugins_maven-compiler-plugin_version>
+        <org.apache.maven.plugins_maven-surefire-plugin_version>3.0.0-M3</org.apache.maven.plugins_maven-surefire-plugin_version>
 
         <org.flossware.core_version>2.1.15</org.flossware.core_version>
 
@@ -38,6 +39,12 @@
 
     <build>
         <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>${org.apache.maven.plugins_maven-surefire-plugin_version}</version>
+            </plugin>
+
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
@@ -128,14 +135,6 @@
        </dependencies>
     </dependencyManagement>
 
-    <dependencies>
-        <dependency>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-surefire-plugin</artifactId>
-            <version>3.0.0-M3</version>
-            <scope>test</scope>
-        </dependency>
-    </dependencies>
 
     <distributionManagement>
         <repository>
