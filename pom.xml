@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.solenopsis.lasius</groupId>
     <artifactId>lasius-parent</artifactId>
-    <version>3.0.37</version>
+    <version>3.0.38</version>
     <packaging>pom</packaging>
 
     <name>Lasius</name>
@@ -14,7 +14,7 @@
         <org.apache.maven.plugins_maven-compiler-plugin_version>3.6.1</org.apache.maven.plugins_maven-compiler-plugin_version>
         <org.apache.maven.plugins_maven-surefire-plugin_version>3.0.0-M3</org.apache.maven.plugins_maven-surefire-plugin_version>
 
-        <org.flossware.core_version>2.1.15</org.flossware.core_version>
+        <org.flossware.core_version>2.1.17</org.flossware.core_version>
 
         <com.fasterxml.jackson.core_jackson-core_version>2.5.2</com.fasterxml.jackson.core_jackson-core_version>
         <commons-collections_commons-collections_version>3.2.1</commons-collections_commons-collections_version>
