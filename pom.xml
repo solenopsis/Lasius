@@ -20,7 +20,7 @@
         <commons-collections_commons-collections_version>3.2.1</commons-collections_commons-collections_version>
         <commons-configuration_commons-configuration_version>1.10</commons-configuration_commons-configuration_version>
         <log4j_log4j_version>1.2.17</log4j_log4j_version>
-        <junit_junit_version>4.12</junit_junit_version>
+        <junit_junit_version>4.13.1</junit_junit_version>
         <org.mockito_mockito-all_version>2.0.2-beta</org.mockito_mockito-all_version>
     </properties>
 
