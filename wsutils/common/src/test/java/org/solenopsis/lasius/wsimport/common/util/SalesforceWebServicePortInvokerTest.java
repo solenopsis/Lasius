@@ -192,4 +192,5 @@ public class SalesforceWebServicePortInvokerTest {
 //    @Test
 //    public void test_invoke() throws Throwable {
 //        Assert.assertSame("Should be the same result", result, portInvoker.invoke(webService, soap, method, new Object[0]));
+
 }

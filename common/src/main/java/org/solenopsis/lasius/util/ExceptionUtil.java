@@ -60,6 +60,13 @@ public class ExceptionUtil {
     public static final int UNABLE_TO_LOCK_ROW_INDEX = 3;
 
     /**
+     * Denotes bad call.
+     */
+    public static final String INVALID_WHITE_SPACE = "Invalid white space character";
+
+    public static final int INVALID_WHITE_SPACE_INDEX = 4;
+
+    /**
      * Return the logger.
      */
     protected static Logger getLogger() {
@@ -176,6 +183,23 @@ public class ExceptionUtil {
     }
 
     /**
+     * Return true if we have invalid white space.
+     *
+     * @param failure is the failure to examine for invalid white space.
+     */
+    public static boolean isInvalidWhiteSpace(final Throwable failure, final int[] retryIssues) {
+        final boolean retVal = isExceptionMsg(INVALID_WHITE_SPACE, failure);
+
+        if (retVal) {
+            retryIssues[INVALID_WHITE_SPACE_INDEX]++;
+
+            getLogger().log(Level.INFO, "Invalid white space!");
+        }
+
+        return retVal;
+    }
+
+    /**
      * Returns true if the failure represents one where relogin should occur.
      *
      * @param failure the exception to examine if relogin is necessary.
@@ -203,6 +227,17 @@ public class ExceptionUtil {
      */
     public static boolean isRetryException(final Throwable failure, final int[] retryIssues) {
         return isServerUnavailable(failure, retryIssues) || isUnableToLockRow(failure, retryIssues) || isServiceUnavailable(failure, retryIssues);
+    }
+
+    /**
+     * Returns true if the failure represents an invalid call.
+     *
+     * @param failure the exception to examine if retry is necessary.
+     *
+     * @return true if this is an invalid call.
+     */
+    public static boolean isInvalidCall(final Throwable failure, final int[] retryIssues) {
+        return isInvalidWhiteSpace(failure, retryIssues);
     }
 
     /**

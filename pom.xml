@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.solenopsis.lasius</groupId>
     <artifactId>lasius-parent</artifactId>
-    <version>3.0.38</version>
+    <version>3.0.39</version>
     <packaging>pom</packaging>
 
     <name>Lasius</name>
@@ -138,9 +138,9 @@
 
     <distributionManagement>
         <repository>
-            <id>bintray-solenopsis-maven</id>
-            <name>solenopsis-maven-Lasius</name>
-            <url>https://api.bintray.com/maven/solenopsis/maven/Lasius/;publish=1</url>
+            <id>nexus</id>
+            <name>nexus</name>
+            <url>https://nexus.corp.redhat.com/repository/information-retrieval-maven2-releases/</url>
         </repository>
     </distributionManagement>
 </project>
